@@ -85,7 +85,7 @@ jobs:
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: py
-          file: Dockerfile-torch
+          file: py/Dockerfile-torch
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:torch
           labels: ${{ steps.meta.outputs.labels }}
@@ -94,7 +94,6 @@ jobs:
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: jpl
-          file: Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:jpl
           labels: ${{ steps.meta.outputs.labels }}
@@ -103,7 +102,7 @@ jobs:
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: py
-          file: Dockerfile-playwright
+          file: py/Dockerfile-playwright
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:playwright
           labels: ${{ steps.meta.outputs.labels }}
@@ -112,7 +111,7 @@ jobs:
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: py
-          file: Dockerfile-torch-gpu
+          file: py/Dockerfile-torch-gpu
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:torch-gpu
           labels: ${{ steps.meta.outputs.labels }}
@@ -121,7 +120,7 @@ jobs:
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: py
-          file: Dockerfile-tensorflow
+          file: py/Dockerfile-tensorflow
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:tensorflow
           labels: ${{ steps.meta.outputs.labels }}
