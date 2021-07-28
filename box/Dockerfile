@@ -90,7 +90,7 @@ RUN set -eux \
 
 RUN set -eux \
   ; curl -sL https://deb.nodesource.com/setup_16.x | bash - \
-  ; apt-get install -y --no-install-recommends nodejs build-essential \
+  ; apt-get install -y --no-install-recommends gnupg nodejs build-essential \
   \
   ; nvim_ver=$(curl -sSL -H "'$github_header'" $github_api/${nvim_repo}/releases | jq -r '[.[]|select(.prerelease==false)][0].tag_name') \
   ; nvim_url=https://github.com/${nvim_repo}/releases/download/${nvim_ver}/nvim-linux64.tar.gz \
@@ -136,20 +136,8 @@ RUN set -eux \
       --strip-components=1 \
   \
   ; npm cache clean -f \
-  ; apt-get -y remove build-essential \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
-#######################
-#        build        #
-#######################
-RUN set -eux \
-  ; apt-get update \
-  ; apt-get upgrade -y \
-  ; DEBIAN_FRONTEND=noninteractive \
-    apt-get install -y --no-install-recommends \
-      gnupg build-essential \
-  \
-  ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /world
 
