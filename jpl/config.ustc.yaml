@@ -1,0 +1,9 @@
+templates:
+  params: null
+system-ghc: false
+install-ghc: true
+
+setup-info-locations:
+  - http://mirrors.ustc.edu.cn/stackage/stack-setup.yaml
+urls:
+  latest-snapshot: http://mirrors.ustc.edu.cn/stackage/snapshots.json
