@@ -47,7 +47,7 @@ RUN set -eux \
       monad-logger monad-journal \
       regex-base regex-posix regex-compat \
       pipes conduit machines \
-      http-conduit wreq HTTP html websockets multipart\
+      http-conduit wreq HTTP html websockets multipart \
       servant scotty wai network network-uri warp \
       QuickCheck smallcheck hspec \
       hmatrix linear statistics ad integration arithmoi \
