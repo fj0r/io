@@ -10,8 +10,8 @@ RUN set -eux \
   ; apt-get upgrade -y \
   ; DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends \
-      tzdata sudo curl jq rsync \
-      openssh-client tcpdump socat \
+      tzdata ca-certificates \
+      sudo openssh-client curl jq rsync tcpdump socat \
       lsof inetutils-ping iproute2 nftables \
       htop procps tree xz-utils zstd zip unzip \
   \
