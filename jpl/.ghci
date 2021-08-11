@@ -1,6 +1,6 @@
-:set prompt "| "
+:set prompt "=| "
 -- :set prompt "-- %s\n> "
-:set prompt-cont ". "
+:set prompt-cont " | "
 :set +t
 :set +m
 :set stop :list
