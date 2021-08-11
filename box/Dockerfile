@@ -1,31 +1,19 @@
-FROM debian:bullseye-slim
-
-#######################
-#         base        #
-#######################
-ENV LANG=C.UTF-8 LC_ALL=C.UTF-8 TIMEZONE=Asia/Shanghai
-ENV PYTHONUNBUFFERED=x
+FROM fj0rd/io:base
 
 RUN set -eux \
   ; apt-get update \
   ; apt-get upgrade -y \
   ; DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends \
-      tzdata sudo pwgen \
-      openssh-client openssh-server rsync \
-      lsof inetutils-ping iproute2 nftables \
-      htop procps tree xz-utils zstd zip unzip \
-      zsh git git-flow curl jq tcpdump socat \
+      pwgen openssh-server \
+      zsh git git-flow tcpdump socat \
       python3 python3-pip ipython3 \
       # python3-dev python3-setuptools \
   \
-  ; ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime \
-  ; echo "$TIMEZONE" > /etc/timezone \
-  #; sed -i /etc/locale.gen \
-  #      -e 's/# \(en_US.UTF-8 UTF-8\)/\1/' \
-  #      -e 's/# \(zh_CN.UTF-8 UTF-8\)/\1/' \
-  #; locale-gen \
-  ; sed -i 's/^.*\(%sudo.*\)ALL$/\1NOPASSWD:ALL/g' /etc/sudoers \
+  ; git config --global pull.rebase false \
+  ; git config --global init.defaultBranch main \
+  ; git config --global user.name "unnamed" \
+  ; git config --global user.email "unnamed@container" \
   \
   ; mkdir -p /var/run/sshd \
   ; sed -i /etc/ssh/sshd_config \
@@ -34,11 +22,6 @@ RUN set -eux \
         -e 's!.*\(PasswordAuthentication\).*yes!\1 no!' \
   ; echo "Match Address 10.0.0.0/8,172.17.0.0/16,192.168.0.0/16\n    PasswordAuthentication yes" \
         >> /etc/ssh/sshd_config \
-  \
-  ; git config --global pull.rebase false \
-  ; git config --global init.defaultBranch main \
-  ; git config --global user.name "unnamed" \
-  ; git config --global user.email "unnamed@container" \
   \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 

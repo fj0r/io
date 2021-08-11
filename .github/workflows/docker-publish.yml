@@ -49,8 +49,16 @@ jobs:
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
+      - name: Build base
+        uses: docker/build-push-action@v2
+        with:
+          context: base
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:base
+          labels: ${{ steps.meta.outputs.labels }}
+
       - name: Build
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        uses: docker/build-push-action@v2
         with:
           context: box
           push: ${{ github.event_name != 'pull_request' }}
@@ -58,7 +66,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build go
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        uses: docker/build-push-action@v2
         with:
           context: go
           push: ${{ github.event_name != 'pull_request' }}
@@ -66,7 +74,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build rs
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        uses: docker/build-push-action@v2
         with:
           context: rs
           push: ${{ github.event_name != 'pull_request' }}
@@ -74,7 +82,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build hs
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        uses: docker/build-push-action@v2
         with:
           context: hs
           push: ${{ github.event_name != 'pull_request' }}
@@ -82,7 +90,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build torch
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        uses: docker/build-push-action@v2
         with:
           context: py
           file: py/Dockerfile-torch
@@ -91,7 +99,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build jpl
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        uses: docker/build-push-action@v2
         with:
           context: jpl
           push: ${{ github.event_name != 'pull_request' }}
@@ -99,7 +107,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build playwright
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        uses: docker/build-push-action@v2
         with:
           context: py
           file: py/Dockerfile-playwright
@@ -108,7 +116,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build torch-gpu
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        uses: docker/build-push-action@v2
         with:
           context: py
           file: py/Dockerfile-torch-gpu
@@ -117,7 +125,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build tensorflow
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        uses: docker/build-push-action@v2
         with:
           context: py
           file: py/Dockerfile-tensorflow
