@@ -10,8 +10,9 @@ RUN set -eux \
   \
   ; xh_ver=$(curl -sSL -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/ducaale/xh/releases | jq -r '.[0].tag_name') \
   ; curl -sSL https://github.com/ducaale/xh/releases/download/${xh_ver}/xh-${xh_ver}-x86_64-unknown-linux-musl.tar.gz \
-    | tar zxf - -C /opt/assets --strip-components=1 \
-  ; cd /opt/assets && ln -s ./xh ./xhs && ln -s ./xh /usr/local/bin \
+    | tar zxf - -C /opt/assets --strip-components=1 xh-${xh_ver}-x86_64-unknown-linux-musl/xh \
+  ; cd /opt/assets && ln -s ./xh ./xhs \
+  ; cp /opt/assets/xh /usr/local/bin \
   \
   ; btm_ver=$(xh https://api.github.com/repos/ClementTsang/bottom/releases Accept:application/vnd.github.v3+json | jq -r '[.[]|select(.prerelease == false)][0].tag_name') \
   ; xh -F https://github.com/ClementTsang/bottom/releases/download/${btm_ver}/bottom_x86_64-unknown-linux-musl.tar.gz \
