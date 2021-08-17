@@ -12,10 +12,8 @@ RUN set -eux \
 
 RUN set -eux \
   ; mkdir -p ${GHC_ROOT} \
-  ; ghc_ver=$(xh -F https://www.stackage.org/lts \
-             | pup '#main > div.container > div:nth-child(1) > h1 text{}' \
-             | sed -n 's/^.*(\(.*\)).*$/\1/p' \
-             | cut -c 5-) \
+  ; ghc_ver=$(xh -F https://www.stackage.org/lts) \
+  ; ghc_v=$(echo ${ghc_ver} | pup '#main > div.container > div:nth-child(1) > h1 text{}' | sed -n 's/^.*(\(.*\)).*$/\1/p' | cut -c 5-) \
   ; ghc_url=https://downloads.haskell.org/~ghc/${ghc_ver}/ghc-${ghc_ver}-x86_64-deb10-linux.tar.xz \
   ; xh -F ${ghc_url} | tar Jxf - \
   ; cd ghc-${ghc_ver} && ./configure --prefix=${GHC_ROOT} && make install \
