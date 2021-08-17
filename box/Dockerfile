@@ -4,7 +4,6 @@ ARG wasmtime_repo=bytecodealliance/wasmtime
 ARG just_repo=casey/just
 ARG watchexec_repo=watchexec/watchexec
 ARG websocat_repo=vi/websocat
-ARG pup_repo=ericchiang/pup
 
 ARG github_header="Accept:application/vnd.github.v3+json"
 ARG github_api=https://api.github.com/repos
@@ -27,10 +26,6 @@ RUN set -eux \
   ; websocat_ver=$(xh $github_api/${websocat_repo}/releases $github_header | jq -r '.[0].tag_name') \
   ; websocat_url=https://github.com/${websocat_repo}/releases/download/${websocat_ver}/websocat_amd64-linux-static \
   ; xh -Fo /opt/assets/websocat ${websocat_url} ; chmod +x /opt/assets/websocat \
-  \
-  ; pup_ver=$(xh $github_api/${pup_repo}/releases $github_header | jq -r '.[0].tag_name') \
-  ; pup_url=https://github.com/${pup_repo}/releases/download/${pup_ver}/pup_${pup_ver}_linux_amd64.zip \
-  ; xh -Fo pup.zip ${pup_url} && unzip pup.zip && rm -f pup.zip && chmod +x pup && mv pup /opt/assets/ \
   \
   ; wasmtime_ver=$(xh $github_api/${wasmtime_repo}/releases $github_header | jq -r '[.[]|select(.prerelease == false)][0].tag_name') \
   ; wasmtime_url=https://github.com/${wasmtime_repo}/releases/download/${wasmtime_ver}/wasmtime-${wasmtime_ver}-x86_64-linux.tar.xz \
