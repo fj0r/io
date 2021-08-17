@@ -3,10 +3,8 @@ FROM fj0rd/io:base as assets
 ARG wasmtime_repo=bytecodealliance/wasmtime
 ARG just_repo=casey/just
 ARG watchexec_repo=watchexec/watchexec
-ARG yq_repo=mikefarah/yq
 ARG websocat_repo=vi/websocat
 ARG pup_repo=ericchiang/pup
-ARG rg_repo=BurntSushi/ripgrep
 
 ARG github_header="Accept:application/vnd.github.v3+json"
 ARG github_api=https://api.github.com/repos
@@ -17,9 +15,6 @@ RUN set -eux \
   ; DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends binutils \
   ; mkdir -p /opt/assets \
-  ; rg_ver=$(xh $github_api/${rg_repo}/releases $github_header | jq -r '.[0].tag_name') \
-  ; rg_url=https://github.com/${rg_repo}/releases/download/${rg_ver}/ripgrep-${rg_ver}-x86_64-unknown-linux-musl.tar.gz \
-  ; xh -F ${rg_url} | tar zxf - -C /opt/assets --strip-components=1 ripgrep-${rg_ver}-x86_64-unknown-linux-musl/rg \
   \
   ; just_ver=$(xh $github_api/${just_repo}/releases $github_header | jq -r '.[0].tag_name') \
   ; just_url=https://github.com/${just_repo}/releases/download/${just_ver}/just-${just_ver}-x86_64-unknown-linux-musl.tar.gz \
@@ -28,10 +23,6 @@ RUN set -eux \
   ; watchexec_ver=$(xh $github_api/${watchexec_repo}/releases $github_header | jq -r '.[0].tag_name' | cut -c 6-) \
   ; watchexec_url=https://github.com/${watchexec_repo}/releases/download/cli-v${watchexec_ver}/watchexec-${watchexec_ver}-x86_64-unknown-linux-musl.tar.xz \
   ; xh -F ${watchexec_url} | tar Jxf - --strip-components=1 -C /opt/assets watchexec-${watchexec_ver}-x86_64-unknown-linux-musl/watchexec \
-  \
-  ; yq_ver=$(xh $github_api/${yq_repo}/releases $github_header | jq -r '.[0].tag_name') \
-  ; yq_url=https://github.com/${yq_repo}/releases/download/${yq_ver}/yq_linux_amd64 \
-  ; xh -Fo /opt/assets/yq ${yq_url} ; chmod +x /opt/assets/yq \
   \
   ; websocat_ver=$(xh $github_api/${websocat_repo}/releases $github_header | jq -r '.[0].tag_name') \
   ; websocat_url=https://github.com/${websocat_repo}/releases/download/${websocat_ver}/websocat_amd64-linux-static \
