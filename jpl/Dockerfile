@@ -24,9 +24,9 @@ ENV RACKET_HOME=/opt/racket
 ENV PATH=${RACKET_HOME}/bin:$PATH
 
 RUN set -eux \
-  ; racket_ver=$(curl -sSL -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/racket/racket/releases | jq -r '[.[]|select(.prerelease==false)][0].tag_name' | cut -c 2-) \
+  ; racket_ver=$(xh https://api.github.com/repos/racket/racket/releases Accept:application/vnd.github.v3+json | jq -r '[.[]|select(.prerelease==false)][0].tag_name' | cut -c 2-) \
   ; racket_url=https://mirror.racket-lang.org/installers/${racket_ver}/racket-${racket_ver}-x86_64-linux-cs.sh \
-  ; curl -sSLo racket.sh ${racket_url} \
+  ; xh -Fo racket.sh ${racket_url} \
   ; sh ./racket.sh --in-place --dest ${RACKET_HOME} \
   ; rm ./racket.sh \
   ; raco pkg install --deps search-auto --batch iracket \
@@ -39,8 +39,8 @@ ENV PATH=${GOPATH}/bin:${GOROOT}/bin:$PATH
 ENV GO111MODULE=on
 RUN set -ex \
   ; cd /opt \
-  ; GO_VERSION=$(curl https://golang.org/VERSION?m=text) \
-  ; curl -sSL https://dl.google.com/go/${GO_VERSION}.linux-amd64.tar.gz \
+  ; GO_VERSION=$(xh https://golang.org/VERSION m==text) \
+  ; xh -F https://dl.google.com/go/${GO_VERSION}.linux-amd64.tar.gz \
       | tar xzf - \
   ; go get -u github.com/gopherdata/gophernotes \
   ; gophernotes_dir=${HOME}/.local/share/jupyter/kernels/gophernotes \
@@ -92,7 +92,7 @@ RUN set -ex \
 #ENV PATH=${OPAMROOT}/default/bin:$PATH
 #RUN set -ex \
 #  ; apt-get install -y --no-install-recommends m4 bubblewrap libcairo2-dev && apt-get clean \
-#  ; curl -sSLo /usr/local/bin/opam https://github.com/ocaml/opam/releases/download/${OPAMVERSION}/opam-${OPAMVERSION}-x86_64-linux \
+#  ; xh -Fo /usr/local/bin/opam https://github.com/ocaml/opam/releases/download/${OPAMVERSION}/opam-${OPAMVERSION}-x86_64-linux \
 #  ; chmod +x /usr/local/bin/opam \
 #  #; sudo sysctl kernel.unprivileged_userns_clone=1 \
 #  ; opam init -a --disable-sandboxing \
@@ -112,9 +112,9 @@ RUN set -ex \
 #  ; mkdir -p ${SCALA_HOME} \
 #  ; apt-get -y --no-install-recommends install openjdk-${JAVA_VERSION}-jdk-headless \
 #  ; apt-get clean \
-#  ; curl -sSL https://downloads.lightbend.com/scala/$SCALA_VERSION/scala-$SCALA_VERSION.tgz \
+#  ; xh -F https://downloads.lightbend.com/scala/$SCALA_VERSION/scala-$SCALA_VERSION.tgz \
 #      | tar xzf - -C ${SCALA_HOME} --strip-components=1  \
-#  ; curl -Lo coursier https://git.io/coursier-cli && chmod +x coursier \
+#  ; xh -Fo coursier https://git.io/coursier-cli && chmod +x coursier \
 #  ; ./coursier bootstrap \
 #      -r jitpack \
 #      -i user -I user:sh.almond:scala-kernel-api_$SCALA_VERSION:$ALMOND_VERSION \
@@ -148,7 +148,7 @@ ENV PATH=${CARGO_HOME}/bin:$PATH
 
 RUN set -eux \
   # /opt/cargo/registry/index/github.com-*/.cargo-index-lock
-  ; curl https://sh.rustup.rs -sSf \
+  ; xh -F https://sh.rustup.rs \
     | sh -s -- --default-toolchain stable -y \
   ; rustup component add rust-src clippy rustfmt \
   ; rustup target add x86_64-unknown-linux-musl \
@@ -167,8 +167,8 @@ RUN set -eux \
 
 RUN set -eux \
   ; mkdir -p /opt/language-server/rust \
-  ; ra_version=$(curl -sSL -H "Accept: application/vnd.github.v3+json"  https://api.github.com/repos/rust-analyzer/rust-analyzer/releases | jq -r '.[0].tag_name') \
-  ; curl -sSL https://github.com/rust-analyzer/rust-analyzer/releases/download/${ra_version}/rust-analyzer-x86_64-unknown-linux-gnu.gz \
+  ; ra_version=$(xh https://api.github.com/repos/rust-analyzer/rust-analyzer/releases Accept:application/vnd.github.v3+json | jq -r '.[0].tag_name') \
+  ; xh -F https://github.com/rust-analyzer/rust-analyzer/releases/download/${ra_version}/rust-analyzer-x86_64-unknown-linux-gnu.gz \
       | gzip -d > /opt/language-server/rust/rust-analyzer \
   ; chmod +x /opt/language-server/rust/rust-analyzer \
   ; ln -fs /opt/language-server/rust/rust-analyzer /usr/local/bin
@@ -191,7 +191,7 @@ ARG stack_repo=commercialhaskell/stack
 
 RUN set -ex \
   ; mkdir -p ${STACK_ROOT}/global-project && mkdir -p ${HOME}/.cabal \
-  ; curl -sSL https://get.haskellstack.org/ | sh \
+  ; xh -F https://get.haskellstack.org/ | sh \
   ; git clone https://github.com/gibiansky/IHaskell \
   ; cd IHaskell \
   ; stack config set system-ghc --global false \
@@ -247,10 +247,10 @@ RUN set -ex \
   ; stack install flow lens recursion-schemes \
   \
   ; mkdir -p /opt/language-server/haskell \
-  ; hls_version=$(curl -sSL -H "Accept: application/vnd.github.v3+json"  https://api.github.com/repos/haskell/haskell-language-server/releases | jq -r '.[0].tag_name') \
+  ; hls_version=$(xh  https://api.github.com/repos/haskell/haskell-language-server/releases Accept:application/vnd.github.v3+json | jq -r '.[0].tag_name') \
   ; ghc_version=$(stack ghc -- --version | grep -oP 'version \K([0-9\.]+)') \
-  ; curl -sSL https://github.com/haskell/haskell-language-server/releases/download/${hls_version}/haskell-language-server-wrapper-Linux.gz | gzip -d > /opt/language-server/haskell/haskell-language-server-wrapper \
-  ; curl -sSL https://github.com/haskell/haskell-language-server/releases/download/${hls_version}/haskell-language-server-Linux-${ghc_version}.gz | gzip -d > /opt/language-server/haskell/haskell-language-server-${ghc_version} \
+  ; xh -F https://github.com/haskell/haskell-language-server/releases/download/${hls_version}/haskell-language-server-wrapper-Linux.gz | gzip -d > /opt/language-server/haskell/haskell-language-server-wrapper \
+  ; xh -F https://github.com/haskell/haskell-language-server/releases/download/${hls_version}/haskell-language-server-Linux-${ghc_version}.gz | gzip -d > /opt/language-server/haskell/haskell-language-server-${ghc_version} \
   ; chmod +x /opt/language-server/haskell/* \
   ; for l in /opt/language-server/haskell/*; do ln -fs $l /usr/local/bin; done
 

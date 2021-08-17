@@ -11,7 +11,7 @@ RUN set -eux \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 RUN set -eux \
-  ; curl https://sh.rustup.rs -sSf \
+  ; xh -F https://sh.rustup.rs \
     | sh -s -- --default-toolchain stable -y \
   ; rustup component add rust-src clippy rustfmt \
   ; rustup target add x86_64-unknown-linux-musl \
@@ -32,8 +32,8 @@ RUN set -eux \
 
 RUN set -eux \
   ; mkdir -p /opt/language-server/rust \
-  ; ra_version=$(curl -sSL -H "Accept: application/vnd.github.v3+json"  https://api.github.com/repos/rust-analyzer/rust-analyzer/releases | jq -r '.[0].tag_name') \
-  ; curl -sSL https://github.com/rust-analyzer/rust-analyzer/releases/download/${ra_version}/rust-analyzer-x86_64-unknown-linux-gnu.gz \
+  ; ra_version=$(xh https://api.github.com/repos/rust-analyzer/rust-analyzer/releases Accept:application/vnd.github.v3+json | jq -r '.[0].tag_name') \
+  ; xh -F https://github.com/rust-analyzer/rust-analyzer/releases/download/${ra_version}/rust-analyzer-x86_64-unknown-linux-gnu.gz \
       | gzip -d > /opt/language-server/rust/rust-analyzer \
   ; chmod +x /opt/language-server/rust/rust-analyzer \
   ; ln -fs /opt/language-server/rust/rust-analyzer /usr/local/bin

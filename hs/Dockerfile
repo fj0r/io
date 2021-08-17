@@ -12,17 +12,17 @@ RUN set -eux \
 
 RUN set -eux \
   ; mkdir -p ${GHC_ROOT} \
-  ; ghc_ver=$(curl -sSL https://www.stackage.org/lts \
+  ; ghc_ver=$(xh -F https://www.stackage.org/lts \
              | pup '#main > div.container > div:nth-child(1) > h1 text{}' \
              | sed -n 's/^.*(\(.*\)).*$/\1/p' \
              | cut -c 5-) \
   ; ghc_url=https://downloads.haskell.org/~ghc/${ghc_ver}/ghc-${ghc_ver}-x86_64-deb10-linux.tar.xz \
-  ; curl -sSL ${ghc_url} | tar Jxf - \
+  ; xh -F ${ghc_url} | tar Jxf - \
   ; cd ghc-${ghc_ver} && ./configure --prefix=${GHC_ROOT} && make install \
   ; cd .. && rm -rf ghc-${ghc_ver} \
   \
   ; mkdir -p ${STACK_ROOT} && mkdir -p ${HOME}/.cabal \
-  ; curl -sSL https://get.haskellstack.org/ | sh \
+  ; xh -F https://get.haskellstack.org/ | sh \
   ; stack update \
   ; stack config set system-ghc --global true \
   ; stack config set install-ghc --global false \
@@ -65,10 +65,10 @@ RUN set -eux \
 
 RUN set -eux \
   ; mkdir -p /opt/language-server/haskell \
-  ; hls_version=$(curl -sSL -H "Accept: application/vnd.github.v3+json"  https://api.github.com/repos/haskell/haskell-language-server/releases | jq -r '.[0].tag_name') \
+  ; hls_version=$(xh https://api.github.com/repos/haskell/haskell-language-server/releases Accept:application/vnd.github.v3+json| jq -r '.[0].tag_name') \
   ; ghc_version=$(stack ghc -- --version | grep -oP 'version \K([0-9\.]+)') \
-  ; curl -sSL https://github.com/haskell/haskell-language-server/releases/download/${hls_version}/haskell-language-server-wrapper-Linux.gz | gzip -d > /opt/language-server/haskell/haskell-language-server-wrapper \
-  ; curl -sSL https://github.com/haskell/haskell-language-server/releases/download/${hls_version}/haskell-language-server-Linux-${ghc_version}.gz | gzip -d > /opt/language-server/haskell/haskell-language-server-${ghc_version} \
+  ; xh -F https://github.com/haskell/haskell-language-server/releases/download/${hls_version}/haskell-language-server-wrapper-Linux.gz | gzip -d > /opt/language-server/haskell/haskell-language-server-wrapper \
+  ; xh -F https://github.com/haskell/haskell-language-server/releases/download/${hls_version}/haskell-language-server-Linux-${ghc_version}.gz | gzip -d > /opt/language-server/haskell/haskell-language-server-${ghc_version} \
   ; chmod +x /opt/language-server/haskell/* \
   ; for l in /opt/language-server/haskell/*; do ln -fs $l /usr/local/bin; done
 

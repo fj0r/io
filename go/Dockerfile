@@ -5,8 +5,8 @@ ENV PATH=${GOPATH}/bin:${GOROOT}/bin:$PATH
 ENV GO111MODULE=on
 RUN set -eux \
   ; cd /opt \
-  ; GO_VERSION=$(curl https://golang.org/VERSION?m=text) \
-  ; curl -sSL https://dl.google.com/go/${GO_VERSION}.linux-amd64.tar.gz \
+  ; GO_VERSION=$(xh https://golang.org/VERSION m==text) \
+  ; xh -F https://dl.google.com/go/${GO_VERSION}.linux-amd64.tar.gz \
       | tar xzf - \
   ; go get -u -v \
       github.com/juju/errors \

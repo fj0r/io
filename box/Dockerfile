@@ -1,4 +1,61 @@
+FROM fj0rd/io:base as assets
+
+ARG wasmtime_repo=bytecodealliance/wasmtime
+ARG just_repo=casey/just
+ARG watchexec_repo=watchexec/watchexec
+ARG yq_repo=mikefarah/yq
+ARG websocat_repo=vi/websocat
+ARG pup_repo=ericchiang/pup
+ARG rg_repo=BurntSushi/ripgrep
+
+ARG github_header="Accept:application/vnd.github.v3+json"
+ARG github_api=https://api.github.com/repos
+
+RUN set -eux \
+  ; apt-get update \
+  ; apt-get upgrade -y \
+  ; DEBIAN_FRONTEND=noninteractive \
+    apt-get install -y --no-install-recommends binutils \
+  ; mkdir -p /opt/assets \
+  ; rg_ver=$(xh $github_api/${rg_repo}/releases $github_header | jq -r '.[0].tag_name') \
+  ; rg_url=https://github.com/${rg_repo}/releases/download/${rg_ver}/ripgrep-${rg_ver}-x86_64-unknown-linux-musl.tar.gz \
+  ; xh -F ${rg_url} | tar zxf - -C /opt/assets --strip-components=1 ripgrep-${rg_ver}-x86_64-unknown-linux-musl/rg \
+  \
+  ; just_ver=$(xh $github_api/${just_repo}/releases $github_header | jq -r '.[0].tag_name') \
+  ; just_url=https://github.com/${just_repo}/releases/download/${just_ver}/just-${just_ver}-x86_64-unknown-linux-musl.tar.gz \
+  ; xh -F ${just_url} | tar zxf - -C /opt/assets just \
+  \
+  ; watchexec_ver=$(xh $github_api/${watchexec_repo}/releases $github_header | jq -r '.[0].tag_name' | cut -c 6-) \
+  ; watchexec_url=https://github.com/${watchexec_repo}/releases/download/cli-v${watchexec_ver}/watchexec-${watchexec_ver}-x86_64-unknown-linux-musl.tar.xz \
+  ; xh -F ${watchexec_url} | tar Jxf - --strip-components=1 -C /opt/assets watchexec-${watchexec_ver}-x86_64-unknown-linux-musl/watchexec \
+  \
+  ; yq_ver=$(xh $github_api/${yq_repo}/releases $github_header | jq -r '.[0].tag_name') \
+  ; yq_url=https://github.com/${yq_repo}/releases/download/${yq_ver}/yq_linux_amd64 \
+  ; xh -Fo /opt/assets/yq ${yq_url} ; chmod +x /opt/assets/yq \
+  \
+  ; websocat_ver=$(xh $github_api/${websocat_repo}/releases $github_header | jq -r '.[0].tag_name') \
+  ; websocat_url=https://github.com/${websocat_repo}/releases/download/${websocat_ver}/websocat_amd64-linux-static \
+  ; xh -Fo /opt/assets/websocat ${websocat_url} ; chmod +x /opt/assets/websocat \
+  \
+  ; pup_ver=$(xh $github_api/${pup_repo}/releases $github_header | jq -r '.[0].tag_name') \
+  ; pup_url=https://github.com/${pup_repo}/releases/download/${pup_ver}/pup_${pup_ver}_linux_amd64.zip \
+  ; xh -Fo pup.zip ${pup_url} && unzip pup.zip && rm -f pup.zip && chmod +x pup && mv pup /opt/assets/ \
+  \
+  ; wasmtime_ver=$(xh $github_api/${wasmtime_repo}/releases $github_header | jq -r '[.[]|select(.prerelease == false)][0].tag_name') \
+  ; wasmtime_url=https://github.com/${wasmtime_repo}/releases/download/${wasmtime_ver}/wasmtime-${wasmtime_ver}-x86_64-linux.tar.xz \
+  ; xh -F ${wasmtime_url} | tar Jxf - --strip-components=1 -C /opt/assets wasmtime-${wasmtime_ver}-x86_64-linux/wasmtime \
+  ; find /opt/assets -type f -exec grep -IL . "{}" \; | xargs -L 1 strip
+
+
+
+
 FROM fj0rd/io:base
+
+ARG nvim_repo=neovim/neovim
+ARG nvim_config=fj0r/nvim-lua
+
+ARG github_header="Accept:application/vnd.github.v3+json"
+ARG github_api=https://api.github.com/repos
 
 RUN set -eux \
   ; apt-get update \
@@ -28,57 +85,17 @@ RUN set -eux \
 #######################
 #         dev         #
 #######################
-ARG nvim_repo=neovim/neovim
-ARG nvim_config=fj0r/nvim-lua
-ARG wasmtime_repo=bytecodealliance/wasmtime
-ARG just_repo=casey/just
-ARG watchexec_repo=watchexec/watchexec
-ARG yq_repo=mikefarah/yq
-ARG websocat_repo=vi/websocat
-ARG pup_repo=ericchiang/pup
-ARG rg_repo=BurntSushi/ripgrep
 
-ARG github_header="Accept: application/vnd.github.v3+json"
-ARG github_api=https://api.github.com/repos
+COPY --from=assets /opt/assets /usr/local/bin
 
 RUN set -eux \
-  ; rg_ver=$(curl -sSL -H "'$github_header'" $github_api/${rg_repo}/releases | jq -r '.[0].tag_name') \
-  ; rg_url=https://github.com/${rg_repo}/releases/download/${rg_ver}/ripgrep-${rg_ver}-x86_64-unknown-linux-musl.tar.gz \
-  ; curl -sSL ${rg_url} | tar zxf - -C /usr/local/bin --strip-components=1 ripgrep-${rg_ver}-x86_64-unknown-linux-musl/rg \
-  \
-  ; just_ver=$(curl -sSL -H "'$github_header'" $github_api/${just_repo}/releases | jq -r '.[0].tag_name') \
-  ; just_url=https://github.com/${just_repo}/releases/download/${just_ver}/just-${just_ver}-x86_64-unknown-linux-musl.tar.gz \
-  ; curl -sSL ${just_url} | tar zxf - -C /usr/local/bin just \
-  \
-  ; watchexec_ver=$(curl -sSL -H "'$github_header'" $github_api/${watchexec_repo}/releases | jq -r '.[0].tag_name' | cut -c 6-) \
-  ; watchexec_url=https://github.com/${watchexec_repo}/releases/download/cli-v${watchexec_ver}/watchexec-${watchexec_ver}-x86_64-unknown-linux-musl.tar.xz \
-  ; curl -sSL ${watchexec_url} | tar Jxf - --strip-components=1 -C /usr/local/bin watchexec-${watchexec_ver}-x86_64-unknown-linux-musl/watchexec \
-  \
-  ; yq_ver=$(curl -sSL -H "'$github_header'" $github_api/${yq_repo}/releases | jq -r '.[0].tag_name') \
-  ; yq_url=https://github.com/${yq_repo}/releases/download/${yq_ver}/yq_linux_amd64 \
-  ; curl -sSLo /usr/local/bin/yq ${yq_url} ; chmod +x /usr/local/bin/yq \
-  \
-  ; websocat_ver=$(curl -sSL -H "'$github_header'" $github_api/${websocat_repo}/releases | jq -r '.[0].tag_name') \
-  ; websocat_url=https://github.com/${websocat_repo}/releases/download/${websocat_ver}/websocat_amd64-linux-static \
-  ; curl -sSLo /usr/local/bin/websocat ${websocat_url} ; chmod +x /usr/local/bin/websocat \
-  \
-  ; pup_ver=$(curl -sSL -H "'$github_header'" $github_api/${pup_repo}/releases | jq -r '.[0].tag_name') \
-  ; pup_url=https://github.com/${pup_repo}/releases/download/${pup_ver}/pup_${pup_ver}_linux_amd64.zip \
-  ; curl -sSLo pup.zip ${pup_url} && unzip pup.zip && rm -f pup.zip && chmod +x pup && mv pup /usr/local/bin/ \
-  \
-  ; wasmtime_ver=$(curl -sSL -H "'$github_header'" $github_api/${wasmtime_repo}/releases | jq -r '[.[]|select(.prerelease == false)][0].tag_name') \
-  ; wasmtime_url=https://github.com/${wasmtime_repo}/releases/download/${wasmtime_ver}/wasmtime-${wasmtime_ver}-x86_64-linux.tar.xz \
-  ; curl -sSL ${wasmtime_url} | tar Jxf - --strip-components=1 -C /usr/local/bin wasmtime-${wasmtime_ver}-x86_64-linux/wasmtime
-  #; find /usr/local/bin -type f -exec grep -IL . "{}" \; | xargs -L 1 strip
-
-RUN set -eux \
-  ; curl -sL https://deb.nodesource.com/setup_16.x | bash - \
+  ; xh -F https://deb.nodesource.com/setup_16.x | bash - \
   ; apt-get install -y --no-install-recommends gnupg nodejs build-essential \
   \
-  ; nvim_ver=$(curl -sSL -H "'$github_header'" $github_api/${nvim_repo}/releases | jq -r '[.[]|select(.prerelease==false)][0].tag_name') \
+  ; nvim_ver=$(xh $github_api/${nvim_repo}/releases $github_header | jq -r '[.[]|select(.prerelease==false)][0].tag_name') \
   ; nvim_url=https://github.com/${nvim_repo}/releases/download/${nvim_ver}/nvim-linux64.tar.gz \
-  ; curl -sSL ${nvim_url} | tar zxf - -C /usr/local --strip-components=1 \
-  #; strip /usr/local/bin/nvim \
+  ; xh -F ${nvim_url} | tar zxf - -C /usr/local --strip-components=1 \
+  ; strip /usr/local/bin/nvim \
   ; pip3 --no-cache-dir install \
         neovim neovim-remote debugpy \
         # aiohttp aiofile fastapi uvicorn fabric \
@@ -98,9 +115,9 @@ RUN set -eux \
   \
   ; nvim_home=$cfg_home/.config/nvim \
   \
-  ; nvim_config_ver=$(curl -sSL -H "'$github_header'" $github_api/${nvim_config}/releases | jq -r '[.[]|select(.prerelease==false)][0].tag_name') \
+  ; nvim_config_ver=$(xh $github_api/${nvim_config}/releases $github_header | jq -r '[.[]|select(.prerelease==false)][0].tag_name') \
   ; nvim_config_url=https://github.com/${nvim_config}/releases/download/${nvim_config_ver}/nvim-cfg.tar.gz \
-  ; curl -sSL ${nvim_config_url} | tar zxf - -C $cfg_home/.config \
+  ; xh -F ${nvim_config_url} | tar zxf - -C $cfg_home/.config \
   \
   #; git clone --recursive --shallow-submodules --depth=1 https://github.com/fj0r/nvim-lua.git $nvim_home \
   #; nvim --headless +'autocmd User PackerComplete quitall' +'PackerSync' \
@@ -114,10 +131,10 @@ RUN set -eux \
   ; ln -sf /opt/vim/pack $nvim_home \
   \
   ; coc_lua_bin_repo=josa42/coc-lua-binaries \
-  ; lua_ls_ver=$(curl -sSL -H "'$github_header'" $github_api/${coc_lua_bin_repo}/releases | jq -r '.[0].tag_name') \
+  ; lua_ls_ver=$(xh $github_api/${coc_lua_bin_repo}/releases $github_header | jq -r '.[0].tag_name') \
   ; lua_ls_url=https://github.com/${coc_lua_bin_repo}/releases/download/${lua_ls_ver}/lua-language-server-linux.tar.gz \
   ; mkdir -p /opt/language-server/sumneko_lua \
-  ; curl -sSL ${lua_ls_url} | tar zxf - \
+  ; xh -F ${lua_ls_url} | tar zxf - \
       -C /opt/language-server/sumneko_lua \
       --strip-components=1 \
   \
