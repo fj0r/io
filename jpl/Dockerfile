@@ -185,7 +185,6 @@ RUN set -eux \
 ### Haskell
 ENV STACK_ROOT=/opt/stack
 
-ARG github_header="Accept: application/vnd.github.v3+json"
 ARG github_api=https://api.github.com/repos
 ARG stack_repo=commercialhaskell/stack
 
