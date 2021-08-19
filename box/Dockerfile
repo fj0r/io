@@ -86,7 +86,7 @@ RUN set -eux \
         neovim neovim-remote debugpy \
         # aiohttp aiofile fastapi uvicorn fabric \
         PyParsing decorator more-itertools \
-        typer hydra-core pyyaml invoke \
+        typer hydra-core pyyaml structlog invoke \
         requests cachetools chronyk fn.py \
   \
   ; cfg_home=/etc/skel \

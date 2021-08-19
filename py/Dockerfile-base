@@ -21,7 +21,7 @@ RUN set -eux \
   ; pip3 --no-cache-dir install \
         fastapi uvicorn httpx aiofile fabric \
         PyParsing decorator more-itertools \
-        typer hydra-core pyyaml invoke \
+        typer hydra-core pyyaml structlog invoke \
         cachetools chronyk fn.py
 
 WORKDIR /app
