@@ -1,0 +1,19 @@
+ARG BASE_IMAGE=python:alpine
+FROM ${BASE_IMAGE}
+
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
+ENV TIMEZONE=Asia/Shanghai
+
+RUN set -eux \
+  ; apk update && apk upgrade \
+  ; rm -rf /var/cache/apk/* \
+  ; apk add --no-cache tzdata \
+  ; ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime \
+  ; echo "$TIMEZONE" > /etc/timezone
+
+RUN set -eux \
+  ; pip3 --no-cache-dir install \
+      fastapi uvicorn httpx aiofile \
+      pyyaml structlog PyParsing decorator more-itertools \
+      hydra-core typer cachetools chronyk
