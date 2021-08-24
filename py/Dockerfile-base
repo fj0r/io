@@ -19,10 +19,9 @@ RUN set -eux \
 
 RUN set -eux \
   ; pip3 --no-cache-dir install \
-        fastapi uvicorn httpx aiofile fabric \
-        PyParsing decorator more-itertools \
-        typer hydra-core pyyaml structlog invoke \
-        cachetools chronyk fn.py
+        fastapi uvicorn aiofile \
+        httpx typer hydra-core pyyaml structlog cachetools \
+        pydantic PyParsing decorator more-itertools fn.py
 
 WORKDIR /app
 CMD  ["python", "--host", "0.0.0.0", "--port", "3000", "/app/server.py" ]
