@@ -16,8 +16,8 @@ RUN set -eux \
   \
   ; pip3 --no-cache-dir install \
         fastapi uvicorn aiofile \
-        httpx typer hydra-core pyyaml structlog cachetools \
-        pydantic PyParsing decorator more-itertools fn.py \
+        httpx typer hydra-core pyyaml deepmerge structlog \
+        pydantic PyParsing decorator more-itertools fn.py cachetools \
   \
   ; apk del .build-deps \
   ; rm -rf /var/cache/apk/*

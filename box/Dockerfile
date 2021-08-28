@@ -85,8 +85,8 @@ RUN set -eux \
   ; pip3 --no-cache-dir install \
         neovim neovim-remote debugpy \
         # aiofile fastapi uvicorn \
-        httpx typer hydra-core pyyaml structlog cachetools \
-        pydantic PyParsing decorator more-itertools fn.py
+        httpx typer hydra-core pyyaml deepmerge structlog \
+        pydantic PyParsing decorator more-itertools fn.py cachetools \
   \
   ; cfg_home=/etc/skel \
   ; git clone --depth=1 https://github.com/fj0r/zsh.git $cfg_home/.zshrc.d \
