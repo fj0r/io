@@ -21,7 +21,7 @@ RUN set -eux \
       systemfd cargo-watch cargo-edit cargo-feature cargo-prefetch \
   ; cargo prefetch \
       quicli structopt \
-      actix actix-web \
+      actix actix-web async-graphql async-graphql-actix-web \
       yew yew-router wasm-bindgen \
       thiserror anyhow \
       serde serde_derive serde_yaml serde_json \
