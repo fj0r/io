@@ -9,10 +9,10 @@ RUN set -eux \
   ; xh -F https://dl.google.com/go/${GO_VERSION}.linux-amd64.tar.gz \
       | tar xzf - \
   ; go get -u -v \
+      go.uber.org/zap \
       github.com/juju/errors \
       github.com/spf13/viper \
       github.com/spf13/cobra \
-      github.com/sirupsen/logrus \
       github.com/gin-gonic/gin \
       github.com/jinzhu/gorm \
       honnef.co/go/tools/... \
