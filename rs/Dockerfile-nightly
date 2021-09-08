@@ -45,3 +45,4 @@ RUN set -ex \
   ; cargo wasi build --release \
   ; cd .. \
   ; rm -rf hello-world
+
