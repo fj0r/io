@@ -37,9 +37,6 @@ RUN set -eux \
 
 FROM fj0rd/io:base
 
-ARG nvim_repo=neovim/neovim
-ARG nvim_config=fj0r/nvim-lua
-
 ARG github_header="Accept:application/vnd.github.v3+json"
 ARG github_api=https://api.github.com/repos
 
@@ -73,6 +70,9 @@ RUN set -eux \
 #######################
 
 COPY --from=assets /opt/assets /usr/local/bin
+
+ARG nvim_repo=neovim/neovim
+ARG nvim_config=fj0r/nvim-lua
 
 RUN set -eux \
   ; xh -F https://deb.nodesource.com/setup_16.x | bash - \
