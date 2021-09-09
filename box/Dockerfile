@@ -1,10 +1,5 @@
 FROM fj0rd/io:base as assets
 
-ARG wasmtime_repo=bytecodealliance/wasmtime
-ARG just_repo=casey/just
-ARG watchexec_repo=watchexec/watchexec
-ARG websocat_repo=vi/websocat
-
 ARG github_header="Accept:application/vnd.github.v3+json"
 ARG github_api=https://api.github.com/repos
 
@@ -15,20 +10,20 @@ RUN set -eux \
     apt-get install -y --no-install-recommends binutils \
   ; mkdir -p /opt/assets \
   \
-  ; just_ver=$(xh $github_api/${just_repo}/releases $github_header | jq -r '.[0].tag_name') \
-  ; just_url=https://github.com/${just_repo}/releases/download/${just_ver}/just-${just_ver}-x86_64-unknown-linux-musl.tar.gz \
+  ; just_url=$(xh $github_api/casey/just/releases $github_header \
+             | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep x86_64-unknown-linux-musl) \
   ; xh -F ${just_url} | tar zxf - -C /opt/assets just \
   \
-  ; watchexec_ver=$(xh $github_api/${watchexec_repo}/releases $github_header | jq -r '.[0].tag_name' | cut -c 6-) \
-  ; watchexec_url=https://github.com/${watchexec_repo}/releases/download/cli-v${watchexec_ver}/watchexec-${watchexec_ver}-x86_64-unknown-linux-musl.tar.xz \
-  ; xh -F ${watchexec_url} | tar Jxf - --strip-components=1 -C /opt/assets watchexec-${watchexec_ver}-x86_64-unknown-linux-musl/watchexec \
+  ; watchexec_url=$(xh $github_api/watchexec/watchexec/releases $github_header \
+                  | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep 'x86_64-unknown-linux-musl.tar') \
+  ; xh -F ${watchexec_url} | tar Jxf - --strip-components=1 -C /opt/assets --wildcards '*/watchexec' \
   \
-  ; websocat_ver=$(xh $github_api/${websocat_repo}/releases $github_header | jq -r '.[0].tag_name') \
-  ; websocat_url=https://github.com/${websocat_repo}/releases/download/${websocat_ver}/websocat_amd64-linux-static \
+  ; websocat_url=$(xh $github_api/vi/websocat/releases $github_header \
+                  | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep amd64-linux-static | grep -v nossl) \
   ; xh -Fo /opt/assets/websocat ${websocat_url} ; chmod +x /opt/assets/websocat \
   \
-  ; wasmtime_ver=$(xh $github_api/${wasmtime_repo}/releases $github_header | jq -r '[.[]|select(.prerelease == false)][0].tag_name') \
-  ; wasmtime_url=https://github.com/${wasmtime_repo}/releases/download/${wasmtime_ver}/wasmtime-${wasmtime_ver}-x86_64-linux.tar.xz \
+  ; wasmtime_url=$(xh $github_api/bytecodealliance/wasmtime/releases $github_header \
+                 | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep x86_64-linux | grep -v api) \
   ; xh -F ${wasmtime_url} | tar Jxf - --strip-components=1 -C /opt/assets wasmtime-${wasmtime_ver}-x86_64-linux/wasmtime \
   ; find /opt/assets -type f -exec grep -IL . "{}" \; | xargs -L 1 strip
 
