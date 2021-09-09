@@ -1,4 +1,4 @@
-name: hs-spec
+name: hs-nightly
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
@@ -45,7 +45,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Build hsv
+      - name: Build hsn
         uses: docker/build-push-action@v2
         with:
           context: hs
