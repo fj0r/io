@@ -24,7 +24,7 @@ RUN set -eux \
   \
   ; wasmtime_url=$(xh $github_api/bytecodealliance/wasmtime/releases $github_header \
                  | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep x86_64-linux | grep -v api) \
-  ; xh -F ${wasmtime_url} | tar Jxf - --strip-components=1 -C /opt/assets wasmtime-${wasmtime_ver}-x86_64-linux/wasmtime \
+  ; xh -F ${wasmtime_url} | tar Jxf - --strip-components=1 -C /opt/assets --wildcards '*/wasmtime' \
   ; find /opt/assets -type f -exec grep -IL . "{}" \; | xargs -L 1 strip
 
 
