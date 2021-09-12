@@ -20,13 +20,13 @@ RUN set -eux \
       cargo-wasi wasm-pack trunk wasm-bindgen-cli \
       systemfd cargo-watch cargo-edit cargo-feature cargo-prefetch \
   ; cargo prefetch \
-      quicli structopt \
-      actix actix-web async-graphql async-graphql-actix-web \
+      quicli structopt surf \
+      tide async-std async-graphql async-graphql-tide \
       yew yew-router wasm-bindgen \
       thiserror anyhow \
       serde serde_derive serde_yaml serde_json \
       slog slog-async slog-json slog-term slog-logfmt \
-      reqwest oxidizer nom handlebars \
+      oxidizer nom handlebars \
       config chrono lru-cache itertools \
   ; rm -rf ${CARGO_HOME}/registry/src/*
 
