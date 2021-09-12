@@ -13,7 +13,7 @@ RUN set -eux \
 RUN set -eux \
   ; mkdir -p ${GHC_ROOT} \
   ; ghc_ver=$(xh -F https://www.stackage.org/snapshots Accept:application/json \
-            | jq -r '.snapshots[0][0][1]' | sed 's/.*(ghc-\(.*\))/\1/') \
+            | jq -r '.snapshots[0][][1]' | grep Nightly | sed 's/.*(ghc-\(.*\))/\1/') \
   ; stackage_ver=nightly \
   ; ghc_url=https://downloads.haskell.org/~ghc/${ghc_ver}/ghc-${ghc_ver}-x86_64-deb10-linux.tar.xz \
   ; xh -F ${ghc_url} | tar Jxf - \
