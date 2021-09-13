@@ -51,5 +51,5 @@ jobs:
           context: hs
           file: hs/Dockerfile-nightly
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hsn
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hs
           labels: ${{ steps.meta.outputs.labels }}
