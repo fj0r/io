@@ -34,22 +34,22 @@ RUN set -eux \
   ; rm -rf ${HOME}/.racket/download-cache
 
 # ### GO
-ENV GOROOT=/opt/go GOPATH=${HOME}/go
-ENV PATH=${GOPATH}/bin:${GOROOT}/bin:$PATH
-ENV GO111MODULE=on
-RUN set -ex \
-  ; cd /opt \
-  ; GO_VERSION=$(xh https://golang.org/VERSION m==text) \
-  ; xh -F https://dl.google.com/go/${GO_VERSION}.linux-amd64.tar.gz \
-      | tar xzf - \
-  ; go get -u github.com/gopherdata/gophernotes \
-  ; gophernotes_dir=${HOME}/.local/share/jupyter/kernels/gophernotes \
-  ; mkdir -p $gophernotes_dir \
-  ; cp "$(go env GOPATH)"/pkg/mod/github.com/gopherdata/gophernotes*/kernel/* $gophernotes_dir \
-  ; chmod +w $gophernotes_dir/kernel.json \
-  ; sed "s|gophernotes|$(go env GOPATH)/bin/gophernotes|" < $gophernotes_dir/kernel.json.in > $gophernotes_dir/kernel.json \
-  ; go get golang.org/x/tools/gopls@latest \
-  ; rm -rf $(go env GOCACHE)/*
+# ENV GOROOT=/opt/go GOPATH=${HOME}/go
+# ENV PATH=${GOPATH}/bin:${GOROOT}/bin:$PATH
+# ENV GO111MODULE=on
+# RUN set -ex \
+#   ; cd /opt \
+#   ; GO_VERSION=$(xh https://golang.org/VERSION m==text) \
+#   ; xh -F https://dl.google.com/go/${GO_VERSION}.linux-amd64.tar.gz \
+#       | tar xzf - \
+#   ; go get -u github.com/gopherdata/gophernotes \
+#   ; gophernotes_dir=${HOME}/.local/share/jupyter/kernels/gophernotes \
+#   ; mkdir -p $gophernotes_dir \
+#   ; cp "$(go env GOPATH)"/pkg/mod/github.com/gopherdata/gophernotes*/kernel/* $gophernotes_dir \
+#   ; chmod +w $gophernotes_dir/kernel.json \
+#   ; sed "s|gophernotes|$(go env GOPATH)/bin/gophernotes|" < $gophernotes_dir/kernel.json.in > $gophernotes_dir/kernel.json \
+#   ; go get golang.org/x/tools/gopls@latest \
+#   ; rm -rf $(go env GOCACHE)/*
 
 ### idris
 #ENV IDRIS_ROOT=${HOME}/idris

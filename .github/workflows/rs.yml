@@ -1,4 +1,4 @@
-name: io
+name: rs
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
@@ -49,14 +49,6 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Build go
-        uses: docker/build-push-action@v2
-        with:
-          context: go
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:go
-          labels: ${{ steps.meta.outputs.labels }}
-
       - name: Build rs
         uses: docker/build-push-action@v2
         with:
@@ -64,12 +56,3 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:rs
           labels: ${{ steps.meta.outputs.labels }}
-
-      - name: Build hs
-        uses: docker/build-push-action@v2
-        with:
-          context: hs
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hs
-          labels: ${{ steps.meta.outputs.labels }}
-
