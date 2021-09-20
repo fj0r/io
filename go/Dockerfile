@@ -15,8 +15,8 @@ RUN set -eux \
       github.com/gin-gonic/gin \
       github.com/jinzhu/gorm \
       honnef.co/go/tools/... \
-      github.com/go-delve/delve/cmd/dlv \
       2>&1 \
-  ; go get golang.org/x/tools/gopls@latest \
+  ; go install golang.org/x/tools/gopls@latest \
+  ; go install github.com/go-delve/delve/cmd/dlv@latest \
   ; rm -rf $(go env GOCACHE)/* \
   ; go env -w GOPROXY=https://goproxy.cn,direct
