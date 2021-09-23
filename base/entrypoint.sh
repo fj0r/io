@@ -105,7 +105,7 @@ set_user () {
         _GID=${UA[2]:-1000}
 
         getent group ${_NAME} >/dev/null 2>&1 || groupadd -g ${_GID} ${_NAME}
-        getent passwd ${_NAME} >/dev/null 2>&1 || useradd -m -u ${_UID} -g ${_GID} -G sudo -s /bin/zsh -c 'Developer' ${_NAME}
+        getent passwd ${_NAME} >/dev/null 2>&1 || useradd -m -u ${_UID} -g ${_GID} -G sudo -s /bin/bash -c 'Developer' ${_NAME}
     fi
 }
 
@@ -118,7 +118,7 @@ if [[ $1 == "$DAEMON" ]]; then
     wait "${pid}" && exit $?
 else
     if [ -z $1 ]; then
-        CMD="/bin/zsh"
+        CMD="/bin/bash"
     else
         CMD="$@"
     fi
