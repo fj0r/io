@@ -63,7 +63,7 @@ RUN set -eux \
   ; apt-get upgrade -y \
   ; DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends \
-      tzdata sudo jq \
+      fuse tzdata sudo jq \
       openssh-client openssh-server \
       rsync tcpdump socat \
       lsof inetutils-ping iproute2 nftables \
