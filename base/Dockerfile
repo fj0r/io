@@ -63,11 +63,10 @@ RUN set -eux \
   ; apt-get upgrade -y \
   ; DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends \
-      fuse tzdata sudo jq \
+      tzdata sudo jq rsync tcpdump socat \
       openssh-client openssh-server \
-      rsync tcpdump socat \
       lsof inetutils-ping iproute2 nftables \
-      xz-utils zstd zip unzip \
+      fuse xz-utils zstd zip unzip \
   \
   ; ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime \
   ; echo "$TIMEZONE" > /etc/timezone \

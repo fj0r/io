@@ -56,7 +56,7 @@ RUN set -eux \
   ; pip3 --no-cache-dir install \
         neovim neovim-remote debugpy \
         # aiofile fastapi uvicorn \
-        httpx typer hydra-core pyyaml deepmerge structlog \
+        httpx typer hydra-core pyyaml deepmerge structlog python-json-logger \
         pydantic PyParsing decorator more-itertools fn.py cachetools \
   \
   ; cfg_home=/etc/skel \
