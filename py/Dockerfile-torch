@@ -37,7 +37,7 @@ RUN set -ex \
         cffi zeromq libssh2 openssl pyzmq pcre \
   ; conda clean --all -f -y \
   ; pip --no-cache-dir install neovim \
-        torch torchvision torchaudio pytorch-lightning \
+        torch torchtext torchvision torchaudio pytorch-lightning \
         transitions Requests furl html5lib envelopes \
         bash_kernel ipython-sql pgspecial jieba sh \
   ; python -m bash_kernel.install \

@@ -35,7 +35,7 @@ RUN set -ex \
         xz zlib zstd snappy \
         ca-certificates cryptography pyjwt \
         cffi zeromq libssh2 openssl pyzmq pcre \
-  ; conda install pytorch torchvision torchaudio cudatoolkit -c pytorch -c nvidia \
+  ; conda install pytorch torchtext torchvision torchaudio cudatoolkit -c pytorch -c nvidia \
   ; conda clean --all -f -y \
   ; pip --no-cache-dir install neovim \
         pytorch-lightning \
