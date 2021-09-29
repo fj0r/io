@@ -66,7 +66,7 @@ RUN set -eux \
       tzdata sudo jq rsync tcpdump socat \
       openssh-client openssh-server \
       lsof inetutils-ping iproute2 nftables \
-      fuse xz-utils zstd zip unzip \
+      procps fuse xz-utils zstd zip unzip \
   \
   ; ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime \
   ; echo "$TIMEZONE" > /etc/timezone \
