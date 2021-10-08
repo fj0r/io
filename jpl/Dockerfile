@@ -154,12 +154,12 @@ RUN set -eux \
   ; rustup target add x86_64-unknown-linux-musl \
   ; cargo install tomlq cargo-wasi wasm-pack cargo-prefetch \
   ; cargo prefetch \
-      quicli structopt \
-      actix actix-web \
+      quicli structopt surf \
+      tide async-std async-graphql async-graphql-tide \
       thiserror anyhow \
       serde serde_derive serde_yaml serde_json \
       slog slog-async slog-json slog-term slog-logfmt \
-      reqwest oxidizer nom handlebars \
+      oxidizer nom handlebars \
       config chrono lru-cache itertools \
   ; cargo install evcxr_jupyter \
   ; evcxr_jupyter --install \
