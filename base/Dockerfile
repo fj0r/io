@@ -26,6 +26,10 @@ RUN set -eux \
            | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep x86_64-unknown-linux-musl) \
   ; xh -F ${fd_url} | tar zxf - -C /opt/assets --strip-components=1 --wildcards '*/fd' \
   \
+  ; sd_url=$(xh https://api.github.com/repos/chmln/sd/releases Accept:application/vnd.github.v3+json \
+           | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep x86_64-unknown-linux-musl) \
+  ; xh -F ${sd_url} -o /opt/assets/sd && chmod +x /opt/assets/sd \
+  \
   ; rg_url=$(xh https://api.github.com/repos/BurntSushi/ripgrep/releases Accept:application/vnd.github.v3+json \
            | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep x86_64-unknown-linux-musl) \
   ; xh -F ${rg_url} | tar zxf - -C /opt/assets --strip-components=1 --wildcards '*/rg' \
@@ -66,7 +70,7 @@ RUN set -eux \
       tzdata sudo jq rsync tcpdump socat \
       openssh-client openssh-server \
       lsof inetutils-ping iproute2 nftables \
-      procps fuse xz-utils zstd zip unzip \
+      htop fuse xz-utils zstd zip unzip \
   \
   ; ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime \
   ; echo "$TIMEZONE" > /etc/timezone \
