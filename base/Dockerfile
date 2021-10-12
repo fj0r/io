@@ -50,7 +50,7 @@ RUN set -eux \
                   | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep amd64-linux-static | grep -v nossl) \
   ; xh -Fo /opt/assets/websocat ${websocat_url} ; chmod +x /opt/assets/websocat \
   \
-  ; find /opt/assets -type f -exec grep -IL . "{}" \; | xargs -L 1 strip
+  ; find /opt/assets -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s
 
 
 
