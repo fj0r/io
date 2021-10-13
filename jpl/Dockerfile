@@ -163,7 +163,8 @@ RUN set -eux \
       config chrono lru-cache itertools \
   ; cargo install evcxr_jupyter \
   ; evcxr_jupyter --install \
-  ; rm -rf ${CARGO_HOME}/registry/src/*
+  ; rm -rf ${CARGO_HOME}/registry/src/* \
+  ; find ${CARGO_HOME}/bin -type f -links 1 -exec grep -IL . "{}" \; | xargs -L 1 strip -s
 
 RUN set -eux \
   ; mkdir -p /opt/language-server/rust \
@@ -171,6 +172,7 @@ RUN set -eux \
   ; xh -F https://github.com/rust-analyzer/rust-analyzer/releases/download/${ra_version}/rust-analyzer-x86_64-unknown-linux-gnu.gz \
       | gzip -d > /opt/language-server/rust/rust-analyzer \
   ; chmod +x /opt/language-server/rust/rust-analyzer \
+  ; strip -s /opt/language-server/rust/rust-analyzer \
   ; ln -fs /opt/language-server/rust/rust-analyzer /usr/local/bin
 
 
@@ -251,6 +253,7 @@ RUN set -ex \
   ; xh -F https://github.com/haskell/haskell-language-server/releases/download/${hls_version}/haskell-language-server-wrapper-Linux.gz | gzip -d > /opt/language-server/haskell/haskell-language-server-wrapper \
   ; xh -F https://github.com/haskell/haskell-language-server/releases/download/${hls_version}/haskell-language-server-Linux-${ghc_version}.gz | gzip -d > /opt/language-server/haskell/haskell-language-server-${ghc_version} \
   ; chmod +x /opt/language-server/haskell/* \
+  ; find /opt/language-server/haskell -type f -links 1 -exec grep -IL . "{}" \; | xargs -L 1 strip -s \
   ; for l in /opt/language-server/haskell/*; do ln -fs $l /usr/local/bin; done
 
 COPY .ghci ${HOME}/.ghci
