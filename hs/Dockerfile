@@ -71,4 +71,3 @@ RUN set -eux \
   ; for l in /opt/language-server/haskell/*; do ln -fs $l /usr/local/bin; done
 
 COPY ghci /root/.ghci
-COPY config.ustc.yaml ${STACK_ROOT}/config.ustc.yaml

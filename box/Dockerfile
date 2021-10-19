@@ -1,20 +1,21 @@
-FROM fj0rd/io:base as assets
-
-RUN set -eux \
-  ; apt-get update \
-  ; apt-get upgrade -y \
-  ; DEBIAN_FRONTEND=noninteractive \
-    apt-get install -y --no-install-recommends binutils \
-  ; mkdir -p /opt/assets \
-  \
-  ; wasmtime_url=$(xh https://api.github.com/repos/bytecodealliance/wasmtime/releases Accept:application/vnd.github.v3+json \
-                 | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep x86_64-linux | grep -v api) \
-  ; xh -F ${wasmtime_url} | tar Jxf - --strip-components=1 -C /opt/assets --wildcards '*/wasmtime' \
-  ; find /opt/assets -type f -exec grep -IL . "{}" \; | xargs -L 1 strip
+#FROM fj0rd/io:base as assets
+#
+#RUN set -eux \
+#  ; apt-get update \
+#  ; apt-get upgrade -y \
+#  ; DEBIAN_FRONTEND=noninteractive \
+#    apt-get install -y --no-install-recommends binutils \
+#  ; mkdir -p /opt/assets \
+#  \
+#  ; wasmtime_url=$(xh https://api.github.com/repos/bytecodealliance/wasmtime/releases Accept:application/vnd.github.v3+json \
+#                 | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep x86_64-linux | grep -v api) \
+#  ; xh -F ${wasmtime_url} | tar Jxf - --strip-components=1 -C /opt/assets --wildcards '*/wasmtime' \
+#  ; find /opt/assets -type f -exec grep -IL . "{}" \; | xargs -L 1 strip
 
 
 
 FROM fj0rd/io:base
+#COPY --from=assets /opt/assets /usr/local/bin
 
 ARG github_header="Accept:application/vnd.github.v3+json"
 ARG github_api=https://api.github.com/repos
@@ -39,9 +40,6 @@ RUN set -eux \
 #######################
 #         dev         #
 #######################
-
-COPY --from=assets /opt/assets /usr/local/bin
-
 ARG nvim_repo=neovim/neovim
 ARG nvim_config=fj0r/nvim-lua
 
