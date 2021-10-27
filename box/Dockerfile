@@ -52,7 +52,7 @@ RUN set -eux \
   ; xh -F ${nvim_url} | tar zxf - -C /usr/local --strip-components=1 \
   ; strip /usr/local/bin/nvim \
   ; pip3 --no-cache-dir install \
-        neovim neovim-remote debugpy \
+        debugpy neovim neovim-remote \
         # aiofile fastapi uvicorn \
         httpx typer hydra-core pyyaml deepmerge structlog python-json-logger \
         pydantic PyParsing decorator more-itertools fn.py cachetools \

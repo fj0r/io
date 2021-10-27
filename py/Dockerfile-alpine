@@ -15,7 +15,7 @@ RUN set -eux \
       build-base make coreutils \
   \
   ; pip3 --no-cache-dir install \
-        fastapi uvicorn aiofile \
+        debugpy fastapi uvicorn aiofile \
         httpx typer hydra-core pyyaml deepmerge structlog \
         pydantic PyParsing decorator more-itertools fn.py cachetools \
   \
