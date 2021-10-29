@@ -64,18 +64,13 @@ RUN set -eux \
   ; mkdir -p /opt/language-server \
   ; mkdir -p /opt/vim \
   \
-  ; mkdir $cfg_home/.config \
-  ; ln -sf $cfg_home/.config $cfg_home/.zshrc* /root \
+  ; ln -sf $cfg_home/.zshrc* /root \
   \
   ; nvim_home=$cfg_home/.config/nvim \
   \
   ; nvim_config_ver=$(xh $github_api/${nvim_config}/releases $github_header | jq -r '[.[]|select(.prerelease==false)][0].tag_name') \
   ; nvim_config_url=https://github.com/${nvim_config}/releases/download/${nvim_config_ver}/nvim-cfg.tar.gz \
   ; xh -F ${nvim_config_url} | tar zxf - -C $cfg_home/.config \
-  \
-  #; git clone --recursive --shallow-submodules --depth=1 https://github.com/fj0r/nvim-lua.git $nvim_home \
-  #; nvim --headless +'autocmd User PackerComplete quitall' +'PackerSync' \
-  #; rm -rf $nvim_home/pack/packer/start/*/.git \
   \
   ; npm install -g pyright \
                    vscode-json-languageserver \

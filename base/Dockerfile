@@ -88,6 +88,14 @@ RUN set -eux \
   ; echo "Match Address 10.0.0.0/8,172.17.0.0/16,192.168.0.0/16\n    PasswordAuthentication yes" \
         >> /etc/ssh/sshd_config \
   \
+  ; mkdir -p /opt/helix \
+  ; helix_url=$(xh https://api.github.com/repos/helix-editor/helix/releases Accept:application/vnd.github.v3+json \
+      | jq -r '.[0].assets[].browser_download_url' | grep x86_64-linux) \
+  ; xh -F ${helix_url} | tar Jxf - -C /opt/helix --strip-components=1 \
+  ; ln -sf /opt/helix/hx /usr/local/bin/h \
+  ; mkdir -p /etc/skel/.config/helix && ln -sf /etc/skel/.config /root \
+  ; xh -F https://raw.githubusercontent.com/fj0r/configuration/main/helix/config.toml > /etc/skel/.config/helix/config.toml \
+  \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /world
