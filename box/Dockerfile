@@ -29,6 +29,12 @@ RUN set -eux \
       pwgen zsh git git-flow \
       python3 python3-pip ipython3 \
       # python3-dev python3-setuptools \
+  ; pip3 --no-cache-dir install \
+        # aiofile fastapi uvicorn \
+        debugpy pydantic fn.py deepmerge \
+        httpx hydra-core typer pyyaml \
+        PyParsing structlog python-json-logger \
+        decorator more-itertools cachetools \
   \
   ; git config --global pull.rebase false \
   ; git config --global init.defaultBranch main \
@@ -44,50 +50,43 @@ ARG nvim_repo=neovim/neovim
 ARG nvim_config=fj0r/nvim-lua
 
 RUN set -eux \
-  ; xh -F https://deb.nodesource.com/setup_16.x | bash - \
-  ; apt-get install -y --no-install-recommends gnupg nodejs build-essential \
-  \
-  ; nvim_ver=$(xh $github_api/${nvim_repo}/releases $github_header | jq -r '[.[]|select(.prerelease==false)][0].tag_name') \
-  ; nvim_url=https://github.com/${nvim_repo}/releases/download/${nvim_ver}/nvim-linux64.tar.gz \
-  ; xh -F ${nvim_url} | tar zxf - -C /usr/local --strip-components=1 \
-  ; strip /usr/local/bin/nvim \
-  ; pip3 --no-cache-dir install \
-        debugpy neovim neovim-remote \
-        # aiofile fastapi uvicorn \
-        httpx typer hydra-core pyyaml deepmerge structlog python-json-logger \
-        pydantic PyParsing decorator more-itertools fn.py cachetools \
-  \
   ; cfg_home=/etc/skel \
   ; git clone --depth=1 https://github.com/fj0r/zsh.git $cfg_home/.zshrc.d \
   ; cp $cfg_home/.zshrc.d/_zshrc $cfg_home/.zshrc \
-  \
-  ; mkdir -p /opt/language-server \
-  ; mkdir -p /opt/vim \
-  \
   ; ln -sf $cfg_home/.zshrc* /root \
   \
-  ; nvim_home=$cfg_home/.config/nvim \
+  ; xh -F https://deb.nodesource.com/setup_16.x | bash - \
+  ; apt-get install -y --no-install-recommends gnupg nodejs build-essential \
   \
-  ; nvim_config_ver=$(xh $github_api/${nvim_config}/releases $github_header | jq -r '[.[]|select(.prerelease==false)][0].tag_name') \
-  ; nvim_config_url=https://github.com/${nvim_config}/releases/download/${nvim_config_ver}/nvim-cfg.tar.gz \
-  ; xh -F ${nvim_config_url} | tar zxf - -C $cfg_home/.config \
-  \
+  ; mkdir -p /opt/language-server \
   ; npm install -g pyright \
                    vscode-json-languageserver \
                    yaml-language-server \
   ; sed -i "s/\(exports.KUBERNETES_SCHEMA_URL = \)\(.*\)$/\1process.env['KUBERNETES_SCHEMA_URL'] || \2/" $(dirname $(which yaml-language-server))/../lib/node_modules/yaml-language-server/out/server/src/languageservice/utils/schemaUrls.js \
-  ; mv $nvim_home/pack /opt/vim \
-  ; ln -sf /opt/vim/pack $nvim_home \
-  \
-  ; coc_lua_bin_repo=josa42/coc-lua-binaries \
-  ; lua_ls_ver=$(xh $github_api/${coc_lua_bin_repo}/releases $github_header | jq -r '.[0].tag_name') \
-  ; lua_ls_url=https://github.com/${coc_lua_bin_repo}/releases/download/${lua_ls_ver}/lua-language-server-linux.tar.gz \
-  ; mkdir -p /opt/language-server/sumneko_lua \
-  ; xh -F ${lua_ls_url} | tar zxf - \
-      -C /opt/language-server/sumneko_lua \
-      --strip-components=1 \
-  \
   ; npm cache clean -f \
-  ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+  \
+  #; coc_lua_bin_repo=josa42/coc-lua-binaries \
+  #; lua_ls_ver=$(xh $github_api/${coc_lua_bin_repo}/releases $github_header | jq -r '.[0].tag_name') \
+  #; lua_ls_url=https://github.com/${coc_lua_bin_repo}/releases/download/${lua_ls_ver}/lua-language-server-linux.tar.gz \
+  #; mkdir -p /opt/language-server/sumneko_lua \
+  #; xh -F ${lua_ls_url} | tar zxf - \
+  #    -C /opt/language-server/sumneko_lua \
+  #    --strip-components=1 \
+  \
+  ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
+  \
+  #; nvim_ver=$(xh $github_api/${nvim_repo}/releases $github_header | jq -r '[.[]|select(.prerelease==false)][0].tag_name') \
+  #; nvim_url=https://github.com/${nvim_repo}/releases/download/${nvim_ver}/nvim-linux64.tar.gz \
+  #; xh -F ${nvim_url} | tar zxf - -C /usr/local --strip-components=1 \
+  #; strip /usr/local/bin/nvim \
+  #; pip3 --no-cache-dir install \
+  #      neovim neovim-remote \
+  #; mkdir -p /opt/vim \
+  #; nvim_home=$cfg_home/.config/nvim \
+  #; nvim_config_ver=$(xh $github_api/${nvim_config}/releases $github_header | jq -r '[.[]|select(.prerelease==false)][0].tag_name') \
+  #; nvim_config_url=https://github.com/${nvim_config}/releases/download/${nvim_config_ver}/nvim-cfg.tar.gz \
+  #; xh -F ${nvim_config_url} | tar zxf - -C $cfg_home/.config \
+  #; mv $nvim_home/pack /opt/vim \
+  #; ln -sf /opt/vim/pack $nvim_home \
 
 
