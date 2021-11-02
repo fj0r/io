@@ -60,9 +60,9 @@ RUN set -eux \
   \
   ; mkdir -p /opt/language-server \
   ; npm install -g pyright \
-                   vscode-json-languageserver \
-                   yaml-language-server \
-  ; sed -i "s/\(exports.KUBERNETES_SCHEMA_URL = \)\(.*\)$/\1process.env['KUBERNETES_SCHEMA_URL'] || \2/" $(dirname $(which yaml-language-server))/../lib/node_modules/yaml-language-server/out/server/src/languageservice/utils/schemaUrls.js \
+  #                 vscode-json-languageserver \
+  #                 yaml-language-server \
+  #; sed -i "s/\(exports.KUBERNETES_SCHEMA_URL = \)\(.*\)$/\1process.env['KUBERNETES_SCHEMA_URL'] || \2/" $(dirname $(which yaml-language-server))/../lib/node_modules/yaml-language-server/out/server/src/languageservice/utils/schemaUrls.js \
   ; npm cache clean -f \
   \
   #; coc_lua_bin_repo=josa42/coc-lua-binaries \
