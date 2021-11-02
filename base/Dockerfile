@@ -47,7 +47,7 @@ RUN set -eux \
   ; xh -F ${watchexec_url} | tar Jxf - --strip-components=1 -C /opt/assets --wildcards '*/watchexec' \
   \
   ; websocat_url=$(xh https://api.github.com/repos/vi/websocat/releases Accept:application/vnd.github.v3+json \
-                  | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep amd64-linux-static | grep -v nossl) \
+                  | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep linux64) \
   ; xh -Fo /opt/assets/websocat ${websocat_url} ; chmod +x /opt/assets/websocat \
   \
   ; find /opt/assets -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s

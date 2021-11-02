@@ -20,8 +20,8 @@ RUN set -eux \
       cargo-wasi wasm-pack trunk wasm-bindgen-cli \
       systemfd cargo-watch cargo-edit cargo-feature cargo-prefetch cargo-generate \
   ; cargo prefetch \
-      quicli structopt surf \
-      tide async-std async-graphql async-graphql-tide \
+      async-std quicli structopt surf \
+      warp tokio async-graphql async-graphql-warp \
       yew yew-router wasm-bindgen \
       thiserror anyhow \
       serde serde_derive serde_yaml serde_json \
