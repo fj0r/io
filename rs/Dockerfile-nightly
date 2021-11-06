@@ -16,7 +16,7 @@ RUN set -eux \
   ; rustup component add rust-src clippy rustfmt \
   ; rustup target add x86_64-unknown-linux-musl \
   ; rustup target add wasm32-wasi wasm32-unknown-unknown wasm32-unknown-emscripten \
-  ; cargo install tomlq \
+  ; cargo install \
       cargo-wasi wasm-pack trunk wasm-bindgen-cli \
       systemfd cargo-watch cargo-edit cargo-feature cargo-prefetch cargo-generate \
   ; cargo prefetch \
