@@ -41,10 +41,10 @@ init() {
         chown root:root ~/.ssh/authorized_keys
         chmod 600 ~/.ssh/authorized_keys
     fi
-    if [ -w /etc/authorized_keys ]; then
-        chown root:root /etc/authorized_keys
-        chmod 755 /etc/authorized_keys
-        find /etc/authorized_keys/ -type f -exec chmod 644 {} \;
+    if [ -w /etc/ssh/authorized_keys ]; then
+        chown root:root /etc/ssh/authorized_keys
+        chmod 700 /etc/ssh/authorized_keys
+        find /etc/ssh/authorized_keys/ -type f -exec chmod 600 {} \;
     fi
 
     # Add users if SSH_USERS=user:uid:gid set
@@ -57,7 +57,7 @@ init() {
             _GID=${UA[2]}
 
             echo ">> Adding user ${_NAME} with uid: ${_UID}, gid: ${_GID}."
-            if [ ! -e "/etc/authorized_keys/${_NAME}" ]; then
+            if [ ! -e "/etc/ssh/authorized_keys/${_NAME}" ]; then
                 echo "WARNING: No SSH authorized_keys found for ${_NAME}!"
             fi
             getent group ${_NAME} >/dev/null 2>&1 || groupadd -g ${_GID} ${_NAME}
@@ -65,16 +65,16 @@ init() {
         done
     else
         # Warn if no authorized_keys
-        if [ ! -e ~/.ssh/authorized_keys ] && [ ! $(ls -A /etc/authorized_keys) ]; then
+        if [ ! -e ~/.ssh/authorized_keys ] && [ ! $(ls -A /etc/ssh/authorized_keys) ]; then
             echo "WARNING: No SSH authorized_keys found!"
         fi
     fi
 
-    # Unlock root account, if enabled
-    if [[ "${SSH_ENABLE_ROOT}" == "true" ]]; then
-        usermod -p '' root
+    # Lock root account, if Disabled
+    if [[ "${SSH_DISABLE_ROOT}" == "true" ]]; then
+        echo "WARNING: root account is now locked. Unset SSH_DISABLE_ROOT to unlock the account."
     else
-        echo "WARNING: root account is now locked by default. Set SSH_ENABLE_ROOT=true to unlock the account."
+        usermod -p '' root
     fi
 
     # Update MOTD

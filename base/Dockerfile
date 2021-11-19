@@ -82,9 +82,10 @@ RUN set -eux \
   \
   ; mkdir -p /var/run/sshd \
   ; sed -i /etc/ssh/sshd_config \
-        -e 's!.*\(AuthorizedKeysFile\).*!\1 /etc/authorized_keys/%u!' \
+        -e 's!.*\(AuthorizedKeysFile\).*!\1 /etc/ssh/authorized_keys/%u!' \
         -e 's!.*\(GatewayPorts\).*!\1 yes!' \
         -e 's!.*\(PasswordAuthentication\).*yes!\1 no!' \
+  #; echo "HostCertificate /etc/ssh/ssh_host_ed25519_key-cert.pub" >> /etc/ssh/sshd_config \
   ; echo "Match Address 10.0.0.0/8,172.17.0.0/16,192.168.0.0/16\n    PasswordAuthentication yes" \
         >> /etc/ssh/sshd_config \
   \
@@ -101,7 +102,7 @@ RUN set -eux \
 WORKDIR /world
 
 ENV SSH_USERS=
-ENV SSH_ENABLE_ROOT=
+ENV SSH_DISABLE_ROOT=
 ENV SSH_OVERRIDE_HOST_KEYS=
 
 COPY entrypoint.sh /entrypoint.sh
