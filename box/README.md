@@ -2,7 +2,7 @@
 ```bash
 docker run \
     -p 2222:22 \
-    -v <pubkey>:/etc/ssh/authorized_keys/root \
+    -e ed25519_<root>='pubkey' \
     fj0rd/io sshd
 ```
 

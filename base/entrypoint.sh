@@ -33,6 +33,12 @@ init() {
         print_fingerprints /etc/ssh
     fi
 
+    mkdir -p /etc/ssh/authorized_keys
+    for i in "${!ed25519_@}"; do
+        _AU=${i:8}
+        eval "echo \"ssh-ed25519 \$$i\" >> /etc/ssh/authorized_keys/${_AU}"
+    done
+
     # Fix permissions, if writable
     if [ -w ~/.ssh ]; then
         chown root:root ~/.ssh && chmod 700 ~/.ssh/
