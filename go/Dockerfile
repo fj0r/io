@@ -5,7 +5,7 @@ ENV PATH=${GOPATH}/bin:${GOROOT}/bin:$PATH
 ENV GO111MODULE=on
 RUN set -eux \
   ; cd /opt \
-  ; GO_VERSION=$(xh https://golang.org/VERSION m==text) \
+  ; GO_VERSION=$(xh -F https://golang.org/VERSION m==text) \
   ; xh -F https://dl.google.com/go/${GO_VERSION}.linux-amd64.tar.gz | tar xzf - \
   ; go get -u -v \
       go.uber.org/zap \
