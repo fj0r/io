@@ -8,8 +8,7 @@ RUN set -eux \
   ; GO_VERSION=$(xh -F https://golang.org/VERSION m==text) \
   ; xh -F https://dl.google.com/go/${GO_VERSION}.linux-amd64.tar.gz | tar xzf - \
   ; go get -u -v \
-      go.uber.org/zap \
-      github.com/juju/errors \
+      github.com/sirupsen/logrus \
       github.com/spf13/viper \
       github.com/spf13/cobra \
       github.com/gin-gonic/gin \
