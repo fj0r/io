@@ -14,7 +14,6 @@ RUN set -eux \
       github.com/spf13/cobra \
       github.com/gin-gonic/gin \
       github.com/jinzhu/gorm \
-      honnef.co/go/tools/... \
       2>&1 \
   ; go install golang.org/x/tools/gopls@latest \
   ; go install github.com/go-delve/delve/cmd/dlv@latest \
