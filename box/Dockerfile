@@ -51,6 +51,8 @@ ARG nvim_config=fj0r/nvim-lua
 
 RUN set -eux \
   ; cfg_home=/etc/skel \
+  ; mkdir -p $cfg_home/.config \
+  ; ln -sf $cfg_home/.config /root \
   ; git clone --depth=1 https://github.com/fj0r/zsh.git $cfg_home/.zshrc.d \
   ; cp $cfg_home/.zshrc.d/_zshrc $cfg_home/.zshrc \
   ; ln -sf $cfg_home/.zshrc* /root \
@@ -60,33 +62,33 @@ RUN set -eux \
   \
   ; mkdir -p /opt/language-server \
   ; npm install -g pyright \
-  #                 vscode-json-languageserver \
-  #                 yaml-language-server \
-  #; sed -i "s/\(exports.KUBERNETES_SCHEMA_URL = \)\(.*\)$/\1process.env['KUBERNETES_SCHEMA_URL'] || \2/" $(dirname $(which yaml-language-server))/../lib/node_modules/yaml-language-server/out/server/src/languageservice/utils/schemaUrls.js \
+                   vscode-json-languageserver \
+                   yaml-language-server \
+  ; sed -i "s/\(exports.KUBERNETES_SCHEMA_URL = \)\(.*\)$/\1process.env['KUBERNETES_SCHEMA_URL'] || \2/" $(dirname $(which yaml-language-server))/../lib/node_modules/yaml-language-server/out/server/src/languageservice/utils/schemaUrls.js \
   ; npm cache clean -f \
   \
-  #; coc_lua_bin_repo=josa42/coc-lua-binaries \
-  #; lua_ls_ver=$(xh $github_api/${coc_lua_bin_repo}/releases $github_header | jq -r '.[0].tag_name') \
-  #; lua_ls_url=https://github.com/${coc_lua_bin_repo}/releases/download/${lua_ls_ver}/lua-language-server-linux.tar.gz \
-  #; mkdir -p /opt/language-server/sumneko_lua \
-  #; xh -F ${lua_ls_url} | tar zxf - \
-  #    -C /opt/language-server/sumneko_lua \
-  #    --strip-components=1 \
+  ; coc_lua_bin_repo=josa42/coc-lua-binaries \
+  ; lua_ls_ver=$(xh $github_api/${coc_lua_bin_repo}/releases $github_header | jq -r '.[0].tag_name') \
+  ; lua_ls_url=https://github.com/${coc_lua_bin_repo}/releases/download/${lua_ls_ver}/lua-language-server-linux.tar.gz \
+  ; mkdir -p /opt/language-server/sumneko_lua \
+  ; xh -F ${lua_ls_url} | tar zxf - \
+      -C /opt/language-server/sumneko_lua \
+      --strip-components=1 \
   \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
   \
-  #; nvim_ver=$(xh $github_api/${nvim_repo}/releases $github_header | jq -r '[.[]|select(.prerelease==false)][0].tag_name') \
-  #; nvim_url=https://github.com/${nvim_repo}/releases/download/${nvim_ver}/nvim-linux64.tar.gz \
-  #; xh -F ${nvim_url} | tar zxf - -C /usr/local --strip-components=1 \
-  #; strip /usr/local/bin/nvim \
-  #; pip3 --no-cache-dir install \
-  #      neovim neovim-remote \
-  #; mkdir -p /opt/vim \
-  #; nvim_home=$cfg_home/.config/nvim \
-  #; nvim_config_ver=$(xh $github_api/${nvim_config}/releases $github_header | jq -r '[.[]|select(.prerelease==false)][0].tag_name') \
-  #; nvim_config_url=https://github.com/${nvim_config}/releases/download/${nvim_config_ver}/nvim-cfg.tar.gz \
-  #; xh -F ${nvim_config_url} | tar zxf - -C $cfg_home/.config \
-  #; mv $nvim_home/pack /opt/vim \
-  #; ln -sf /opt/vim/pack $nvim_home \
+  ; nvim_ver=$(xh $github_api/${nvim_repo}/releases $github_header | jq -r '[.[]|select(.prerelease==false)][0].tag_name') \
+  ; nvim_url=https://github.com/${nvim_repo}/releases/download/${nvim_ver}/nvim-linux64.tar.gz \
+  ; xh -F ${nvim_url} | tar zxf - -C /usr/local --strip-components=1 \
+  ; strip /usr/local/bin/nvim \
+  ; pip3 --no-cache-dir install \
+        neovim neovim-remote \
+  ; mkdir -p /opt/vim \
+  ; nvim_home=$cfg_home/.config/nvim \
+  ; nvim_config_ver=$(xh $github_api/${nvim_config}/releases $github_header | jq -r '[.[]|select(.prerelease==false)][0].tag_name') \
+  ; nvim_config_url=https://github.com/${nvim_config}/releases/download/${nvim_config_ver}/nvim-cfg.tar.gz \
+  ; xh -F ${nvim_config_url} | tar zxf - -C $cfg_home/.config \
+  ; mv $nvim_home/pack /opt/vim \
+  ; ln -sf /opt/vim/pack $nvim_home
 
 
