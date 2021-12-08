@@ -1,5 +1,16 @@
+FROM fj0rd/io:rs as rs
+
+RUN set -eux \
+  ; git clone https://github.com/ogham/dog.git \
+  ; cd dog \
+  ; cargo build --release \
+  ; strip -s target/release/dog \
+  ; mv target/release/dog /usr/local/bin
+
+
 FROM debian:bullseye-slim as assets
 
+COPY --from=rs /usr/local/bin/dog /opt/assets/
 RUN set -eux \
   ; apt-get update \
   ; apt-get upgrade -y \

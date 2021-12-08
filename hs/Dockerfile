@@ -62,10 +62,10 @@ RUN set -eux \
 
 RUN set -eux \
   ; mkdir -p /opt/language-server/haskell \
-  ; hls_assets=$(xh https://api.github.com/repos/haskell/haskell-language-server/releases Accept:application/vnd.github.v3+json | jq -r '[.[]|select(.prerelease==false)][0].assets[].browser_download_url') \
+  ; hls_assets=$(xh https://api.github.com/repos/haskell/haskell-language-server/releases Accept:application/vnd.github.v3+json | jq -r '[.[]|select(.prerelease==false)][0].assets') \
   ; ghc_version=$(stack ghc -- --version | grep -oP 'version \K([0-9\.]+)') \
-  ; xh -F $(echo $hls_assets | grep 'wrapper-Linux') | gzip -d > /opt/language-server/haskell/haskell-language-server-wrapper \
-  ; xh -F $(echo $hls_assets | grep "Linux-${ghc_version}") | gzip -d > /opt/language-server/haskell/haskell-language-server-${ghc_version} \
+  ; xh -F $(echo $hls_assets | jq -r '.[].browser_download_url' | grep 'wrapper-Linux') | gzip -d > /opt/language-server/haskell/haskell-language-server-wrapper \
+  ; xh -F $(echo $hls_assets | jq -r '.[].browser_download_url' | grep "Linux-${ghc_version}") | gzip -d > /opt/language-server/haskell/haskell-language-server-${ghc_version} \
   ; chmod +x /opt/language-server/haskell/* \
   ; find /opt/language-server/haskell -type f -links 1 -exec grep -IL . "{}" \; | xargs -L 1 strip -s \
   ; for l in /opt/language-server/haskell/*; do ln -fs $l /usr/local/bin; done
