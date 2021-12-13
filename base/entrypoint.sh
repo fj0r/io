@@ -131,8 +131,8 @@ else
     set_user
     if [ -n "${user}" ]; then
         #su - ${_NAME} -c "${CMD}"
-        sudo -u ${_NAME} "${CMD}"
+        sudo -u ${_NAME} ${CMD}
     else
-        exec "${CMD}"
+        exec ${CMD}
     fi
 fi
