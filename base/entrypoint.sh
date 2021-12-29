@@ -16,7 +16,18 @@ print_fingerprints() {
     done
 }
 
-init() {
+# Add users if $1=user:uid:gid set
+set_user () {
+    IFS=':' read -ra UA <<< "$1"
+    _NAME=${UA[0]}
+    _UID=${UA[1]:-1000}
+    _GID=${UA[2]:-1000}
+
+    getent group ${_NAME} >/dev/null 2>&1 || groupadd -g ${_GID} ${_NAME}
+    getent passwd ${_NAME} >/dev/null 2>&1 || useradd -m -u ${_UID} -g ${_GID} -G sudo -s /bin/bash -c "$2" ${_NAME}
+}
+
+init_ssh () {
     env | grep _ >> /etc/environment
 
     if [[ "${SSH_OVERRIDE_HOST_KEYS}" == "true" ]]; then
@@ -31,6 +42,12 @@ init() {
         echo ">> Generating new host keys"
         ssh-keygen -A
         print_fingerprints /etc/ssh
+    fi
+
+    if [ -n "$user" ]; then
+        for u in $(echo $user | tr "," "\n"); do
+            set_user ${u} 'SSH User'
+        done
     fi
 
     mkdir -p /etc/ssh/authorized_keys
@@ -53,29 +70,6 @@ init() {
         find /etc/ssh/authorized_keys/ -type f -exec chmod 600 {} \;
     fi
 
-    # Add users if SSH_USERS=user:uid:gid set
-    if [ -n "${SSH_USERS}" ]; then
-        USERS=$(echo $SSH_USERS | tr "," "\n")
-        for U in $USERS; do
-            IFS=':' read -ra UA <<< "$U"
-            _NAME=${UA[0]}
-            _UID=${UA[1]}
-            _GID=${UA[2]}
-
-            echo ">> Adding user ${_NAME} with uid: ${_UID}, gid: ${_GID}."
-            if [ ! -e "/etc/ssh/authorized_keys/${_NAME}" ]; then
-                echo "WARNING: No SSH authorized_keys found for ${_NAME}!"
-            fi
-            getent group ${_NAME} >/dev/null 2>&1 || groupadd -g ${_GID} ${_NAME}
-            getent passwd ${_NAME} >/dev/null 2>&1 || useradd -r -m -p '' -u ${_UID} -g ${_GID} -s '' -c 'SSHD User' ${_NAME}
-        done
-    else
-        # Warn if no authorized_keys
-        if [ ! -e ~/.ssh/authorized_keys ] && [ ! $(ls -A /etc/ssh/authorized_keys) ]; then
-            echo "WARNING: No SSH authorized_keys found!"
-        fi
-    fi
-
     # Lock root account, if Disabled
     if [[ "${SSH_DISABLE_ROOT}" == "true" ]]; then
         echo "WARNING: root account is now locked. Unset SSH_DISABLE_ROOT to unlock the account."
@@ -87,7 +81,6 @@ init() {
     if [ -v MOTD ]; then
         echo -e "$MOTD" > /etc/motd
     fi
-
 }
 
 
@@ -103,21 +96,9 @@ stop() {
     echo "Done."
 }
 
-set_user () {
-    if [ -n "${user}" ]; then
-        IFS=':' read -ra UA <<< "$user"
-        _NAME=${UA[0]}
-        _UID=${UA[1]:-1000}
-        _GID=${UA[2]:-1000}
-
-        getent group ${_NAME} >/dev/null 2>&1 || groupadd -g ${_GID} ${_NAME}
-        getent passwd ${_NAME} >/dev/null 2>&1 || useradd -m -u ${_UID} -g ${_GID} -G sudo -s /bin/bash -c 'Developer' ${_NAME}
-    fi
-}
-
 if [[ $1 == "$DAEMON" ]]; then
     trap stop SIGINT SIGTERM
-    init
+    init_ssh
     /usr/sbin/sshd -D -e &
     pid="$!"
     mkdir -p /var/run/$DAEMON && echo "${pid}" > /var/run/$DAEMON/$DAEMON.pid
@@ -128,8 +109,8 @@ else
     else
         CMD="$@"
     fi
-    set_user
     if [ -n "${user}" ]; then
+        set_user ${user} 'Developer'
         #su - ${_NAME} -c "${CMD}"
         sudo -u ${_NAME} ${CMD}
     else
