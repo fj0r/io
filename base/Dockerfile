@@ -54,7 +54,7 @@ RUN set -eux \
   ; xh -F ${just_url} | tar zxf - -C /opt/assets just \
   \
   ; watchexec_url=$(xh https://api.github.com/repos/watchexec/watchexec/releases Accept:application/vnd.github.v3+json \
-                  | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep 'x86_64-unknown-linux-musl.tar') \
+                  | jq -r '[.[]|select(.prerelease==false and (.tag_name|startswith("cli")))][0].assets[].browser_download_url' | grep 'x86_64-unknown-linux-musl.tar') \
   ; xh -F ${watchexec_url} | tar Jxf - --strip-components=1 -C /opt/assets --wildcards '*/watchexec' \
   \
   ; websocat_url=$(xh https://api.github.com/repos/vi/websocat/releases Accept:application/vnd.github.v3+json \
@@ -93,7 +93,7 @@ RUN set -eux \
   \
   ; mkdir -p /var/run/sshd \
   ; sed -i /etc/ssh/sshd_config \
-        -e 's!.*\(AuthorizedKeysFile\).*!\1 /etc/ssh/authorized_keys/%u!' \
+        #-e 's!.*\(AuthorizedKeysFile\).*!\1 /etc/ssh/authorized_keys/%u!' \
         -e 's!.*\(GatewayPorts\).*!\1 yes!' \
         -e 's!.*\(PasswordAuthentication\).*yes!\1 no!' \
   #; echo "HostCertificate /etc/ssh/ssh_host_ed25519_key-cert.pub" >> /etc/ssh/sshd_config \

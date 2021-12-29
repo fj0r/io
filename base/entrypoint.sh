@@ -2,7 +2,11 @@
 
 set -e
 
-[ "$DEBUG" == 'true' ] && set -x
+if [[ "$DEBUG" == 'true' ]]; then
+    set -x
+    sed -i /etc/ssh/sshd_config \
+        -e 's!.*\(LogLevel\).*!\1 DEBUG!'
+fi
 
 DAEMON=sshd
 
@@ -24,12 +28,10 @@ set_user () {
     _GID=${UA[2]:-1000}
 
     getent group ${_NAME} >/dev/null 2>&1 || groupadd -g ${_GID} ${_NAME}
-    getent passwd ${_NAME} >/dev/null 2>&1 || useradd -m -u ${_UID} -g ${_GID} -G sudo -s /bin/bash -c "$2" ${_NAME}
+    getent passwd ${_NAME} >/dev/null 2>&1 || useradd -m -u ${_UID} -g ${_GID} -G sudo -s /bin/zsh -c "$2" ${_NAME}
 }
 
 init_ssh () {
-    env | grep _ >> /etc/environment
-
     if [[ "${SSH_OVERRIDE_HOST_KEYS}" == "true" ]]; then
         rm -rf /etc/ssh/ssh_host_*
     fi
@@ -53,7 +55,11 @@ init_ssh () {
     mkdir -p /etc/ssh/authorized_keys
     for i in "${!ed25519_@}"; do
         _AU=${i:8}
-        eval "echo \"ssh-ed25519 \$$i\" >> /etc/ssh/authorized_keys/${_AU}"
+        _HOME_DIR=$(getent passwd ${_AU} | cut -d: -f6)
+        mkdir -p ${_HOME_DIR}/.ssh
+        eval "echo \"ssh-ed25519 \$$i\" >> ${_HOME_DIR}/.ssh/authorized_keys"
+        chown ${_AU} -R ${_HOME_DIR}/.ssh
+        chmod go-rwx -R ${_HOME_DIR}/.ssh
     done
 
     # Fix permissions, if writable
@@ -96,6 +102,8 @@ stop() {
     echo "Done."
 }
 
+env | grep _ >> /etc/environment
+
 if [[ $1 == "$DAEMON" ]]; then
     trap stop SIGINT SIGTERM
     init_ssh
@@ -111,8 +119,9 @@ else
     fi
     if [ -n "${user}" ]; then
         set_user ${user} 'Developer'
-        #su - ${_NAME} -c "${CMD}"
-        sudo -u ${_NAME} ${CMD}
+        #su -p ${_NAME} -c "${CMD}"
+        _envs=$(cat /etc/environment | awk -F '=' '{print $1}' | tr '\n' ',')
+        sudo --preserve-env="${_envs}PATH" -u ${_NAME} ${CMD}
     else
         exec ${CMD}
     fi
