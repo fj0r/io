@@ -1,16 +1,21 @@
 FROM fj0rd/io:rs as rs
 
 RUN set -eux \
+  ; mkdir -p /opt/assets \
   ; git clone https://github.com/ogham/dog.git \
   ; cd dog \
   ; cargo build --release \
-  ; strip -s target/release/dog \
-  ; mv target/release/dog /usr/local/bin
+  ; mv target/release/dog /opt/assets \
+  \
+  #; cargo install flamegraph \
+  #; mv $(whereis flamegraph | awk '{print $2}') /opt/assets \
+  \
+  ; find /opt/assets -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s
 
 
 FROM debian:bullseye-slim as assets
 
-COPY --from=rs /usr/local/bin/dog /opt/assets/
+COPY --from=rs /opt/assets /opt/assets/
 RUN set -eux \
   ; apt-get update \
   ; apt-get upgrade -y \
@@ -80,7 +85,7 @@ RUN set -eux \
     apt-get install -y --no-install-recommends \
       tzdata sudo jq rsync tcpdump socat \
       openssh-client openssh-server \
-      lsof inetutils-ping iproute2 nftables \
+      lsof inetutils-ping iproute2 nftables net-tools \
       htop fuse xz-utils zstd zip unzip \
   \
   ; ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime \
