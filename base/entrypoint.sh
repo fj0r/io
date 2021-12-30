@@ -52,7 +52,6 @@ init_ssh () {
         done
     fi
 
-    mkdir -p /etc/ssh/authorized_keys
     for i in "${!ed25519_@}"; do
         _AU=${i:8}
         _HOME_DIR=$(getent passwd ${_AU} | cut -d: -f6)
@@ -69,11 +68,6 @@ init_ssh () {
     if [ -w ~/.ssh/authorized_keys ]; then
         chown root:root ~/.ssh/authorized_keys
         chmod 600 ~/.ssh/authorized_keys
-    fi
-    if [ -w /etc/ssh/authorized_keys ]; then
-        chown root:root /etc/ssh/authorized_keys
-        chmod 700 /etc/ssh/authorized_keys
-        find /etc/ssh/authorized_keys/ -type f -exec chmod 600 {} \;
     fi
 
     # Lock root account, if Disabled
@@ -102,7 +96,7 @@ stop() {
     echo "Done."
 }
 
-env | grep _ >> /etc/environment
+env | grep -E '_|HOME|ROOT|PATH|VERSION|LANG|TIME|MODULE|BUFFERED' >> /etc/environment
 
 if [[ $1 == "$DAEMON" ]]; then
     trap stop SIGINT SIGTERM
@@ -120,8 +114,8 @@ else
     if [ -n "${user}" ]; then
         set_user ${user} 'Developer'
         #su -p ${_NAME} -c "${CMD}"
-        _envs=$(cat /etc/environment | awk -F '=' '{print $1}' | tr '\n' ',')
-        sudo --preserve-env="${_envs}PATH" -u ${_NAME} ${CMD}
+        _envs=$(cat /etc/environment | awk -F '=' '{print $1}' | grep -v '^$' | paste -s -d"," -)
+        sudo --preserve-env="${_envs}" -u ${_NAME} ${CMD}
     else
         exec ${CMD}
     fi
