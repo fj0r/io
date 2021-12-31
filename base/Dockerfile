@@ -79,6 +79,9 @@ ENV LANG=C.UTF-8 \
 
 COPY --from=assets /opt/assets /usr/local/bin
 RUN set -eux \
+  ; cp /etc/apt/sources.list /etc/apt/sources.list.origin \
+  ; sed -i 's/\(.*\)\(security\|deb\).debian.org\(.*\)main/\1mirrors.ustc.edu.cn\3main contrib non-free/g' /etc/apt/sources.list \
+  \
   ; apt-get update \
   ; apt-get upgrade -y \
   ; DEBIAN_FRONTEND=noninteractive \
@@ -117,7 +120,6 @@ RUN set -eux \
 
 WORKDIR /world
 
-ENV SSH_USERS=
 ENV SSH_DISABLE_ROOT=
 ENV SSH_OVERRIDE_HOST_KEYS=
 

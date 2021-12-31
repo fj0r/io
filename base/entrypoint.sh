@@ -96,7 +96,9 @@ stop() {
     echo "Done."
 }
 
-env | grep -E '_|HOME|ROOT|PATH|VERSION|LANG|TIME|MODULE|BUFFERED' >> /etc/environment
+env | grep -E '_|HOME|ROOT|PATH|VERSION|LANG|TIME|MODULE|BUFFERED' \
+    | grep -Ev '^(_|HOME|USER)=' \
+   >> /etc/environment
 
 if [[ $1 == "$DAEMON" ]]; then
     trap stop SIGINT SIGTERM
