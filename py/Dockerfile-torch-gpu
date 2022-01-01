@@ -12,6 +12,7 @@ EXPOSE 8888
 ENV JUPYTER_ROOT='' JUPYTER_PASSWORD='asdf'
 ENV CONDA_HOME=/opt/conda
 ENV PATH=${CONDA_HOME}/bin:$PATH
+COPY jupyter-config.py /
 RUN set -ex \
   ; xh -Fo miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
   ; bash ./miniconda.sh -b -p ${CONDA_HOME} \
@@ -35,22 +36,14 @@ RUN set -ex \
         xz zlib zstd snappy \
         ca-certificates cryptography pyjwt \
         cffi zeromq libssh2 openssl pyzmq pcre \
-  ; conda install pytorch torchtext torchvision torchaudio cudatoolkit -c pytorch -c nvidia \
+  ; conda install pytorch torchserve torchtext torchvision torchaudio pytorch-lightning cudatoolkit -c pytorch -c nvidia \
   ; conda clean --all -f -y \
   ; pip --no-cache-dir install neovim \
-        pytorch-lightning \
         transitions Requests furl html5lib envelopes \
         bash_kernel ipython-sql pgspecial jieba sh \
   ; python -m bash_kernel.install \
   ; jupyter lab --generate-config \
-  ; jupyter_cfg=$HOME/.jupyter/jupyter_lab_config.py \
-  ; echo "import os\nfrom IPython.lib import passwd\n" >> $jupyter_cfg \
-  ; echo 'c.ServerApp.terminado_settings = { "shell_command": ["/bin/zsh"] }' >> $jupyter_cfg \
-  ; echo 'c.ServerApp.password = passwd(os.getenv("JUPYTER_PASSWORD"))' >> $jupyter_cfg \
-  ; echo 'c.ServerApp.root_dir = os.getenv("JUPYTER_ROOT") or "notebook"' >> $jupyter_cfg \
-  ; echo 'c.ServerApp.allow_root = True' >> $jupyter_cfg \
-  ; echo 'c.ServerApp.ip = "0.0.0.0"' >> $jupyter_cfg \
-  ; echo 'c.ExtensionApp.open_browser = False' >> $jupyter_cfg
+  ; cat /jupyter-config.py >> $HOME/.jupyter/jupyter_lab_config.py
 
 
 RUN set -ex \
