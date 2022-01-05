@@ -34,8 +34,12 @@ RUN set -eux \
             | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep x86_64-unknown-linux-musl) \
   ; xh -F ${btm_url} | tar zxf - -C /opt/assets btm \
   \
+  ; rq_url=$(xh https://api.github.com/repos/dflemstr/rq/releases Accept:application/vnd.github.v3+json \
+             | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep 'x86_64-unknown-linux-gnu') \
+  ; xh -F ${rq_url} | tar zxf - -C /opt/assets \
+  \
   ; yq_url=$(xh https://api.github.com/repos/mikefarah/yq/releases Accept:application/vnd.github.v3+json \
-           | jq -r '.[0].assets[].browser_download_url' | grep 'linux_amd64.tar') \
+           | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep 'linux_amd64.tar') \
   ; xh -F ${yq_url} | tar zxf - && mv yq_linux_amd64 /opt/assets/yq \
   \
   ; fd_url=$(xh https://api.github.com/repos/sharkdp/fd/releases Accept:application/vnd.github.v3+json \
