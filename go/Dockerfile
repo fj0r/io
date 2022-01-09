@@ -5,8 +5,8 @@ ENV PATH=${GOPATH}/bin:${GOROOT}/bin:$PATH
 ENV GO111MODULE=on
 RUN set -eux \
   ; cd /opt \
-  ; GO_VERSION=$(xh -F https://golang.org/VERSION m==text) \
-  ; xh -F https://dl.google.com/go/${GO_VERSION}.linux-amd64.tar.gz | tar xzf - \
+  ; GO_VERSION=$(xh -F https://go.dev/VERSION m==text) \
+  ; xh -F https://go.dev/dl/${GO_VERSION}.linux-amd64.tar.gz | tar xzf - \
   ; go get -u -v \
       github.com/sirupsen/logrus \
       github.com/spf13/viper \
