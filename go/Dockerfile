@@ -11,8 +11,9 @@ RUN set -eux \
       github.com/sirupsen/logrus@latest \
       github.com/spf13/viper@latest \
       github.com/spf13/cobra@latest \
-      github.com/gin-gonic/gin@latest \
+      github.com/labstack/echo/v4@latest \
       github.com/jinzhu/gorm@latest \
+      github.com/jackc/pgx/v4@latest \
   ; go install \
       golang.org/x/tools/gopls@latest \
       github.com/go-delve/delve/cmd/dlv@latest \
