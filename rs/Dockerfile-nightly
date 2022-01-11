@@ -17,8 +17,9 @@ RUN set -eux \
   ; rustup target add x86_64-unknown-linux-musl \
   ; rustup target add wasm32-wasi wasm32-unknown-unknown wasm32-unknown-emscripten \
   ; cargo install \
-      cargo-wasi wasm-pack trunk wasm-bindgen-cli \
-      systemfd cargo-watch cargo-edit cargo-feature cargo-prefetch cargo-generate \
+      cargo-wasi wasm-pack trunk wasm-bindgen-cli dioxus-cli \
+      systemfd cargo-watch cargo-edit cargo-expand \
+      cargo-tree cargo-feature cargo-prefetch cargo-generate \
   ; cargo prefetch \
       async-std quicli structopt surf \
       warp tokio async-graphql async-graphql-warp \
