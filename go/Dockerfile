@@ -14,6 +14,7 @@ RUN set -eux \
       github.com/labstack/echo/v4@latest \
       github.com/jinzhu/gorm@latest \
       github.com/jackc/pgx/v4@latest \
+      2>&1 \
   ; go install \
       golang.org/x/tools/gopls@latest \
       github.com/go-delve/delve/cmd/dlv@latest \
