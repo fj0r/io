@@ -63,7 +63,7 @@ RUN set -eux \
 RUN set -eux \
   ; mkdir -p /opt/language-server/haskell \
   ; hls_assets=$(xh https://api.github.com/repos/haskell/haskell-language-server/releases Accept:application/vnd.github.v3+json | jq -c '[[.[]|select(.prerelease==false)][0].assets[].browser_download_url]') \
-  ; ghc_version=$(stack ghc -- --version | grep -oP 'version \K([0-9\.]+)') \
+  ; ghc_version=$(stack ghc -- --numeric-version) \
   ; xh -F $(echo $hls_assets | jq -r '.[]' | grep 'wrapper-Linux') | gzip -d > /opt/language-server/haskell/haskell-language-server-wrapper \
   ; xh -F $(echo $hls_assets | jq -r '.[]' | grep "Linux-${ghc_version}") | gzip -d > /opt/language-server/haskell/haskell-language-server-${ghc_version} \
   ; chmod +x /opt/language-server/haskell/* \

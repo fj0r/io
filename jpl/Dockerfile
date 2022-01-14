@@ -215,6 +215,7 @@ RUN set -ex \
       hmatrix linear statistics integration \
   ; rm -rf ${STACK_ROOT}/programs/x86_64-linux/*.tar.xz \
   ; rm -rf ${STACK_ROOT}/pantry/hackage/* \
+  ; rm -rf ${STACK_ROOT}/pantry/pantry.sqlite3* \
   ; stack new hello && rm -rf hello \
   ; yq e --inplace ".allow-different-user=true" ${STACK_ROOT}/config.yaml \
   ; for x in config.yaml \
@@ -224,19 +225,19 @@ RUN set -ex \
              snapshots/x86_64-linux-tinfo6 \
   ; do chmod 777 ${STACK_ROOT}/$x; done \
   ; chmod -R 777 ${STACK_ROOT}/global-project \
-  ; rm -rf ${HOME}/IHaskell/ \
-  ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
-
-RUN set -ex \
+  \
   ; echo "packages: []" > ${STACK_ROOT}/global-project/stack.yaml \
   ; yq ea --inplace "select(fi==0).resolver=select(fi==1).resolver | select(fi==0)" \
        ${STACK_ROOT}/global-project/stack.yaml ~/IHaskell/stack.yaml \
   ; cp ~/IHaskell/stack.yaml.lock ${STACK_ROOT}/global-project \
-  ; stack install flow lens recursion-schemes \
   \
+  ; rm -rf ${HOME}/IHaskell/ \
+  ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+
+RUN set -ex \
   ; mkdir -p /opt/language-server/haskell \
   ; hls_assets=$(xh https://api.github.com/repos/haskell/haskell-language-server/releases Accept:application/vnd.github.v3+json | jq -c '[[.[]|select(.prerelease==false)][0].assets[].browser_download_url]') \
-  ; ghc_version=$(stack ghc -- --version | grep -oP 'version \K([0-9\.]+)') \
+  ; ghc_version=$(stack ghc -- --numeric-version) \
   ; xh -F $(echo $hls_assets | jq -r '.[]' | grep 'wrapper-Linux') | gzip -d > /opt/language-server/haskell/haskell-language-server-wrapper \
   ; xh -F $(echo $hls_assets | jq -r '.[]' | grep "Linux-${ghc_version}") | gzip -d > /opt/language-server/haskell/haskell-language-server-${ghc_version} \
   ; chmod +x /opt/language-server/haskell/* \
