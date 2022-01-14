@@ -75,18 +75,6 @@ RUN set -eux \
 #  #; rm -rf ${STACK_ROOT}/global-project/.stack-work/install/x86_64-linux/${STACKAGE_VERSION}/8.6.5/lib/* \
 #  ; rm -rf ${STACK_ROOT}/indices/*
 
-### iTorch
-# RUN set -ex \
-#   ; apt-get install lua5.3 luarocks software-properties-common \
-#   ; git clone https://github.com/torch/distro.git ~/torch --recursive \
-#   ; sed -i 's/python-software-properties/software-properties-common/g' ~/torch/install-deps \
-#   ; cd ~/torch; bash install-deps \
-#   ; ./install.sh \
-#   ; apt-get install libzmq3-dev libssl-dev python-zmq luarocks \
-#   ; git clone https://github.com/facebook/iTorch.git \
-#   ; cd iTorch \
-#   ; luarocks make
-
 ### ocaml
 #ENV OPAMROOT=/opt/opam OPAMROOTISOK=1 OPAMVERSION=2.0.4
 #ENV PATH=${OPAMROOT}/default/bin:$PATH
@@ -206,27 +194,25 @@ RUN set -ex \
   ; ${HOME}/.local/bin/ihaskell install --stack \
    # parsers boomerang criterion weigh arithmoi syb multipart HTTP html xhtml
   ; stack install -j1 --no-interleaved-output \
-      # optparse-applicative taggy \
-      shelly aeson yaml \
-      monad-journal monad-logger \
-      MonadRandom unix \
-      # pipes \
-      conduit machines mustache \
-      # wreq scotty wai websockets warp
-      http-conduit \
-      # extensible-exceptions deepseq \
-  #    hmatrix linear integration statistics \
-      filepath directory pretty process singletons \
-  #    monad-par async stm classy-prelude \
-      # bound unbound-generics memory array \
-      free extensible-effects  \
-      # bytestring containers fgl \
-      template-haskell time transformers attoparsec \
-      # megaparsec mtl \
-      QuickCheck \
-      # parallel random call-stack \
-      # text hashable unordered-containers vector zlib fixed \
-      flow lens recursion-schemes \
+      optparse-applicative shelly process unix \
+      time clock hpc pretty filepath directory zlib \
+      array hashtables dlist binary bytestring text \
+      containers hashable unordered-containers vector \
+      deepseq call-stack primitive ghc-prim \
+      template-haskell aeson yaml taggy mustache \
+      flow lens recursion-schemes fixed mtl fgl \
+      parsers megaparsec Earley boomerang \
+      free extensible-effects extensible-exceptions freer \
+      bound unbound-generics transformers transformers-compat \
+      uniplate singletons dimensional \
+      monad-par parallel async stm classy-prelude \
+      persistent memory \
+      MonadRandom random \
+      katip monad-logger monad-journal \
+      pipes conduit machines \
+      http-conduit wreq HTTP html websockets multipart \
+      QuickCheck smallcheck hspec \
+      hmatrix linear statistics integration \
   ; rm -rf ${STACK_ROOT}/programs/x86_64-linux/*.tar.xz \
   ; rm -rf ${STACK_ROOT}/pantry/hackage/* \
   ; stack new hello && rm -rf hello \
@@ -238,7 +224,7 @@ RUN set -ex \
              snapshots/x86_64-linux-tinfo6 \
   ; do chmod 777 ${STACK_ROOT}/$x; done \
   ; chmod -R 777 ${STACK_ROOT}/global-project \
-  #; rm -rf ${HOME}/IHaskell/ \
+  ; rm -rf ${HOME}/IHaskell/ \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 RUN set -ex \
