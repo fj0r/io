@@ -34,7 +34,7 @@ RUN set -eux \
       array hashtables dlist binary bytestring text \
       containers hashable unordered-containers vector \
       deepseq call-stack primitive ghc-prim \
-      template-haskell aeson yaml taggy \
+      template-haskell aeson yaml taggy mustache \
       flow lens recursion-schemes fixed mtl fgl \
       parsers megaparsec Earley boomerang \
       free extensible-effects extensible-exceptions freer \
