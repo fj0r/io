@@ -176,6 +176,7 @@ RUN set -eux \
 
 ### Haskell
 ENV STACK_ROOT=/opt/stack
+ENV IHASKELL_DATA_DIR=/opt/IHaskell
 
 ARG github_api=https://api.github.com/repos
 ARG stack_repo=commercialhaskell/stack
@@ -183,9 +184,9 @@ ARG stack_repo=commercialhaskell/stack
 RUN set -ex \
   ; mkdir -p ${STACK_ROOT}/global-project && mkdir -p ${HOME}/.cabal \
   ; xh -F https://get.haskellstack.org/ | sh \
-  ; ihs_path=${HOME}/IHaskell \
-  ; git clone https://github.com/gibiansky/IHaskell ${ihs_path} \
-  ; cd ${ihs_path} \
+  #; IHASKELL_DATA_DIR=${HOME}/IHaskell \
+  ; git clone https://github.com/gibiansky/IHaskell ${IHASKELL_DATA_DIR} \
+  ; cd ${IHASKELL_DATA_DIR} \
   ; stack config set system-ghc --global false \
   ; stack config set install-ghc --global true \
   ; stack update && stack setup \
@@ -193,7 +194,9 @@ RUN set -ex \
   ; sed -i 's/==.*$//g' requirements.txt \
   ; pip --no-cache-dir install -r requirements.txt \
   ; stack install -j1 --fast \
-  ; ${HOME}/.local/bin/ihaskell install --stack \
+  ; stack exec env | grep -v COLOR > ${IHASKELL_DATA_DIR}/env \
+  ; export ihaskell_datadir=${IHASKELL_DATA_DIR} \
+  ; ${HOME}/.local/bin/ihaskell install --stack --env-file ${IHASKELL_DATA_DIR}/env \
    # parsers boomerang criterion weigh arithmoi syb multipart HTTP html xhtml
   ; stack install -j1 --no-interleaved-output \
       optparse-applicative shelly process unix \
@@ -230,8 +233,8 @@ RUN set -ex \
   \
   ; echo "packages: []" > ${STACK_ROOT}/global-project/stack.yaml \
   ; yq ea --inplace "select(fi==0).resolver=select(fi==1).resolver | select(fi==0)" \
-       ${STACK_ROOT}/global-project/stack.yaml ${ihs_path}/stack.yaml \
-  ; cp ${ihs_path}/stack.yaml.lock ${STACK_ROOT}/global-project \
+       ${STACK_ROOT}/global-project/stack.yaml ${IHASKELL_DATA_DIR}/stack.yaml \
+  ; cp ${IHASKELL_DATA_DIR}/stack.yaml.lock ${STACK_ROOT}/global-project \
   \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
