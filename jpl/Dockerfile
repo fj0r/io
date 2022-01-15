@@ -182,8 +182,9 @@ ARG stack_repo=commercialhaskell/stack
 RUN set -ex \
   ; mkdir -p ${STACK_ROOT}/global-project && mkdir -p ${HOME}/.cabal \
   ; xh -F https://get.haskellstack.org/ | sh \
-  ; git clone https://github.com/gibiansky/IHaskell \
-  ; cd IHaskell \
+  ; ihs_path=/opt/IHaskell \
+  ; git clone https://github.com/gibiansky/IHaskell ${ihs_path} \
+  ; cd ${ihs_path} \
   ; stack config set system-ghc --global false \
   ; stack config set install-ghc --global true \
   ; stack update && stack setup \
@@ -228,10 +229,9 @@ RUN set -ex \
   \
   ; echo "packages: []" > ${STACK_ROOT}/global-project/stack.yaml \
   ; yq ea --inplace "select(fi==0).resolver=select(fi==1).resolver | select(fi==0)" \
-       ${STACK_ROOT}/global-project/stack.yaml ~/IHaskell/stack.yaml \
-  ; cp ~/IHaskell/stack.yaml.lock ${STACK_ROOT}/global-project \
+       ${STACK_ROOT}/global-project/stack.yaml ${ihs_path}/stack.yaml \
+  ; cp ${ihs_path}/stack.yaml.lock ${STACK_ROOT}/global-project \
   \
-  ; rm -rf ${HOME}/IHaskell/ \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 RUN set -ex \
