@@ -142,12 +142,13 @@ RUN set -eux \
   ; rustup target add x86_64-unknown-linux-musl \
   ; cargo install tomlq cargo-wasi wasm-pack cargo-prefetch \
   ; cargo prefetch \
-      quicli structopt surf \
-      tide async-std async-graphql async-graphql-tide \
+      async-std quicli structopt surf \
+      warp tokio async-graphql async-graphql-warp \
+      yew yew-router wasm-bindgen \
       thiserror anyhow \
       serde serde_derive serde_yaml serde_json \
       slog slog-async slog-json slog-term slog-logfmt \
-      oxidizer nom handlebars \
+      polars rayon nom handlebars \
       config chrono lru-cache itertools \
   ; cargo install evcxr_jupyter \
   ; evcxr_jupyter --install \
