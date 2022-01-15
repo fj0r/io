@@ -30,7 +30,7 @@ RUN set -ex \
   ##################### RUN set -ex \
   ; conda install -y \
         SciPy Numpy numpydoc Scikit-learn scikit-image Pandas numba \
-        matplotlib-base Bokeh pyarrow \
+        matplotlib-base seaborn Bokeh pyarrow \
         Statsmodels SymPy numexpr NLTK networkx \
         # Keras TensorFlow <PyMC>
         sqlite psycopg2 cloudpickle datashape libxml2 libxslt libuuid \
@@ -40,6 +40,7 @@ RUN set -ex \
   ; conda clean --all -f -y \
   ; pip --no-cache-dir install neovim \
         torch torchserve torchtext torchvision torchaudio pytorch-lightning \
+        plotly_express \
         transitions Requests furl html5lib envelopes \
         bash_kernel ipython-sql pgspecial jieba sh \
   ; python -m bash_kernel.install \

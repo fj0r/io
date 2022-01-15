@@ -183,7 +183,7 @@ ARG stack_repo=commercialhaskell/stack
 RUN set -ex \
   ; mkdir -p ${STACK_ROOT}/global-project && mkdir -p ${HOME}/.cabal \
   ; xh -F https://get.haskellstack.org/ | sh \
-  ; ihs_path=/opt/IHaskell \
+  ; ihs_path=${HOME}/IHaskell \
   ; git clone https://github.com/gibiansky/IHaskell ${ihs_path} \
   ; cd ${ihs_path} \
   ; stack config set system-ghc --global false \

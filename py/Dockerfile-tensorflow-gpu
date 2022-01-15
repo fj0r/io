@@ -31,7 +31,7 @@ RUN set -ex \
   ; conda install -c anaconda tensorflow-gpu \
   ; conda install -y \
         SciPy Numpy numpydoc Scikit-learn scikit-image Pandas numba \
-        matplotlib-base Bokeh pyarrow \
+        matplotlib-base seaborn Bokeh pyarrow \
         Statsmodels SymPy numexpr NLTK networkx \
         sqlite psycopg2 cloudpickle datashape libxml2 libxslt libuuid \
         xz zlib zstd snappy \
@@ -40,6 +40,7 @@ RUN set -ex \
   ; conda clean --all -f -y \
   #; pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple \
   ; pip --no-cache-dir install neovim \
+        plotly_express \
         transitions Requests furl html5lib envelopes \
         bash_kernel ipython-sql pgspecial jieba sh \
   ; python -m bash_kernel.install \
