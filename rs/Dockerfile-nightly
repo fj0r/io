@@ -23,7 +23,9 @@ RUN set -eux \
   ; cargo prefetch \
       async-std quicli structopt surf \
       warp tokio async-graphql async-graphql-warp \
-      yew yew-router wasm-bindgen \
+      #yew yew-router wasm-bindgen \
+      wasm-bindgen wasm-bindgen-futures wasm-logger \
+      dioxus dioxus-web dioxus-html \
       thiserror anyhow \
       serde serde_derive serde_yaml serde_json \
       slog slog-async slog-json slog-term slog-logfmt \
