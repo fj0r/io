@@ -106,7 +106,7 @@ if [[ $1 == "$DAEMON" ]]; then
     /usr/sbin/sshd -D -e &
     pid="$!"
     mkdir -p /var/run/$DAEMON && echo "${pid}" > /var/run/$DAEMON/$DAEMON.pid
-    wait "${pid}" && exit $?
+    wait -n "${pid}" && exit $?
 else
     if [ -z $1 ]; then
         CMD="/bin/bash"
