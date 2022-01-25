@@ -85,14 +85,15 @@ init_ssh () {
 
 
 stop() {
-    echo "Received SIGINT or SIGTERM. Shutting down $DAEMON"
+    echo "Received SIGINT or SIGTERM. Shutting down"
     # Get PID
-    pid=$(cat /var/run/$DAEMON/$DAEMON.pid)
+    pid=$(cat /var/run/services)
     # Set TERM
-    kill -SIGTERM "${pid}"
+    kill -SIGTERM ${pid}
     # Wait for exit
-    wait "${pid}"
+    wait ${pid}
     # All done.
+    echo -n '' > /var/run/services
     echo "Done."
 }
 
@@ -105,7 +106,7 @@ if [[ $1 == "$DAEMON" ]]; then
     init_ssh
     /usr/sbin/sshd -D -e &
     pid="$!"
-    mkdir -p /var/run/$DAEMON && echo "${pid}" > /var/run/$DAEMON/$DAEMON.pid
+    echo "${pid}" >> /var/run/services
     wait -n "${pid}" && exit $?
 else
     if [ -z $1 ]; then
