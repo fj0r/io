@@ -21,8 +21,10 @@ RUN set -eux \
       systemfd cargo-watch cargo-edit cargo-expand cargo-eval \
       cargo-tree cargo-feature cargo-prefetch cargo-generate \
   ; cargo prefetch \
-      async-std quicli structopt surf \
-      warp tokio async-graphql async-graphql-warp \
+      quicli structopt surf \
+      tokio async-std async-graphql \
+      warp async-graphql-warp \
+      axum async-graphql-axum \
       #yew yew-router wasm-bindgen \
       wasm-bindgen wasm-bindgen-futures wasm-logger \
       dioxus dioxus-web dioxus-html \
