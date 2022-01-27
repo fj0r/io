@@ -31,7 +31,7 @@ RUN set -eux \
       thiserror anyhow \
       serde serde_derive serde_yaml serde_json \
       slog slog-async slog-json slog-term slog-logfmt \
-      polars rayon nom handlebars \
+      polars linfa rayon nom handlebars \
       config chrono lru-cache itertools \
   ; rm -rf ${CARGO_HOME}/registry/src/* \
   ; find ${CARGO_HOME}/bin -type f -links 1 -exec grep -IL . "{}" \; | xargs -L 1 strip -s

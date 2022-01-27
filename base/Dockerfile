@@ -30,10 +30,6 @@ RUN set -eux \
   ; cd /opt/assets && ln -s ./xh ./xhs \
   ; cp /opt/assets/xh /usr/local/bin \
   \
-  ; btm_url=$(xh https://api.github.com/repos/ClementTsang/bottom/releases Accept:application/vnd.github.v3+json \
-            | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep x86_64-unknown-linux-musl) \
-  ; xh -F ${btm_url} | tar zxf - -C /opt/assets btm \
-  \
   ; rq_url=$(xh https://api.github.com/repos/dflemstr/rq/releases Accept:application/vnd.github.v3+json \
              | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep 'x86_64-unknown-linux-gnu') \
   ; xh -F ${rq_url} | tar zxf - -C /opt/assets \
@@ -65,6 +61,10 @@ RUN set -eux \
   ; watchexec_url=$(xh https://api.github.com/repos/watchexec/watchexec/releases Accept:application/vnd.github.v3+json \
                   | jq -r '[.[]|select(.prerelease==false and (.tag_name|startswith("cli")))][0].assets[].browser_download_url' | grep 'x86_64-unknown-linux-musl.tar') \
   ; xh -F ${watchexec_url} | tar Jxf - --strip-components=1 -C /opt/assets --wildcards '*/watchexec' \
+  \
+  ; btm_url=$(xh https://api.github.com/repos/ClementTsang/bottom/releases Accept:application/vnd.github.v3+json \
+            | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep x86_64-unknown-linux-musl) \
+  ; xh -F ${btm_url} | tar zxf - -C /opt/assets btm \
   \
   ; websocat_url=$(xh https://api.github.com/repos/vi/websocat/releases Accept:application/vnd.github.v3+json \
                   | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep linux64) \
