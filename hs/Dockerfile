@@ -12,14 +12,14 @@ RUN set -eux \
 
 RUN set -eux \
   ; mkdir -p ${GHC_ROOT} \
-  ; ghc_ver=$(xh -F https://www.stackage.org/lts Accept:application/json | jq -r '.snapshot.ghc') \
+  ; ghc_ver=$(curl -sSL https://www.stackage.org/lts -H 'Accept: application/json' | jq -r '.snapshot.ghc') \
   ; ghc_url=https://downloads.haskell.org/~ghc/${ghc_ver}/ghc-${ghc_ver}-x86_64-deb10-linux.tar.xz \
-  ; xh -F ${ghc_url} | tar Jxf - \
+  ; curl -sSL ${ghc_url} | tar Jxf - \
   ; cd ghc-${ghc_ver} && ./configure --prefix=${GHC_ROOT} && make install \
   ; cd .. && rm -rf ghc-${ghc_ver} \
   \
   ; mkdir -p ${STACK_ROOT} && mkdir -p ${HOME}/.cabal \
-  ; xh -F https://get.haskellstack.org/ | sh \
+  ; curl -sSL https://get.haskellstack.org/ | sh \
   ; stack update \
   ; stack config set system-ghc --global true \
   ; stack config set install-ghc --global false \
@@ -62,10 +62,10 @@ RUN set -eux \
 
 RUN set -eux \
   ; mkdir -p /opt/language-server/haskell \
-  ; hls_assets=$(xh https://api.github.com/repos/haskell/haskell-language-server/releases Accept:application/vnd.github.v3+json | jq -c '[[.[]|select(.prerelease==false)][0].assets[].browser_download_url]') \
+  ; hls_assets=$(curl -sSL https://api.github.com/repos/haskell/haskell-language-server/releases -H 'Accept: application/vnd.github.v3+json' | jq -c '[[.[]|select(.prerelease==false)][0].assets[].browser_download_url]') \
   ; ghc_version=$(stack ghc -- --numeric-version) \
-  ; xh -F $(echo $hls_assets | jq -r '.[]' | grep 'wrapper-Linux') | gzip -d > /opt/language-server/haskell/haskell-language-server-wrapper \
-  ; xh -F $(echo $hls_assets | jq -r '.[]' | grep "Linux-${ghc_version}") | gzip -d > /opt/language-server/haskell/haskell-language-server-${ghc_version} \
+  ; curl -sSL $(echo $hls_assets | jq -r '.[]' | grep 'wrapper-Linux') | gzip -d > /opt/language-server/haskell/haskell-language-server-wrapper \
+  ; curl -sSL $(echo $hls_assets | jq -r '.[]' | grep "Linux-${ghc_version}") | gzip -d > /opt/language-server/haskell/haskell-language-server-${ghc_version} \
   ; chmod +x /opt/language-server/haskell/* \
   ; find /opt/language-server/haskell -type f -links 1 -exec grep -IL . "{}" \; | xargs -L 1 strip -s \
   ; for l in /opt/language-server/haskell/*; do ln -fs $l /usr/local/bin; done
