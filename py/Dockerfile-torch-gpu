@@ -33,9 +33,8 @@ RUN set -ex \
         matplotlib-base seaborn Bokeh pyarrow \
         Statsmodels SymPy numexpr NLTK networkx \
         # Keras TensorFlow <PyMC>
-        sqlite psycopg2 cloudpickle datashape libxml2 libxslt libuuid \
-        xz zlib zstd snappy \
-        ca-certificates cryptography pyjwt \
+        sqlite cloudpickle datashape \
+        xz zlib zstd cryptography \
         cffi zeromq libssh2 openssl pyzmq pcre \
   ; conda install pytorch torchserve torchtext torchvision torchaudio cudatoolkit -c pytorch -c nvidia \
   ; conda clean --all -f -y \

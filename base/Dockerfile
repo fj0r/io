@@ -91,7 +91,7 @@ RUN set -eux \
   ; DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends \
       tzdata sudo jq rsync tcpdump socat \
-      curl openssh-client openssh-server \
+      curl ca-certificates openssh-client openssh-server \
       lsof inetutils-ping iproute2 nftables net-tools \
       htop fuse xz-utils zstd zip unzip \
   \
