@@ -58,7 +58,8 @@ RUN set -eux \
   ; apt-get install -y --no-install-recommends gnupg nodejs build-essential \
   \
   ; mkdir -p /opt/language-server \
-  ; npm install -g pyright \
+  ; npm install -g quicktype \
+                   pyright \
                    vscode-json-languageserver \
                    yaml-language-server \
   ; sed -i "s/\(exports.KUBERNETES_SCHEMA_URL = \)\(.*\)$/\1process.env['KUBERNETES_SCHEMA_URL'] || \2/" $(dirname $(which yaml-language-server))/../lib/node_modules/yaml-language-server/out/server/src/languageservice/utils/schemaUrls.js \

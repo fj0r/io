@@ -29,7 +29,7 @@ RUN set -eux \
       wasm-bindgen wasm-bindgen-futures wasm-logger \
       dioxus dioxus-web dioxus-html \
       thiserror anyhow \
-      serde serde_derive serde_yaml serde_json \
+      serde serde_derive serde_yaml serde_json schemars \
       slog slog-async slog-json slog-term slog-logfmt \
       polars linfa rayon nom handlebars \
       config chrono lru-cache itertools \
