@@ -28,7 +28,7 @@ RUN set -eux \
       #yew yew-router wasm-bindgen \
       wasm-bindgen wasm-bindgen-futures wasm-logger \
       dioxus dioxus-web dioxus-html \
-      thiserror anyhow \
+      snafu thiserror anyhow syn quote \
       serde serde_derive serde_yaml serde_json schemars \
       slog slog-async slog-json slog-term slog-logfmt \
       polars linfa rayon nom handlebars \
