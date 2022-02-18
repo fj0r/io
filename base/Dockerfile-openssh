@@ -91,7 +91,7 @@ RUN set -eux \
   ; DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends \
       tzdata sudo jq rsync tcpdump socat \
-      curl ca-certificates dropbear-bin openssh-sftp-server \
+      curl ca-certificates openssh-client openssh-server \
       lsof inetutils-ping iproute2 nftables net-tools \
       htop fuse xz-utils zstd zip unzip \
   \
@@ -103,7 +103,14 @@ RUN set -eux \
   #; locale-gen \
   ; sed -i 's/^.*\(%sudo.*\)ALL$/\1NOPASSWD:ALL/g' /etc/sudoers \
   \
-  ; mkdir -p /etc/dropbear \
+  ; mkdir -p /var/run/sshd \
+  ; sed -i /etc/ssh/sshd_config \
+        #-e 's!.*\(AuthorizedKeysFile\).*!\1 /etc/ssh/authorized_keys/%u!' \
+        -e 's!.*\(GatewayPorts\).*!\1 yes!' \
+        -e 's!.*\(PasswordAuthentication\).*yes!\1 no!' \
+  #; echo "HostCertificate /etc/ssh/ssh_host_ed25519_key-cert.pub" >> /etc/ssh/sshd_config \
+  ; echo "Match Address 10.0.0.0/8,172.17.0.0/16,192.168.0.0/16\n    PasswordAuthentication yes" \
+        >> /etc/ssh/sshd_config \
   \
   #; mkdir -p /opt/helix \
   #; helix_url=$(curl -sSL https://api.github.com/repos/helix-editor/helix/releases -H 'Accept: application/vnd.github.v3+json' \

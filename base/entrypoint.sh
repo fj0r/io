@@ -4,21 +4,7 @@ set -e
 
 if [[ "$DEBUG" == 'true' ]]; then
     set -x
-    sed -i /etc/ssh/sshd_config \
-        -e 's!.*\(LogLevel\).*!\1 DEBUG!'
 fi
-
-DAEMON=sshd
-
-print_fingerprints() {
-    local BASE_DIR=${1-'/etc/ssh'}
-    for item in rsa ecdsa ed25519; do
-        echo ">>> Fingerprints for ${item} host key"
-        ssh-keygen -E md5 -lf ${BASE_DIR}/ssh_host_${item}_key
-        ssh-keygen -E sha256 -lf ${BASE_DIR}/ssh_host_${item}_key
-        ssh-keygen -E sha512 -lf ${BASE_DIR}/ssh_host_${item}_key
-    done
-}
 
 # Add users if $1=user:uid:gid set
 set_user () {
@@ -32,20 +18,6 @@ set_user () {
 }
 
 init_ssh () {
-    if [[ "${SSH_OVERRIDE_HOST_KEYS}" == "true" ]]; then
-        rm -rf /etc/ssh/ssh_host_*
-    fi
-    # Generate Host keys, if required
-    if ls /etc/ssh/ssh_host_* 1> /dev/null 2>&1; then
-        echo ">> Host keys exist in default location"
-        # Don't do anything
-        print_fingerprints
-    else
-        echo ">> Generating new host keys"
-        ssh-keygen -A
-        print_fingerprints /etc/ssh
-    fi
-
     if [ -n "$user" ]; then
         for u in $(echo $user | tr "," "\n"); do
             set_user ${u} 'SSH User'
@@ -69,18 +41,6 @@ init_ssh () {
         chown root:root ~/.ssh/authorized_keys
         chmod 600 ~/.ssh/authorized_keys
     fi
-
-    # Lock root account, if Disabled
-    if [[ "${SSH_DISABLE_ROOT}" == "true" ]]; then
-        echo "WARNING: root account is now locked. Unset SSH_DISABLE_ROOT to unlock the account."
-    else
-        usermod -p '' root
-    fi
-
-    # Update MOTD
-    if [ -v MOTD ]; then
-        echo -e "$MOTD" > /etc/motd
-    fi
 }
 
 
@@ -101,10 +61,10 @@ env | grep -E '_|HOME|ROOT|PATH|VERSION|LANG|TIME|MODULE|BUFFERED' \
     | grep -Ev '^(_|HOME|USER)=' \
    >> /etc/environment
 
-if [[ $1 == "$DAEMON" ]]; then
+if [[ $1 == "sshd" ]]; then
     trap stop SIGINT SIGTERM
     init_ssh
-    /usr/sbin/sshd -D -e &
+    /usr/bin/dropbear -REFms -p 22 &
     pid="$!"
     echo "${pid}" >> /var/run/services
     wait -n "${pid}" && exit $?

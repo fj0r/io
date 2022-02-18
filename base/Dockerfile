@@ -73,6 +73,7 @@ RUN set -eux \
   ; find /opt/assets -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s
 
 
+FROM fj0rd/0x:dropbear as dropbear
 
 
 FROM debian:bullseye-slim
@@ -81,6 +82,7 @@ ENV LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
     TIMEZONE=Asia/Shanghai
 
+COPY --from=dropbear /target/server /usr
 COPY --from=assets /opt/assets /usr/local/bin
 RUN set -eux \
   ; cp /etc/apt/sources.list /etc/apt/sources.list.ustc \
@@ -91,7 +93,7 @@ RUN set -eux \
   ; DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends \
       tzdata sudo jq rsync tcpdump socat \
-      curl ca-certificates openssh-client openssh-server \
+      curl ca-certificates \
       lsof inetutils-ping iproute2 nftables net-tools \
       htop fuse xz-utils zstd zip unzip \
   \
@@ -103,14 +105,7 @@ RUN set -eux \
   #; locale-gen \
   ; sed -i 's/^.*\(%sudo.*\)ALL$/\1NOPASSWD:ALL/g' /etc/sudoers \
   \
-  ; mkdir -p /var/run/sshd \
-  ; sed -i /etc/ssh/sshd_config \
-        #-e 's!.*\(AuthorizedKeysFile\).*!\1 /etc/ssh/authorized_keys/%u!' \
-        -e 's!.*\(GatewayPorts\).*!\1 yes!' \
-        -e 's!.*\(PasswordAuthentication\).*yes!\1 no!' \
-  #; echo "HostCertificate /etc/ssh/ssh_host_ed25519_key-cert.pub" >> /etc/ssh/sshd_config \
-  ; echo "Match Address 10.0.0.0/8,172.17.0.0/16,192.168.0.0/16\n    PasswordAuthentication yes" \
-        >> /etc/ssh/sshd_config \
+  ; mkdir -p /etc/dropbear \
   \
   #; mkdir -p /opt/helix \
   #; helix_url=$(curl -sSL https://api.github.com/repos/helix-editor/helix/releases -H 'Accept: application/vnd.github.v3+json' \
@@ -123,9 +118,6 @@ RUN set -eux \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /world
-
-ENV SSH_DISABLE_ROOT=
-ENV SSH_OVERRIDE_HOST_KEYS=
 
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT [ "/entrypoint.sh" ]
