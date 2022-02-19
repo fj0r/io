@@ -82,7 +82,7 @@ ENV LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
     TIMEZONE=Asia/Shanghai
 
-COPY --from=dropbear /target/server /usr
+COPY --from=dropbear / /
 COPY --from=assets /opt/assets /usr/local/bin
 RUN set -eux \
   ; cp /etc/apt/sources.list /etc/apt/sources.list.ustc \
