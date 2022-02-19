@@ -20,7 +20,7 @@ RUN set -eux \
       tzdata sudo jq rsync tcpdump socat \
       curl ca-certificates \
       lsof inetutils-ping iproute2 nftables net-tools \
-      htop fuse xz-utils zstd zip unzip \
+      htop tree fuse xz-utils zstd zip unzip \
   \
   ; ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime \
   ; echo "$TIMEZONE" > /etc/timezone \
