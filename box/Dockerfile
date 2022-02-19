@@ -17,7 +17,9 @@
 FROM fj0rd/io:base
 #COPY --from=assets /opt/assets /usr/local/bin
 
-ENV PYTHONUNBUFFERED=x
+ENV XDG_CONFIG_HOME=/etc \
+    ZDOTDIR=$XDG_CONFIG_HOME \
+    PYTHONUNBUFFERED=x
 
 RUN set -eux \
   ; apt-get update \
@@ -46,12 +48,9 @@ RUN set -eux \
 #######################
 
 RUN set -eux \
-  ; cfg_home=/etc/skel \
-  ; mkdir -p $cfg_home/.config \
-  ; ln -sf $cfg_home/.config /root \
+  ; cfg_home=$XDG_CONFIG_HOME \
   ; git clone --depth=1 https://github.com/fj0r/zsh.git $cfg_home/.zshrc.d \
   ; cp $cfg_home/.zshrc.d/_zshrc $cfg_home/.zshrc \
-  ; ln -sf $cfg_home/.zshrc* /root \
   \
   ; curl -sSL https://deb.nodesource.com/setup_16.x | bash - \
   ; apt update \
@@ -80,12 +79,8 @@ RUN set -eux \
   ; strip /usr/local/bin/nvim \
   ; pip3 --no-cache-dir install \
         neovim neovim-remote \
-  ; mkdir -p /opt/vim \
-  ; nvim_home=$cfg_home/.config/nvim \
   ; nvim_config_url=$(curl -sSL https://api.github.com/repos/fj0r/nvim-lua/releases -H 'Accept: application/vnd.github.v3+json' \
                     | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep gz) \
-  ; curl -sSL ${nvim_config_url} | tar zxf - -C $cfg_home/.config \
-  ; mv $nvim_home/pack /opt/vim \
-  ; ln -sf /opt/vim/pack $nvim_home
+  ; curl -sSL ${nvim_config_url} | tar zxf - -C $cfg_home
 
 

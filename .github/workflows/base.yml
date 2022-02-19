@@ -2,7 +2,7 @@ name: base
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, base ]
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
 
