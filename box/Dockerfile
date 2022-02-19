@@ -18,7 +18,7 @@ FROM fj0rd/io:base
 #COPY --from=assets /opt/assets /usr/local/bin
 
 ENV XDG_CONFIG_HOME=/etc \
-    ZDOTDIR=$XDG_CONFIG_HOME \
+    ZDOTDIR=/etc \
     PYTHONUNBUFFERED=x
 
 RUN set -eux \
