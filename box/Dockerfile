@@ -83,6 +83,8 @@ RUN set -eux \
         neovim neovim-remote \
   ; nvim_config_url=$(curl -sSL https://api.github.com/repos/fj0r/nvim-lua/releases -H 'Accept: application/vnd.github.v3+json' \
                     | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep gz) \
-  ; curl -sSL ${nvim_config_url} | tar zxf - -C $cfg_home
+  ; curl -sSL ${nvim_config_url} | tar zxf - -C $cfg_home \
+  \
+  ; echo "export XDG_CONFIG_HOME=$XDG_CONFIG_HOME\nexport ZDOTDIR=$ZDOTDIR\n"
 
 
