@@ -137,7 +137,7 @@ ENV PATH=${CARGO_HOME}/bin:$PATH
 RUN set -eux \
   # /opt/cargo/registry/index/github.com-*/.cargo-index-lock
   ; curl -sSL https://sh.rustup.rs \
-    | sh -s -- --default-toolchain stable -y \
+    | sh -s -- --default-toolchain stable -y --no-modify-path \
   ; rustup component add rust-src clippy rustfmt \
   ; rustup target add x86_64-unknown-linux-musl \
   ; cargo install tomlq cargo-wasi wasm-pack cargo-prefetch \
