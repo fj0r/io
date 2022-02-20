@@ -32,14 +32,6 @@ RUN set -eux \
   \
   ; mkdir -p /etc/dropbear \
   \
-  #; mkdir -p /opt/helix \
-  #; helix_url=$(curl -sSL https://api.github.com/repos/helix-editor/helix/releases -H 'Accept: application/vnd.github.v3+json' \
-  #    | jq -r '.[0].assets[].browser_download_url' | grep x86_64-linux) \
-  #; curl -sSL ${helix_url} | tar Jxf - -C /opt/helix --strip-components=1 \
-  #; ln -sf /opt/helix/hx /usr/local/bin/h \
-  #; mkdir -p /etc/skel/.config/helix && ln -sf /etc/skel/.config /root \
-  #; curl -sSL https://raw.githubusercontent.com/fj0r/configuration/main/helix/config.toml > /etc/skel/.config/helix/config.toml \
-  \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /world
