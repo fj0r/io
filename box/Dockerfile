@@ -41,6 +41,8 @@ RUN set -eux \
   ; git config --global user.name "unnamed" \
   ; git config --global user.email "unnamed@container" \
   \
+  ; echo 'export $(cat /etc/environment | xargs)' >> /etc/zsh/zshenv \
+  \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 #######################
