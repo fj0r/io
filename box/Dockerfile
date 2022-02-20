@@ -85,6 +85,8 @@ RUN set -eux \
                     | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep gz) \
   ; curl -sSL ${nvim_config_url} | tar zxf - -C $cfg_home \
   \
-  ; echo "export XDG_CONFIG_HOME=$XDG_CONFIG_HOME\nexport ZDOTDIR=$ZDOTDIR\n"
-
+  ; { \
+        echo "export XDG_CONFIG_HOME=$XDG_CONFIG_HOME" ;\
+        echo "export ZDOTDIR=$ZDOTDIR" ;\
+    } >> /etc/zsh/zshenv
 
