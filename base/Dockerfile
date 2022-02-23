@@ -19,7 +19,7 @@ RUN set -eux \
     apt-get install -y --no-install-recommends \
       tzdata sudo jq rsync tcpdump socat \
       procps htop curl ca-certificates \
-      lsof inetutils-ping iproute2 nftables net-tools \
+      lsof inetutils-ping iproute2 iptables net-tools \
       tree fuse xz-utils zstd zip unzip \
   \
   ; ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime \
