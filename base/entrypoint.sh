@@ -64,7 +64,7 @@ env | grep -E '_|HOME|ROOT|PATH|DIR|VERSION|LANG|TIME|MODULE|BUFFERED' \
 if [[ $1 == "sshd" ]]; then
     trap stop SIGINT SIGTERM
     init_ssh
-    /usr/bin/dropbear -REFms -p 22 &
+    /usr/bin/dropbear -REFms -p 22 2>&1 &
     pid="$!"
     echo "${pid}" >> /var/run/services
     wait -n "${pid}" && exit $?
