@@ -75,9 +75,12 @@ fi
 ################################################################################
 if [ -z $1 ]; then
     CMD="/bin/zsh"
+elif [[ $1 == "srv" ]]; then
+    wait -n $(cat /var/run/services) && exit $?
 else
     CMD="$@"
 fi
+
 if [ -n "${user}" ]; then
     set_user ${user} 'Developer'
     #su -p ${_NAME} -c "${CMD}"
