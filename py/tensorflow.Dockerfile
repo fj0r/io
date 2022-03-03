@@ -72,5 +72,5 @@ RUN set -eux \
   ; julia -e 'using Pkg; Pkg.add("IJulia"); using IJulia'
 
 
-# ENTRYPOINT [ "/usr/bin/tini", "--" ]
-CMD [ "jupyter-lab"]
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT [ "/entrypoint.sh" ]
