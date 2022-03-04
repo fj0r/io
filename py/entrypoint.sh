@@ -6,31 +6,7 @@ if [[ "$DEBUG" == 'true' ]]; then
     set -x
 fi
 
-if [ -e /bin/zsh ]; then
-    __shell=/bin/zsh
-elif [ -e /bin/bash ]; then
-    __shell=/bin/bash
-else
-    __shell=/bin/sh
-fi
-# Add users if $1=user:uid:gid set
-set_user () {
-    IFS=':' read -ra UA <<< "$1"
-    _NAME=${UA[0]}
-    _UID=${UA[1]:-1000}
-    _GID=${UA[2]:-1000}
-
-    getent group ${_NAME} >/dev/null 2>&1 || groupadd -g ${_GID} ${_NAME}
-    getent passwd ${_NAME} >/dev/null 2>&1 || useradd -m -u ${_UID} -g ${_GID} -G sudo -s ${__shell} -c "$2" ${_NAME}
-}
-
 init_ssh () {
-    if [ -n "$user" ]; then
-        for u in $(echo $user | tr "," "\n"); do
-            set_user ${u} 'SSH User'
-        done
-    fi
-
     for i in "${!ed25519_@}"; do
         _AU=${i:8}
         _HOME_DIR=$(getent passwd ${_AU} | cut -d: -f6)
@@ -80,19 +56,11 @@ if [ ! -z "$__ssh" ]; then
 fi
 
 ################################################################################
-if [ -z $1 ]; then
-    CMD="${__shell}"
-elif [[ $1 == "srv" ]]; then
-    wait -n $(cat /var/run/services) && exit $?
-else
-    CMD="$@"
-fi
+echo "[$(date -Is)] starting jupyter-lab"
+################################################################################
+/opt/conda/bin/jupyter-lab 2>&1 &
+echo -n "$! " >> /var/run/services
 
-if [ -n "${user}" ]; then
-    set_user ${user} 'Developer'
-    #su -p ${_NAME} -c "${CMD}"
-    _envs=$(cat /etc/environment | awk -F '=' '{print $1}' | grep -v '^$' | paste -s -d"," -)
-    sudo --preserve-env="${_envs}" -u ${_NAME} ${CMD}
-else
-    exec ${CMD}
-fi
+################################################################################
+
+wait -n $(cat /var/run/services) && exit $?

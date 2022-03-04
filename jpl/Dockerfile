@@ -289,5 +289,3 @@ COPY examples/* ./examples/
 #  ; stack install flow \
 #  ; stack repl
 
-# ENTRYPOINT [ "/usr/bin/tini", "--" ]
-# CMD [ "jupyter", "lab", "--ip", "0.0.0.0"]

@@ -36,10 +36,10 @@ RUN set -ex \
         sqlite cloudpickle datashape \
         xz zlib zstd cryptography \
         cffi zeromq libssh2 openssl pyzmq pcre \
-  ; conda install pytorch torchserve torchtext torchvision torchaudio cudatoolkit -c pytorch -c nvidia \
   ; conda clean --all -f -y \
   ; pip --no-cache-dir install neovim \
-        pytorch-lightning plotly_express \
+        torch torchserve torchtext torchvision torchaudio pytorch-lightning \
+        plotly_express \
         transitions Requests furl html5lib envelopes \
         bash_kernel ipython-sql pgspecial jieba sh \
   ; python -m bash_kernel.install \
@@ -70,5 +70,5 @@ RUN set -eux \
   ; julia -e 'using Pkg; Pkg.add("IJulia"); using IJulia'
 
 
-# ENTRYPOINT [ "/usr/bin/tini", "--" ]
-CMD [ "jupyter-lab"]
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT [ "/entrypoint.sh" ]

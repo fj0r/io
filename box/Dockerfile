@@ -49,7 +49,7 @@ RUN set -eux \
 
 RUN set -eux \
   ; git clone --depth=1 https://github.com/fj0r/zsh.git $ZDOTDIR/.zshrc.d \
-  ; cp $ZDOTDIR/.zshrc.d/_zshrc $ZDOTDIR/.zshrc \
+  ; ln -fsr $ZDOTDIR/.zshrc.d/_zshrc $ZDOTDIR/.zshrc \
   \
   ; curl -sSL https://deb.nodesource.com/setup_16.x | bash - \
   ; apt update \

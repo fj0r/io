@@ -28,18 +28,18 @@ RUN set -ex \
   ; conda update --all -y \
   ; conda install -c conda-forge -y IPython ipykernel ipyparallel jupyterlab=3 \
   ##################### RUN set -ex \
-  ; conda install -c anaconda tensorflow-gpu \
   ; conda install -y \
         SciPy Numpy numpydoc Scikit-learn scikit-image Pandas numba \
         matplotlib-base seaborn Bokeh pyarrow \
         Statsmodels SymPy numexpr NLTK networkx \
+        # Keras TensorFlow <PyMC>
         sqlite cloudpickle datashape \
         xz zlib zstd cryptography \
         cffi zeromq libssh2 openssl pyzmq pcre \
+  ; conda install pytorch torchserve torchtext torchvision torchaudio cudatoolkit -c pytorch -c nvidia \
   ; conda clean --all -f -y \
-  #; pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple \
   ; pip --no-cache-dir install neovim \
-        plotly_express \
+        pytorch-lightning plotly_express \
         transitions Requests furl html5lib envelopes \
         bash_kernel ipython-sql pgspecial jieba sh \
   ; python -m bash_kernel.install \
@@ -54,7 +54,6 @@ RUN set -ex \
   #; jupyter serverextension enable --py jupyterlab_git \
   #; jupyter labextension install @jupyterlab/git \
   #; jupyter labextension install jupyterlab-drawio \
-  #; jupyter labextension install @krassowski/jupyterlab_go_to_definition \
   ; rm -rf /usr/local/share/.cache/yarn \
   ; npm cache clean -f
 
@@ -71,5 +70,5 @@ RUN set -eux \
   ; julia -e 'using Pkg; Pkg.add("IJulia"); using IJulia'
 
 
-# ENTRYPOINT [ "/usr/bin/tini", "--" ]
-CMD [ "jupyter-lab"]
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT [ "/entrypoint.sh" ]

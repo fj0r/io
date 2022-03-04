@@ -28,18 +28,17 @@ RUN set -ex \
   ; conda update --all -y \
   ; conda install -c conda-forge -y IPython ipykernel ipyparallel jupyterlab=3 \
   ##################### RUN set -ex \
+  ; conda install -c anaconda tensorflow-gpu \
   ; conda install -y \
         SciPy Numpy numpydoc Scikit-learn scikit-image Pandas numba \
         matplotlib-base seaborn Bokeh pyarrow \
         Statsmodels SymPy numexpr NLTK networkx \
-        # Keras TensorFlow <PyMC>
         sqlite cloudpickle datashape \
         xz zlib zstd cryptography \
         cffi zeromq libssh2 openssl pyzmq pcre \
   ; conda clean --all -f -y \
   #; pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple \
   ; pip --no-cache-dir install neovim \
-        tensorflow \
         plotly_express \
         transitions Requests furl html5lib envelopes \
         bash_kernel ipython-sql pgspecial jieba sh \
@@ -72,5 +71,5 @@ RUN set -eux \
   ; julia -e 'using Pkg; Pkg.add("IJulia"); using IJulia'
 
 
-# ENTRYPOINT [ "/usr/bin/tini", "--" ]
-CMD [ "jupyter-lab"]
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT [ "/entrypoint.sh" ]
