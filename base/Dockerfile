@@ -18,9 +18,9 @@ RUN set -eux \
   ; DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends \
       tzdata sudo jq rsync tcpdump socat \
-      curl ca-certificates \
-      lsof inetutils-ping iproute2 nftables net-tools \
-      htop tree fuse xz-utils zstd zip unzip \
+      procps htop curl ca-certificates \
+      lsof inetutils-ping iproute2 iptables net-tools \
+      tree fuse xz-utils zstd zip unzip \
   \
   ; ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime \
   ; echo "$TIMEZONE" > /etc/timezone \

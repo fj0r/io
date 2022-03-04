@@ -55,7 +55,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: py
-          file: py/Dockerfile-torch
+          file: py/torch.Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:torch
           labels: ${{ steps.meta.outputs.labels }}

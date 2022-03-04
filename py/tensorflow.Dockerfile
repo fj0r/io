@@ -37,8 +37,9 @@ RUN set -ex \
         xz zlib zstd cryptography \
         cffi zeromq libssh2 openssl pyzmq pcre \
   ; conda clean --all -f -y \
+  #; pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple \
   ; pip --no-cache-dir install neovim \
-        torch torchserve torchtext torchvision torchaudio pytorch-lightning \
+        tensorflow \
         plotly_express \
         transitions Requests furl html5lib envelopes \
         bash_kernel ipython-sql pgspecial jieba sh \
@@ -54,6 +55,7 @@ RUN set -ex \
   #; jupyter serverextension enable --py jupyterlab_git \
   #; jupyter labextension install @jupyterlab/git \
   #; jupyter labextension install jupyterlab-drawio \
+  #; jupyter labextension install @krassowski/jupyterlab_go_to_definition \
   ; rm -rf /usr/local/share/.cache/yarn \
   ; npm cache clean -f
 
@@ -70,5 +72,5 @@ RUN set -eux \
   ; julia -e 'using Pkg; Pkg.add("IJulia"); using IJulia'
 
 
-# ENTRYPOINT [ "/usr/bin/tini", "--" ]
-CMD [ "jupyter-lab"]
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT [ "/entrypoint.sh" ]
