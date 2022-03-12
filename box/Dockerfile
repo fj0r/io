@@ -53,7 +53,7 @@ RUN set -eux \
   \
   ; curl -sSL https://deb.nodesource.com/setup_16.x | bash - \
   ; apt update \
-  ; apt-get install -y --no-install-recommends gnupg nodejs build-essential \
+  ; apt-get install -y --no-install-recommends xclip gnupg nodejs build-essential \
   \
   ; mkdir -p /opt/language-server \
   ; npm install -g quicktype \
