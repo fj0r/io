@@ -13,11 +13,11 @@
 #  ; find /opt/assets -type f -exec grep -IL . "{}" \; | xargs -L 1 strip
 
 
-FROM fj0rd/scratch:goofys as goofys
+#FROM fj0rd/scratch:goofys as goofys
 
 FROM fj0rd/io:base
 #COPY --from=assets /opt/assets /usr/local/bin
-COPY --from=goofys / /
+#COPY --from=goofys / /
 
 ENV XDG_CONFIG_HOME=/etc \
     ZDOTDIR=/etc/zsh \
@@ -28,7 +28,7 @@ RUN set -eux \
   ; apt-get upgrade -y \
   ; DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends \
-      pwgen zsh git git-flow \
+      pwgen zsh git git-flow s3fs \
       python3 python3-pip ipython3 \
       # python3-dev python3-setuptools \
   ; pip3 --no-cache-dir install \
