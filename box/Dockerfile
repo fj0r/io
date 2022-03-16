@@ -13,9 +13,11 @@
 #  ; find /opt/assets -type f -exec grep -IL . "{}" \; | xargs -L 1 strip
 
 
+FROM fj0rd/scratch:goofys as goofys
 
 FROM fj0rd/io:base
 #COPY --from=assets /opt/assets /usr/local/bin
+COPY --from=goofys / /
 
 ENV XDG_CONFIG_HOME=/etc \
     ZDOTDIR=/etc/zsh \
