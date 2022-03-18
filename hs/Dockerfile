@@ -25,14 +25,15 @@ RUN set -eux \
   ; stack config set install-ghc --global false \
   # JuicyPixels xhtml criterion weigh alex happy
   # cassava diagrams \
+  # unordered-containers mustache \
   ; stack install -j1 --no-interleaved-output \
       ghcid haskell-dap ghci-dap haskell-debug-adapter \
       optparse-applicative shelly process unix \
       time clock hpc pretty filepath directory zlib \
       array hashtables dlist binary bytestring text \
-      containers hashable unordered-containers vector \
+      containers hashable vector \
       deepseq call-stack primitive ghc-prim \
-      template-haskell aeson yaml taggy mustache \
+      template-haskell aeson yaml taggy \
       flow lens recursion-schemes fixed mtl fgl \
       parsers megaparsec Earley boomerang \
       free extensible-effects extensible-exceptions freer \
