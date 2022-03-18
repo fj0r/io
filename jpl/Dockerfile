@@ -198,14 +198,13 @@ RUN set -ex \
   ; export ihaskell_datadir=${IHASKELL_DATA_DIR} \
   ; ${HOME}/.local/bin/ihaskell install --stack --env-file ${IHASKELL_DATA_DIR}/env \
    # parsers boomerang criterion weigh arithmoi syb multipart HTTP html xhtml
-   # unordered-containers mustache
   ; stack install -j1 --no-interleaved-output \
       optparse-applicative shelly process unix \
       time clock hpc pretty filepath directory zlib \
       array hashtables dlist binary bytestring text \
-      containers hashable vector \
+      containers hashable unordered-containers vector \
       deepseq call-stack primitive ghc-prim \
-      template-haskell aeson yaml taggy \
+      template-haskell aeson yaml taggy stache \
       flow lens recursion-schemes fixed mtl fgl \
       parsers megaparsec Earley boomerang \
       free extensible-effects extensible-exceptions freer \
