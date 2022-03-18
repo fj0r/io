@@ -12,7 +12,7 @@ RUN set -ex \
       lldb libxml2 \
       # haskell
       python3-dev python3-wheel \
-      libncurses-dev libtinfo-dev libblas-dev liblapack-dev \
+      libncurses-dev libtinfo-dev libblas-dev liblapack-dev libnuma-dev \
       libcairo2-dev libpango1.0-dev libmagic-dev \
       # stack
       libicu-dev libffi-dev libgmp-dev zlib1g-dev \
@@ -198,13 +198,14 @@ RUN set -ex \
   ; export ihaskell_datadir=${IHASKELL_DATA_DIR} \
   ; ${HOME}/.local/bin/ihaskell install --stack --env-file ${IHASKELL_DATA_DIR}/env \
    # parsers boomerang criterion weigh arithmoi syb multipart HTTP html xhtml
+   # unordered-containers mustache
   ; stack install -j1 --no-interleaved-output \
       optparse-applicative shelly process unix \
       time clock hpc pretty filepath directory zlib \
       array hashtables dlist binary bytestring text \
-      containers hashable unordered-containers vector \
+      containers hashable vector \
       deepseq call-stack primitive ghc-prim \
-      template-haskell aeson yaml taggy mustache \
+      template-haskell aeson yaml taggy \
       flow lens recursion-schemes fixed mtl fgl \
       parsers megaparsec Earley boomerang \
       free extensible-effects extensible-exceptions freer \
