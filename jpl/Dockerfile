@@ -193,12 +193,12 @@ RUN set -ex \
   # pip: 去掉版本号,使用已安装版本
   ; sed -i 's/==.*$//g' requirements.txt \
   ; pip --no-cache-dir install -r requirements.txt \
-  ; stack install -j1 --fast \
+  ; stack install --fast \
   ; stack exec env | grep -v COLOR > ${IHASKELL_DATA_DIR}/env \
   ; export ihaskell_datadir=${IHASKELL_DATA_DIR} \
   ; ${HOME}/.local/bin/ihaskell install --stack --env-file ${IHASKELL_DATA_DIR}/env \
    # parsers boomerang criterion weigh arithmoi syb multipart HTTP html xhtml
-  ; stack install -j1 --no-interleaved-output \
+  ; stack install --no-interleaved-output \
       optparse-applicative shelly process unix \
       time clock hpc pretty filepath directory zlib \
       array hashtables dlist binary bytestring text \
