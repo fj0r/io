@@ -26,7 +26,7 @@ RUN set -eux \
   # JuicyPixels xhtml criterion weigh alex happy
   # cassava diagrams \
   #  mustache \
-  ; stack install -j1 --no-interleaved-output \
+  ; stack install --no-interleaved-output \
       ghcid haskell-dap ghci-dap haskell-debug-adapter \
       optparse-applicative shelly process unix \
       time clock hpc pretty filepath directory zlib \
