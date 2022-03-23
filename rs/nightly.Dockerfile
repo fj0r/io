@@ -21,18 +21,21 @@ RUN set -eux \
       systemfd cargo-watch cargo-edit cargo-expand cargo-eval \
       cargo-tree cargo-feature cargo-prefetch cargo-generate \
   ; cargo prefetch \
-      quicli structopt surf \
+      quicli structopt structopt-yaml \
+      surf scraper handlebars \
+      snafu thiserror anyhow lazy_static \
+      proc-macro2 syn quote nom regex \
       tokio async-std async-graphql \
       warp async-graphql-warp \
       axum async-graphql-axum \
       #yew yew-router wasm-bindgen \
       wasm-bindgen wasm-bindgen-futures wasm-logger \
       dioxus dioxus-web dioxus-html \
-      snafu thiserror anyhow syn quote \
       serde serde_derive serde_yaml serde_json schemars \
       slog slog-async slog-json slog-term slog-logfmt \
-      polars linfa rayon nom handlebars \
+      polars linfa rayon \
       config chrono lru-cache itertools \
+      redis kafka apache-avro \
   ; rm -rf ${CARGO_HOME}/registry/src/* \
   ; find ${CARGO_HOME}/bin -type f -links 1 -exec grep -IL . "{}" \; | xargs -L 1 strip -s
 
