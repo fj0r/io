@@ -17,7 +17,7 @@ RUN set -eux \
   ; rustup target add x86_64-unknown-linux-musl \
   ; rustup target add wasm32-wasi wasm32-unknown-unknown wasm32-unknown-emscripten \
   ; cargo install \
-      cargo-wasi wasm-pack wasm-bindgen-cli trunk dioxus-cli \
+      cargo-wasi wasm-pack wasm-bindgen-cli trunk \
       systemfd cargo-watch cargo-edit cargo-expand cargo-eval \
       cargo-tree cargo-feature cargo-prefetch cargo-generate \
   ; cargo prefetch \
@@ -28,9 +28,9 @@ RUN set -eux \
       tokio async-std async-graphql \
       warp async-graphql-warp \
       axum async-graphql-axum \
-      #yew yew-router wasm-bindgen \
       wasm-bindgen wasm-bindgen-futures wasm-logger \
-      dioxus dioxus-web dioxus-html \
+      yew yew-router wasm-bindgen reqwasm \
+      # dioxus dioxus-web dioxus-html \
       serde serde_derive serde_yaml serde_json schemars \
       slog slog-async slog-json slog-term slog-logfmt \
       polars linfa rayon \
