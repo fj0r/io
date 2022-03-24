@@ -31,11 +31,11 @@ RUN set -eux \
       wasm-bindgen wasm-bindgen-futures wasm-logger \
       yew yew-router wasm-bindgen reqwasm \
       # dioxus dioxus-web dioxus-html \
-      serde serde_derive serde_yaml serde_json schemars \
+      serde serde_derive serde_yaml serde_json \
+      serde_cbor apache-avro schemars \
       slog slog-async slog-json slog-term slog-logfmt \
-      polars linfa rayon \
+      redis kafka polars linfa rayon \
       config chrono lru-cache itertools \
-      redis kafka apache-avro \
   ; rm -rf ${CARGO_HOME}/registry/src/* \
   ; find ${CARGO_HOME}/bin -type f -links 1 -exec grep -IL . "{}" \; | xargs -L 1 strip -s
 

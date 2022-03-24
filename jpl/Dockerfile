@@ -146,7 +146,7 @@ RUN set -eux \
       warp tokio async-graphql async-graphql-warp \
       yew yew-router wasm-bindgen \
       thiserror anyhow \
-      serde serde_derive serde_yaml serde_json \
+      serde serde_derive serde_yaml serde_json serde_cbor apache-avro \
       slog slog-async slog-json slog-term slog-logfmt \
       polars rayon nom handlebars \
       config chrono lru-cache itertools \
