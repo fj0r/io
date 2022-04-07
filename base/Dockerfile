@@ -17,10 +17,10 @@ RUN set -eux \
   ; apt-get upgrade -y \
   ; DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends \
-      tzdata sudo jq rsync tcpdump socat \
-      procps htop curl ca-certificates \
+      sudo procps htop cron logrotate tzdata \
+      curl ca-certificates rsync tcpdump socat \
+      jq tree fuse xz-utils zstd zip unzip \
       lsof inetutils-ping iproute2 iptables net-tools \
-      tree fuse xz-utils zstd zip unzip \
   \
   ; ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime \
   ; echo "$TIMEZONE" > /etc/timezone \
