@@ -21,6 +21,7 @@ FROM fj0rd/io:base
 
 ENV XDG_CONFIG_HOME=/etc \
     ZDOTDIR=/etc/zsh \
+    NVIM_PRESET=full \
     PYTHONUNBUFFERED=x
 
 RUN set -eux \
@@ -80,12 +81,16 @@ RUN set -eux \
   ; strip /usr/local/bin/nvim \
   ; pip3 --no-cache-dir install \
         neovim neovim-remote \
-  ; nvim_config_url=$(curl -sSL https://api.github.com/repos/fj0r/nvim-lua/releases -H 'Accept: application/vnd.github.v3+json' \
-                    | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep gz) \
-  ; curl -sSL ${nvim_config_url} | tar zxf - -C $XDG_CONFIG_HOME \
+  ; git clone --depth=1 https://github.com/fj0r/nvim-lua.git $XDG_CONFIG_HOME/nvim \
+  ; git clone --depth=1 https://github.com/wbthomason/packer.nvim $XDG_CONFIG_HOME/nvim/pack/packer/start/packer.nvim \
   \
+  ; nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync' \
+  ; tsl=$(cat $XDG_CONFIG_HOME/nvim/lua/lang/treesitter_lang.json|jq -r 'join(" ")') \
+  ; nvim --headless -c "TSUpdateSync ${tsl}" -c 'quit' \
+  ; rm -rf $XDG_CONFIG_HOME/nvim/pack/packer/*/*/.git \
   ; { \
         echo "export XDG_CONFIG_HOME=$XDG_CONFIG_HOME" ;\
         echo "export ZDOTDIR=$ZDOTDIR" ;\
+        echo "export NVIM_PRESET=full" ;\
     } >> /etc/zsh/zshenv
 
