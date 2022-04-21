@@ -34,7 +34,7 @@ RUN set -eux \
       # python3-dev python3-setuptools \
   ; pip3 --no-cache-dir install \
         # aiofile fastapi uvicorn \
-        debugpy pydantic pytest fn.py \
+        debugpy pydantic pytest \
         httpx hydra-core typer pyyaml deepmerge \
         PyParsing structlog python-json-logger \
         decorator more-itertools cachetools \

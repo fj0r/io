@@ -1,4 +1,4 @@
-FROM debian:bullseye-slim
+FROM ubuntu:jammy
 
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8 TIMEZONE=Asia/Shanghai
 ENV PYTHONUNBUFFERED=x
@@ -21,7 +21,7 @@ RUN set -eux \
   ; pip3 --no-cache-dir install \
         debugpy fastapi uvicorn aiofile pytest \
         httpx typer hydra-core pyyaml deepmerge structlog \
-        pydantic PyParsing decorator more-itertools fn.py cachetools
+        pydantic PyParsing decorator more-itertools cachetools
 
 WORKDIR /app
 CMD  ["python", "--host", "0.0.0.0", "--port", "3000", "/app/server.py" ]

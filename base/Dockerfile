@@ -1,7 +1,7 @@
 FROM fj0rd/scratch:dropbear as dropbear
 FROM fj0rd/scratch:utilities as utilities
 
-FROM debian:bullseye-slim
+FROM ubuntu:jammy
 
 ENV LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
@@ -11,7 +11,6 @@ COPY --from=dropbear / /
 COPY --from=utilities / /
 RUN set -eux \
   ; cp /etc/apt/sources.list /etc/apt/sources.list.ustc \
-  ; sed -i 's/\(.*\)\(security\|deb\).debian.org\(.*\)main/\1mirrors.ustc.edu.cn\3main contrib non-free/g' /etc/apt/sources.list.ustc \
   \
   ; apt-get update \
   ; apt-get upgrade -y \
