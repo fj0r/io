@@ -49,14 +49,19 @@ RUN set -eux \
 #######################
 #         dev         #
 #######################
+ENV NODE_ROOT=/opt/node
+ENV PATH=${NODE_ROOT}/bin:$PATH
 
 RUN set -eux \
   ; git clone --depth=1 https://github.com/fj0r/zsh.git $ZDOTDIR/.zshrc.d \
   ; ln -fsr $ZDOTDIR/.zshrc.d/_zshrc $ZDOTDIR/.zshrc \
   \
-  ; curl -sSL https://deb.nodesource.com/setup_16.x | bash - \
   ; apt update \
-  ; apt-get install -y --no-install-recommends xclip gnupg nodejs build-essential \
+  ; apt-get install -y --no-install-recommends xclip gnupg build-essential \
+  ; mkdir -p /opt/node \
+  ; node_version=$(curl -sSL https://nodejs.org/en/download/ | rg 'Latest LTS Version.*<strong>(.+)</strong>' -or '$1') \
+  ; curl -sSL https://nodejs.org/dist/v${node_version}/node-v${node_version}-linux-x64.tar.xz \
+    | tar Jxf - --strip-components=1 -C /opt/node \
   \
   ; mkdir -p /opt/language-server \
   ; npm install -g quicktype \
