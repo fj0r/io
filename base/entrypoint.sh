@@ -6,6 +6,10 @@ if [[ "$DEBUG" == 'true' ]]; then
     set -x
 fi
 
+if [ ! -z "${PREBOOT}" ]; then
+  bash $PREBOOT
+fi
+
 if [ -e /bin/zsh ]; then
     __shell=/bin/zsh
 elif [ -e /bin/bash ]; then
@@ -115,6 +119,10 @@ if [ ! -z "$S3SECRET_KEY" ]; then
 fi
 
 ################################################################################
+if [ ! -z "${POSTBOOT}" ]; then
+  bash $POSTBOOT
+fi
+
 if [ -z $1 ]; then
     CMD="${__shell}"
 elif [[ $1 == "srv" ]]; then
