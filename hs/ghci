@@ -7,9 +7,14 @@
 :def! hlint return . const (":! hlint .")
 :def! hoogle \x -> return $ ":!hoogle \"" ++ x ++ "\""
 :def! doc \x -> return $ ":!hoogle --info \"" ++ x ++ "\""
+:set -XDuplicateRecordFields
+:set -XDisambiguateRecordFields
+:set -XOverloadedRecordDot
+:set -XRebindableSyntax
 :set -XMultiWayIf
 :set -XRankNTypes
 :set -XTypeFamilies
+:set -XTypeFamilyDependencies
 :set -XTypeOperators
 :set -XGADTs
 :set -XDeriveDataTypeable
@@ -35,7 +40,6 @@
 :set -XDeriveAnyClass
 :set -XMonadComprehensions
 -- :set -XNoMonomorphismRestriction
--- :set -XRebindableSyntax
 :set -XPolyKinds
 :m +Language.Haskell.TH
 :m +Flow

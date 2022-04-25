@@ -21,6 +21,7 @@ FROM fj0rd/io:base
 
 ENV XDG_CONFIG_HOME=/etc \
     ZDOTDIR=/etc/zsh \
+    NVIM_PRESET=full \
     PYTHONUNBUFFERED=x
 
 RUN set -eux \
@@ -33,7 +34,7 @@ RUN set -eux \
       # python3-dev python3-setuptools \
   ; pip3 --no-cache-dir install \
         # aiofile fastapi uvicorn \
-        debugpy pydantic pytest fn.py \
+        debugpy pydantic pytest \
         httpx hydra-core typer pyyaml deepmerge \
         PyParsing structlog python-json-logger \
         decorator more-itertools cachetools \
@@ -48,14 +49,19 @@ RUN set -eux \
 #######################
 #         dev         #
 #######################
+ENV NODE_ROOT=/opt/node
+ENV PATH=${NODE_ROOT}/bin:$PATH
 
 RUN set -eux \
   ; git clone --depth=1 https://github.com/fj0r/zsh.git $ZDOTDIR/.zshrc.d \
   ; ln -fsr $ZDOTDIR/.zshrc.d/_zshrc $ZDOTDIR/.zshrc \
   \
-  ; curl -sSL https://deb.nodesource.com/setup_16.x | bash - \
   ; apt update \
-  ; apt-get install -y --no-install-recommends xclip gnupg nodejs build-essential \
+  ; apt-get install -y --no-install-recommends xclip gnupg build-essential \
+  ; mkdir -p /opt/node \
+  ; node_version=$(curl -sSL https://nodejs.org/en/download/ | rg 'Latest LTS Version.*<strong>(.+)</strong>' -or '$1') \
+  ; curl -sSL https://nodejs.org/dist/v${node_version}/node-v${node_version}-linux-x64.tar.xz \
+    | tar Jxf - --strip-components=1 -C /opt/node \
   \
   ; mkdir -p /opt/language-server \
   ; npm install -g quicktype \
@@ -75,17 +81,21 @@ RUN set -eux \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
   \
   ; nvim_url=$(curl -sSL https://api.github.com/repos/neovim/neovim/releases -H 'Accept: application/vnd.github.v3+json' \
-             | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep -v sha256sum | grep linux64) \
+             | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep -v sha256sum | grep linux64.tar.gz) \
   ; curl -sSL ${nvim_url} | tar zxf - -C /usr/local --strip-components=1 \
   ; strip /usr/local/bin/nvim \
+  ; git clone --depth=1 https://github.com/fj0r/nvim-lua.git $XDG_CONFIG_HOME/nvim \
+  ; git clone --depth=1 https://github.com/wbthomason/packer.nvim $XDG_CONFIG_HOME/nvim/pack/packer/start/packer.nvim \
+  ; nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync' \
+  \
+  ; tsl=$(cat $XDG_CONFIG_HOME/nvim/lua/lang/treesitter_lang.json|jq -r 'join(" ")') \
+  ; nvim --headless -c "TSUpdateSync ${tsl}" -c 'quit' \
+  ; rm -rf $XDG_CONFIG_HOME/nvim/pack/packer/*/*/.git \
   ; pip3 --no-cache-dir install \
         neovim neovim-remote \
-  ; nvim_config_url=$(curl -sSL https://api.github.com/repos/fj0r/nvim-lua/releases -H 'Accept: application/vnd.github.v3+json' \
-                    | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep gz) \
-  ; curl -sSL ${nvim_config_url} | tar zxf - -C $XDG_CONFIG_HOME \
-  \
   ; { \
         echo "export XDG_CONFIG_HOME=$XDG_CONFIG_HOME" ;\
         echo "export ZDOTDIR=$ZDOTDIR" ;\
+        echo "export NVIM_PRESET=full" ;\
     } >> /etc/zsh/zshenv
 
