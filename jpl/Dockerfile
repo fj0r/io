@@ -5,7 +5,7 @@ RUN set -ex \
   ; apt-get install -y --no-install-recommends \
       cmake build-essential \
       # racket
-      # libzmq5 \
+      libzmq5 \
       # rust
       libzmq3-dev pkg-config libssl-dev \
       # debug
@@ -184,7 +184,6 @@ ARG stack_repo=commercialhaskell/stack
 RUN set -ex \
   ; mkdir -p ${STACK_ROOT}/global-project && mkdir -p ${HOME}/.cabal \
   ; curl -sSL https://get.haskellstack.org/ | sh \
-  #; IHASKELL_DATA_DIR=${HOME}/IHaskell \
   ; git clone https://github.com/gibiansky/IHaskell ${IHASKELL_DATA_DIR} \
   ; cd ${IHASKELL_DATA_DIR} \
   ; stack config set system-ghc --global false \
