@@ -18,7 +18,7 @@ RUN set -ex \
       2>&1 \
   ; go install golang.org/x/tools/gopls@latest \
   ; go install github.com/go-delve/delve/cmd/dlv@latest \
-  ; go get github.com/gopherdata/gophernotes \
+  ; go install github.com/gopherdata/gophernotes@latest \
   ; gophernotes_dir=${HOME}/.local/share/jupyter/kernels/gophernotes \
   ; mkdir -p $gophernotes_dir \
   ; cp "$(go env GOPATH)"/pkg/mod/github.com/gopherdata/gophernotes*/kernel/* $gophernotes_dir \
