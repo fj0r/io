@@ -1,6 +1,6 @@
-:set prompt "=| "
+:set prompt "H>>= "
 -- :set prompt "-- %s\n> "
-:set prompt-cont " | "
+:set prompt-cont "   | "
 :set +t
 :set +m
 :set stop :list
@@ -10,7 +10,7 @@
 :set -XDuplicateRecordFields
 :set -XDisambiguateRecordFields
 :set -XOverloadedRecordDot
-:set -XRebindableSyntax
+-- :set -XRebindableSyntax
 :set -XMultiWayIf
 :set -XRankNTypes
 :set -XTypeFamilies
