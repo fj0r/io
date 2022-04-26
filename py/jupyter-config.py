@@ -1,5 +1,5 @@
 import os
-from IPython.lib import passwd
+from jupyter_server.auth import passwd
 
 if os.getenv("JUPYTER_PASSWORD"):
     c.ServerApp.password = passwd(os.getenv("JUPYTER_PASSWORD"))

@@ -45,11 +45,38 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Build jpl
+      - name: Build jpl base
         uses: docker/build-push-action@v2
         with:
           context: jpl
           file: jpl/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:jpl
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Build jpl go
+        uses: docker/build-push-action@v2
+        with:
+          context: jpl
+          file: jpl/go.Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:jpl
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Build jpl rust
+        uses: docker/build-push-action@v2
+        with:
+          context: jpl
+          file: jpl/rs.Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:jpl
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Build jpl haskell
+        uses: docker/build-push-action@v2
+        with:
+          context: jpl
+          file: jpl/hs.Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:jpl
           labels: ${{ steps.meta.outputs.labels }}
