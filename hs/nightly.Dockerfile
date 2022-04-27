@@ -62,13 +62,18 @@ RUN set -eux \
   ; do chmod 777 ${STACK_ROOT}/$x; done \
   ; chmod -R 777 ${STACK_ROOT}/global-project
 
-RUN set -eux \
+RUN set -ex \
   ; mkdir -p /opt/language-server/haskell \
-  ; hls_assets=$(curl -sSL https://api.github.com/repos/haskell/haskell-language-server/releases -H 'Accept: application/vnd.github.v3+json' | jq -c '[[.[]|select(.prerelease==false)][0].assets[].browser_download_url]') \
-  ; ghc_version=$(stack ghc -- --version | grep -oP 'version \K([0-9\.]+)') \
-  ; curl -sSL $(echo $hls_assets | jq -r '.[]' | grep 'wrapper-Linux') | gzip -d > /opt/language-server/haskell/haskell-language-server-wrapper \
-  ; curl -sSL $(echo $hls_assets | jq -r '.[]' | grep "Linux-${ghc_version}") | gzip -d > /opt/language-server/haskell/haskell-language-server-${ghc_version} \
-  ; chmod +x /opt/language-server/haskell/* \
-  ; for l in /opt/language-server/haskell/*; do ln -fs $l /usr/local/bin; done
+  ; hls_version=$(curl -sSL https://api.github.com/repos/haskell/haskell-language-server/releases -H 'Accept: application/vnd.github.v3+json' | jq -r '[.[]|select(.prerelease==false)][0].tag_name') \
+  ; ghc_version=$(stack ghc -- --numeric-version) \
+  ; curl -sSL https://downloads.haskell.org/~hls/haskell-language-server-${hls_version}/haskell-language-server-${hls_version}-x86_64-linux-deb10.tar.xz \
+        | tar Jxvf - -C /opt/language-server/haskell --strip-components=1 \
+          haskell-language-server-${hls_version}/bin/haskell-language-server-${ghc_version} \
+          haskell-language-server-${hls_version}/bin/haskell-language-server-wrapper \
+          haskell-language-server-${hls_version}/lib/${ghc_version} \
+  ; LD_LIBRARY_PATH="$(for i in "$(ghc --print-libdir)"/* ; do [ -d "$i" ] && printf "%s" "$i:" ; done)/opt/language-server/haskell/lib/${ghc_version}:$LD_LIBRARY_PATH" \
+  ; echo "export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}" >> /etc/zsh/zshenv \
+  ; fd --search-path /opt/language-server/haskell -t f -x strip -s {} \
+  ; fd --search-path /opt/language-server/haskell -d 1 -t f -x ln -fs {} /usr/local/bin
 
 COPY ghci /root/.ghci

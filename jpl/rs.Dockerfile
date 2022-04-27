@@ -23,7 +23,7 @@ RUN set -eux \
   ; cargo install evcxr_jupyter \
   ; evcxr_jupyter --install \
   ; rm -rf ${CARGO_HOME}/registry/src/* \
-  ; find ${CARGO_HOME}/bin -type f -links 1 -exec grep -IL . "{}" \; | xargs -L 1 strip -s
+  ; fd --search-path ${CARGO_HOME}/bin -t f -x strip -s {}
 
 RUN set -eux \
   ; mkdir -p /opt/language-server/rust \

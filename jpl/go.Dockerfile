@@ -25,6 +25,6 @@ RUN set -ex \
   ; chmod +w $gophernotes_dir/kernel.json \
   ; sed "s|gophernotes|$(go env GOPATH)/bin/gophernotes|" < $gophernotes_dir/kernel.json.in > $gophernotes_dir/kernel.json \
   ; rm -rf $(go env GOCACHE)/* \
-  ; find ${HOME}/go/bin -type f -links 1 -exec grep -IL . "{}" \; | xargs -L 1 strip -s \
+  ; fd --search-path ${HOME}/go/bin -t f -x strip -s {} \
   ; go env -w GOPROXY=https://goproxy.cn,direct
 
