@@ -7,7 +7,7 @@ ENV IHASKELL_DATA_DIR=/opt/IHaskell
 ARG github_api=https://api.github.com/repos
 ARG stack_repo=commercialhaskell/stack
 
-RUN set -ex \
+RUN set -eux \
   ; mkdir -p ${STACK_ROOT}/global-project && mkdir -p ${HOME}/.cabal \
   ; curl -sSL https://get.haskellstack.org/ | sh \
   ; git clone https://github.com/gibiansky/IHaskell ${IHASKELL_DATA_DIR} \
@@ -63,7 +63,7 @@ RUN set -ex \
   \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
-RUN set -ex \
+RUN set -eux \
   ; mkdir -p /opt/language-server/haskell \
   ; hls_version=$(curl -sSL https://api.github.com/repos/haskell/haskell-language-server/releases -H 'Accept: application/vnd.github.v3+json' | jq -r '[.[]|select(.prerelease==false)][0].tag_name') \
   ; ghc_version=$(stack ghc -- --numeric-version) \

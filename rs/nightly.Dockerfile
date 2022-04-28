@@ -36,10 +36,7 @@ RUN set -eux \
       slog slog-async slog-json slog-term slog-logfmt \
       redis kafka polars linfa rayon \
       config chrono lru-cache itertools \
-  ; rm -rf ${CARGO_HOME}/registry/src/* \
-  ; fd . ${CARGO_HOME}/bin -t x \
-  ; fd . ${CARGO_HOME}/bin -t f \
-  ; fd . ${CARGO_HOME}/bin -t x -x strip -s {}
+  ; rm -rf ${CARGO_HOME}/registry/src/*
   #; find ${CARGO_HOME}/bin -type f -links 1 -exec grep -IL . "{}" \; | xargs -L 1 strip -s
 
 RUN set -eux \

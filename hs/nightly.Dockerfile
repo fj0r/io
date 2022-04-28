@@ -51,7 +51,7 @@ RUN set -eux \
       QuickCheck smallcheck hspec \
       hmatrix linear statistics ad integration arithmoi \
   ; rm -rf ${STACK_ROOT}/pantry/hackage/* \
-  ; stack install --resolver ${stackage_ver} flow \
+  #; stack install --resolver ${stackage_ver} flow \
   ; stack --resolver ${stackage_ver} new hello rio && rm -rf hello \
   ; stack --resolver ${stackage_ver} new hello && rm -rf hello \
   ; yq e --inplace ".allow-different-user=true" ${STACK_ROOT}/config.yaml \
@@ -62,7 +62,7 @@ RUN set -eux \
   ; do chmod 777 ${STACK_ROOT}/$x; done \
   ; chmod -R 777 ${STACK_ROOT}/global-project
 
-RUN set -ex \
+RUN set -eux \
   ; mkdir -p /opt/language-server/haskell \
   ; hls_version=$(curl -sSL https://api.github.com/repos/haskell/haskell-language-server/releases -H 'Accept: application/vnd.github.v3+json' | jq -r '[.[]|select(.prerelease==false)][0].tag_name') \
   ; ghc_version=$(stack ghc -- --numeric-version) \
