@@ -36,8 +36,7 @@ RUN set -eux \
       slog slog-async slog-json slog-term slog-logfmt \
       redis kafka polars linfa rayon \
       config chrono lru-cache itertools \
-  ; rm -rf ${CARGO_HOME}/registry/src/* \
-  ; find ${CARGO_HOME}/bin -type f -links 1 -exec grep -IL . "{}" \; | xargs -L 1 strip -s
+  ; rm -rf ${CARGO_HOME}/registry/src/*
   #; fd . ${CARGO_HOME}/bin -t f -x strip -s {}
 
 RUN set -eux \
@@ -50,7 +49,7 @@ RUN set -eux \
   ; strip -s /opt/language-server/rust/rust-analyzer \
   ; ln -fs /opt/language-server/rust/rust-analyzer /usr/local/bin
 
-RUN set -ex \
+RUN set -eux \
   ; export USER=root \
   ; cargo new hello-world \
   ; cd hello-world \
