@@ -42,7 +42,7 @@
 -- :set -XNoMonomorphismRestriction
 :set -XPolyKinds
 :m +Language.Haskell.TH
-:m +Flow
+-- :m +Flow
 :m +Data.Ratio
 :m +Data.Proxy
 :m +Data.Function

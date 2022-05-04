@@ -25,7 +25,7 @@ RUN set -eux \
   ; stack config set install-ghc --global false \
   # JuicyPixels xhtml criterion weigh alex happy
   # cassava diagrams \
-  #  mustache \
+  # flow mustache \
   ; stack install --no-interleaved-output \
       ghcid haskell-dap ghci-dap haskell-debug-adapter \
       optparse-applicative shelly process unix \
@@ -34,7 +34,7 @@ RUN set -eux \
       containers hashable vector unordered-containers \
       deepseq call-stack primitive ghc-prim \
       template-haskell aeson yaml taggy stache \
-      flow lens recursion-schemes fixed mtl fgl \
+      lens recursion-schemes fixed mtl fgl \
       parsers megaparsec Earley boomerang \
       free extensible-effects extensible-exceptions freer \
       bound unbound-generics transformers transformers-compat \
