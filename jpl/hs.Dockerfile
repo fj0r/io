@@ -65,7 +65,8 @@ RUN set -eux \
 
 RUN set -eux \
   ; mkdir -p /opt/language-server/haskell \
-  ; hls_version=$(curl -sSL https://api.github.com/repos/haskell/haskell-language-server/releases -H 'Accept: application/vnd.github.v3+json' | jq -r '[.[]|select(.prerelease==false)][0].tag_name') \
+  #; hls_version=$(curl -sSL https://api.github.com/repos/haskell/haskell-language-server/releases -H 'Accept: application/vnd.github.v3+json' | jq -r '[.[]|select(.prerelease==false)][0].tag_name') \
+  ; hls_version=$(curl https://downloads.haskell.org/~hls/ | rg -m 1 '>haskell-language-server-(.+)/<' -or '$1') \
   ; ghc_version=$(stack ghc -- --numeric-version) \
   ; curl -sSL https://downloads.haskell.org/~hls/haskell-language-server-${hls_version}/haskell-language-server-${hls_version}-x86_64-linux-deb10.tar.xz \
         | tar Jxvf - -C /opt/language-server/haskell --strip-components=1 \
