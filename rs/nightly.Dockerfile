@@ -18,7 +18,7 @@ RUN set -eux \
   ; rustup target add wasm32-wasi wasm32-unknown-unknown wasm32-unknown-emscripten \
   ; for pkg in \
       cargo-wasi wasm-pack wasm-bindgen-cli trunk \
-      systemfd cargo-watch cargo-edit cargo-expand cargo-eval \
+      cargo-watch cargo-edit cargo-expand cargo-eval \
       cargo-tree cargo-feature cargo-prefetch cargo-generate \
   ; do echo "[install $pkg] $(date -Is)"; cargo install $pkg; done \
   ; echo "[prefetch] $(date -Is)" \
