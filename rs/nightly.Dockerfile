@@ -16,10 +16,7 @@ RUN set -eux \
   ; rustup component add rust-src clippy rustfmt \
   ; rustup target add x86_64-unknown-linux-musl \
   ; rustup target add wasm32-wasi wasm32-unknown-unknown wasm32-unknown-emscripten \
-  ; cargo install \
-      cargo-wasi wasm-pack wasm-bindgen-cli trunk \
-      systemfd cargo-watch cargo-edit cargo-expand cargo-eval \
-      cargo-tree cargo-feature cargo-prefetch cargo-generate \
+  ; echo "[prefetch] $(date -Is)"
   ; cargo prefetch \
       quicli structopt structopt-yaml \
       surf scraper handlebars \
@@ -36,6 +33,12 @@ RUN set -eux \
       slog slog-async slog-json slog-term slog-logfmt \
       redis kafka polars linfa rayon \
       config chrono lru-cache itertools \
+  ; for pkg in \
+      cargo-wasi wasm-pack wasm-bindgen-cli trunk \
+      systemfd cargo-watch cargo-edit cargo-expand cargo-eval \
+      cargo-tree cargo-feature cargo-prefetch cargo-generate \
+    do echo "[install $pkg] $(date -Is)"; cargo install $pkg; done \
+  ; echo "[done] $(date -Is)" \
   ; rm -rf ${CARGO_HOME}/registry/src/*
   #; find ${CARGO_HOME}/bin -type f -links 1 -exec grep -IL . "{}" \; | xargs -L 1 strip -s
 
