@@ -1,0 +1,1 @@
+export LD_LIBRARY_PATH=$(fd . $(ghc --print-libdir) -t d -d 1 -X echo {} | sed "s/ /:/g"):/opt/language-server/haskell/lib/${ghc_version}:$LD_LIBRARY_PATH

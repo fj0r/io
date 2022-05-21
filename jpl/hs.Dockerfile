@@ -22,7 +22,7 @@ RUN set -eux \
   ; stack exec env | grep -v COLOR > ${IHASKELL_DATA_DIR}/env \
   ; export ihaskell_datadir=${IHASKELL_DATA_DIR} \
   ; ${HOME}/.local/bin/ihaskell install --stack --env-file ${IHASKELL_DATA_DIR}/env \
-   # parsers boomerang criterion weigh arithmoi syb multipart HTTP html xhtml
+  # flow parsers boomerang criterion weigh arithmoi syb multipart HTTP html xhtml
   ; stack install --no-interleaved-output \
       optparse-applicative shelly process unix \
       time clock hpc pretty filepath directory zlib \
@@ -30,7 +30,7 @@ RUN set -eux \
       containers hashable unordered-containers vector \
       deepseq call-stack primitive ghc-prim \
       template-haskell aeson yaml taggy stache \
-      flow lens recursion-schemes fixed mtl fgl \
+      lens recursion-schemes fixed mtl fgl \
       parsers megaparsec Earley boomerang \
       free extensible-effects extensible-exceptions freer \
       bound unbound-generics transformers transformers-compat \
@@ -65,7 +65,8 @@ RUN set -eux \
 
 RUN set -eux \
   ; mkdir -p /opt/language-server/haskell \
-  ; hls_version=$(curl -sSL https://api.github.com/repos/haskell/haskell-language-server/releases -H 'Accept: application/vnd.github.v3+json' | jq -r '[.[]|select(.prerelease==false)][0].tag_name') \
+  #; hls_version=$(curl -sSL https://api.github.com/repos/haskell/haskell-language-server/releases -H 'Accept: application/vnd.github.v3+json' | jq -r '[.[]|select(.prerelease==false)][0].tag_name') \
+  ; hls_version=$(curl https://downloads.haskell.org/~hls/ | rg -m 1 '>haskell-language-server-(.+)/<' -or '$1') \
   ; ghc_version=$(stack ghc -- --numeric-version) \
   ; curl -sSL https://downloads.haskell.org/~hls/haskell-language-server-${hls_version}/haskell-language-server-${hls_version}-x86_64-linux-deb10.tar.xz \
         | tar Jxvf - -C /opt/language-server/haskell --strip-components=1 \
