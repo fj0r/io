@@ -19,9 +19,7 @@ FROM fj0rd/io:base
 #COPY --from=assets /opt/assets /usr/local/bin
 #COPY --from=goofys / /
 
-ENV XDG_CONFIG_HOME=/etc \
-    ZDOTDIR=/etc/zsh \
-    NVIM_PRESET=full \
+ENV NVIM_PRESET=full \
     PYTHONUNBUFFERED=x
 
 RUN set -eux \
@@ -29,8 +27,7 @@ RUN set -eux \
   ; apt-get upgrade -y \
   ; DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends \
-      pwgen zsh git git-flow s3fs \
-      python3 python3-pip ipython3 \
+      pwgen s3fs python3 python3-pip ipython3 \
       # python3-dev python3-setuptools \
   ; pip3 --no-cache-dir install \
         # aiofile fastapi uvicorn \
@@ -53,9 +50,6 @@ ENV NODE_ROOT=/opt/node
 ENV PATH=${NODE_ROOT}/bin:$PATH
 
 RUN set -eux \
-  ; git clone --depth=1 https://github.com/fj0r/zsh.git $ZDOTDIR/.zshrc.d \
-  ; ln -fsr $ZDOTDIR/.zshrc.d/_zshrc $ZDOTDIR/.zshrc \
-  \
   ; apt update \
   ; apt-get install -y --no-install-recommends xclip gnupg build-essential \
   ; mkdir -p /opt/node \
@@ -92,10 +86,4 @@ RUN set -eux \
   ; nvim --headless -c "TSUpdateSync ${tsl}" -c 'quit' \
   ; rm -rf $XDG_CONFIG_HOME/nvim/pack/packer/*/*/.git \
   ; pip3 --no-cache-dir install \
-        neovim neovim-remote \
-  ; { \
-        echo "export XDG_CONFIG_HOME=$XDG_CONFIG_HOME" ;\
-        echo "export ZDOTDIR=$ZDOTDIR" ;\
-        echo "export NVIM_PRESET=full" ;\
-    } >> /etc/zsh/zshenv
-
+        neovim neovim-remote

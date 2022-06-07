@@ -1,12 +1,13 @@
 FROM fj0rd/scratch:dropbear as dropbear
-FROM fj0rd/scratch:utilities as utilities
+FROM fj0rd/scratch:nu as utilities
 
 FROM ubuntu:jammy
 
 EXPOSE 22
 VOLUME /world
 
-ENV LANG=C.UTF-8 \
+ENV XDG_CONFIG_HOME=/etc \
+    LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
     TIMEZONE=Asia/Shanghai
 
@@ -21,7 +22,7 @@ RUN set -eux \
     apt-get install -y --no-install-recommends \
       sudo tmux procps htop cron logrotate tzdata \
       curl ca-certificates rsync tcpdump socat \
-      jq tree fuse xz-utils zstd zip unzip \
+      git jq tree fuse xz-utils zstd zip unzip \
       lsof inetutils-ping iproute2 iptables net-tools \
   \
   ; ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime \
@@ -36,6 +37,9 @@ RUN set -eux \
   \
   ; curl -sSL https://github.com/fj0r/configuration/raw/main/_tmux.conf -o /etc/skel/.tmux.conf \
   ; ln -fs /etc/skel/.tmux.conf /root/.tmux.conf \
+  \
+  ; echo '/usr/local/bin/nu' >> /etc/shells \
+  ; git clone --depth=1 git@github.com:fj0r/nushell.git $XDG_CONFIG_HOME/nushell \
   \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
