@@ -70,7 +70,6 @@ RUN set -eux \
           haskell-language-server-${hls_version}/bin/haskell-language-server-${ghc_version} \
           haskell-language-server-${hls_version}/bin/haskell-language-server-wrapper \
           haskell-language-server-${hls_version}/lib/${ghc_version} \
-  ; echo 'export LD_LIBRARY_PATH=$(fd . $(ghc --print-libdir) -t d -d 1 -X echo {} | sed "s/ /:/g"):/opt/language-server/haskell/lib/${ghc_version}:$LD_LIBRARY_PATH' >> /etc/zsh/zshenv \
   ; fd . /opt/language-server/haskell -t f -x strip -s {} \
   ; fd . /opt/language-server/haskell/bin -d 1 -t f -x ln -fs {} /usr/local/bin
 
