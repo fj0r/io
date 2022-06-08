@@ -71,7 +71,7 @@ RUN set -eux \
           haskell-language-server-${hls_version}/bin/haskell-language-server-${ghc_version} \
           haskell-language-server-${hls_version}/bin/haskell-language-server-wrapper \
           haskell-language-server-${hls_version}/lib/${ghc_version} \
-  ; fd . /opt/language-server/haskell -t f -x strip -s {} \
-  ; fd . /opt/language-server/haskell/bin -d 1 -t f -x ln -fs {} /usr/local/bin
+  ; find /opt/language-server/haskell -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s \
+  ; find /opt/language-server/haskell/bin -maxdepth 1 -type f | xargs -i ln -fs {} /usr/local/bin
 
 COPY ghci /root/.ghci

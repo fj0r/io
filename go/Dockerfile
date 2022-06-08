@@ -19,5 +19,5 @@ RUN set -eux \
   ; go install golang.org/x/tools/gopls@latest \
   ; go install github.com/go-delve/delve/cmd/dlv@latest \
   ; rm -rf $(go env GOCACHE)/* \
-  ; fd . ${HOME}/go/bin -t f -x strip -s {} \
+  ; find ${HOME}/go/bin -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s \
   ; go env -w GOPROXY=https://goproxy.cn,direct

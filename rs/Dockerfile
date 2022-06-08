@@ -37,7 +37,7 @@ RUN set -eux \
       redis kafka polars linfa rayon \
       config chrono lru-cache itertools \
   ; rm -rf ${CARGO_HOME}/registry/src/*
-  #; fd . ${CARGO_HOME}/bin -t f -x strip -s {}
+  #; find ${CARGO_HOME}/bin -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s
 
 RUN set -eux \
   ; mkdir -p /opt/language-server/rust \

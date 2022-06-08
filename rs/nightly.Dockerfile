@@ -40,7 +40,7 @@ RUN set -eux \
       config chrono lru-cache itertools \
   ; echo "[done] $(date -Is)" \
   ; rm -rf ${CARGO_HOME}/registry/src/*
-  #; find ${CARGO_HOME}/bin -type f -links 1 -exec grep -IL . "{}" \; | xargs -L 1 strip -s
+  #; find ${CARGO_HOME}/bin -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s
 
 RUN set -eux \
   ; mkdir -p /opt/language-server/rust \
