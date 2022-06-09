@@ -41,11 +41,6 @@ RUN set -eux \
   ; echo '/usr/local/bin/nu' >> /etc/shells \
   ; git clone --depth=1 https://github.com/fj0r/nushell.git $XDG_CONFIG_HOME/nushell \
   \
-  # :REMOVE:
-  ; yq_url=$(curl -sSL https://api.github.com/repos/mikefarah/yq/releases -H 'Accept: application/vnd.github.v3+json' \
-          | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep 'linux_amd64.tar') \
-  ; curl -sSL ${yq_url} | tar zxf - && mv yq_linux_amd64 /usr/local/bin/yq \
-  \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /world

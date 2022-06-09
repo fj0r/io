@@ -52,7 +52,7 @@ RUN set -eux \
   ; rm -rf ${STACK_ROOT}/pantry/hackage/* \
   ; stack new hello rio && rm -rf hello \
   ; stack new hello && rm -rf hello \
-  ; yq e --inplace ".allow-different-user=true" ${STACK_ROOT}/config.yaml \
+  ; nu -c "open ${STACK_ROOT}/config.yaml | upsert allow-different-user true | save ${STACK_ROOT}/config.yaml" \
   ; for x in config.yaml \
              templates \
              stack.sqlite3.pantry-write-lock \

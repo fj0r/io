@@ -54,7 +54,7 @@ RUN set -eux \
   #; stack install --resolver ${stackage_ver} flow \
   ; stack --resolver ${stackage_ver} new hello rio && rm -rf hello \
   ; stack --resolver ${stackage_ver} new hello && rm -rf hello \
-  ; yq e --inplace ".allow-different-user=true" ${STACK_ROOT}/config.yaml \
+  ; nu -c "open ${STACK_ROOT}/config.yaml | upsert allow-different-user true | save ${STACK_ROOT}/config.yaml" \
   ; for x in config.yaml \
              templates \
              stack.sqlite3.pantry-write-lock \

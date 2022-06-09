@@ -34,9 +34,6 @@ RUN set -eux \
            | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep 'x86_64-unknown-linux-gnu') \
   ; curl -sSL ${rq_url} | tar zxf - -C /opt/assets \
   \
-  ; yq_url=$(curl -sSL https://api.github.com/repos/mikefarah/yq/releases -H 'Accept: application/vnd.github.v3+json' \
-           | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep 'linux_amd64.tar') \
-  ; curl -sSL ${yq_url} | tar zxf - && mv yq_linux_amd64 /opt/assets/yq \
   \
   ; fd_url=$(curl -sSL https://api.github.com/repos/sharkdp/fd/releases -H 'Accept: application/vnd.github.v3+json' \
            | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep x86_64-unknown-linux-musl) \

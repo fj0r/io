@@ -47,7 +47,7 @@ RUN set -eux \
   ; rm -rf ${STACK_ROOT}/pantry/hackage/* \
   ; rm -rf ${STACK_ROOT}/pantry/pantry.sqlite3* \
   ; stack new hello && rm -rf hello \
-  ; yq e --inplace ".allow-different-user=true" ${STACK_ROOT}/config.yaml \
+  ; nu -c "open ${STACK_ROOT}/config.yaml | upsert allow-different-user true | save ${STACK_ROOT}/config.yaml" \
   ; for x in config.yaml \
              templates \
              stack.sqlite3.pantry-write-lock \
@@ -57,8 +57,9 @@ RUN set -eux \
   ; chmod -R 777 ${STACK_ROOT}/global-project \
   \
   ; echo "packages: []" > ${STACK_ROOT}/global-project/stack.yaml \
-  ; yq ea --inplace "select(fi==0).resolver=select(fi==1).resolver | select(fi==0)" \
-       ${STACK_ROOT}/global-project/stack.yaml ${IHASKELL_DATA_DIR}/stack.yaml \
+  ; nu -c "open ${STACK_ROOT}/global-project/stack.yaml \
+          | upsert resolver (open ${IHASKELL_DATA_DIR}/stack.yaml | get resolver) \
+          | save ${STACK_ROOT}/global-project/stack.yaml" \
   ; cp ${IHASKELL_DATA_DIR}/stack.yaml.lock ${STACK_ROOT}/global-project \
   \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
