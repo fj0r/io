@@ -74,8 +74,10 @@ RUN set -eux \
   \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
   \
+  # '[.[]|select(.prerelease == false)][0].assets[].browser_download_url'
+  # '.[0].assets[].browser_download_url'
   ; nvim_url=$(curl -sSL https://api.github.com/repos/neovim/neovim/releases -H 'Accept: application/vnd.github.v3+json' \
-             | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep -v sha256sum | grep linux64.tar.gz) \
+             | jq -r '.[0].assets[].browser_download_url' | grep -v sha256sum | grep linux64.tar.gz) \
   ; curl -sSL ${nvim_url} | tar zxf - -C /usr/local --strip-components=1 \
   ; strip /usr/local/bin/nvim \
   ; git clone --depth=1 https://github.com/fj0r/nvim-lua.git $XDG_CONFIG_HOME/nvim \
