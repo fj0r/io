@@ -19,7 +19,7 @@ FROM fj0rd/io:base
 #COPY --from=assets /opt/assets /usr/local/bin
 #COPY --from=goofys / /
 
-ENV NVIM_PRESET=full \
+ENV NVIM_PRESET=core \
     PYTHONUNBUFFERED=x
 
 RUN set -eux \
