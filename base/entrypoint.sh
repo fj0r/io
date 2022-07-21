@@ -128,6 +128,8 @@ fi
 if [ -z $1 ]; then
     CMD="${__shell}"
 elif [[ $1 == "srv" ]]; then
+    sleep infinity &
+    echo -n "$! " >> /var/run/services
     wait -n $(cat /var/run/services) && exit $?
 else
     CMD="$@"
