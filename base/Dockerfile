@@ -14,8 +14,6 @@ ENV XDG_CONFIG_HOME=/etc \
 COPY --from=dropbear / /
 COPY --from=utilities / /
 RUN set -eux \
-  ; cp /etc/apt/sources.list /etc/apt/sources.list.ustc \
-  \
   ; apt-get update \
   ; apt-get upgrade -y \
   ; DEBIAN_FRONTEND=noninteractive \
@@ -32,6 +30,11 @@ RUN set -eux \
   #      -e 's/# \(zh_CN.UTF-8 UTF-8\)/\1/' \
   #; locale-gen \
   ; sed -i 's/^.*\(%sudo.*\)ALL$/\1NOPASSWD:ALL/g' /etc/sudoers \
+  \
+  ; git config --global pull.rebase false \
+  ; git config --global init.defaultBranch main \
+  ; git config --global user.name "unnamed" \
+  ; git config --global user.email "unnamed@container" \
   \
   ; mkdir -p /etc/dropbear \
   \
