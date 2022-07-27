@@ -33,5 +33,13 @@ RUN set -eux \
   ; curl -sSL ${ra_url} | gzip -d > /opt/language-server/rust/rust-analyzer \
   ; chmod +x /opt/language-server/rust/rust-analyzer \
   ; strip -s /opt/language-server/rust/rust-analyzer \
-  ; ln -fs /opt/language-server/rust/rust-analyzer /usr/local/bin
-
+  ; ln -fs /opt/language-server/rust/rust-analyzer /usr/local/bin \
+  \
+  ; export USER=root \
+  ; opwd=$PWD; cd /world \
+  ; PROJ=hello-rust \
+  ; cargo new $PROJ \
+  ; cd $PROJ \
+  ; cargo wasi build --release \
+  ; rm -rf target \
+  ; cd $opwd

@@ -50,8 +50,10 @@ RUN set -eux \
       QuickCheck smallcheck hspec \
       hmatrix linear statistics ad integration arithmoi \
   ; rm -rf ${STACK_ROOT}/pantry/hackage/* \
-  ; stack new hello rio && rm -rf hello \
-  ; stack new hello && rm -rf hello \
+  ; opwd=$PWD; cd /world \
+  ; stack new hello-rio rio \
+  ; stack new hello-haskell \
+  ; cd $opwd \
   ; nu -c "open ${STACK_ROOT}/config.yaml | upsert allow-different-user true | save ${STACK_ROOT}/config.yaml" \
   ; for x in config.yaml \
              templates \

@@ -20,4 +20,10 @@ RUN set -eux \
   ; go install github.com/go-delve/delve/cmd/dlv@latest \
   ; rm -rf $(go env GOCACHE)/* \
   ; find ${HOME}/go/bin -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s \
+  ; opwd=$PWD; cd /world \
+  ; PROJ=hello-go \
+  ; mkdir $PROJ \
+  ; cd $PROJ \
+  ; go mod init $PROJ \
+  ; cd $opwd \
   ; go env -w GOPROXY=https://goproxy.cn,direct

@@ -26,5 +26,11 @@ RUN set -ex \
   ; sed "s|gophernotes|$(go env GOPATH)/bin/gophernotes|" < $gophernotes_dir/kernel.json.in > $gophernotes_dir/kernel.json \
   ; rm -rf $(go env GOCACHE)/* \
   ; find ${HOME}/go/bin -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s \
+  ; opwd=$PWD; cd /world \
+  ; PROJ=hello-go \
+  ; mkdir $PROJ \
+  ; cd $PROJ \
+  ; go mod init $PROJ \
+  ; cd $opwd \
   ; go env -w GOPROXY=https://goproxy.cn,direct
 

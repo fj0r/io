@@ -46,7 +46,10 @@ RUN set -eux \
   ; rm -rf ${STACK_ROOT}/programs/x86_64-linux/*.tar.xz \
   ; rm -rf ${STACK_ROOT}/pantry/hackage/* \
   ; rm -rf ${STACK_ROOT}/pantry/pantry.sqlite3* \
-  ; stack new hello && rm -rf hello \
+  ; opwd=$PWD; cd /world \
+  ; stack new hello-rio rio \
+  ; stack new hello-haskell \
+  ; cd $opwd \
   ; nu -c "open ${STACK_ROOT}/config.yaml | upsert allow-different-user true | save ${STACK_ROOT}/config.yaml" \
   ; for x in config.yaml \
              templates \
