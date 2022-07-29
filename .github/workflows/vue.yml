@@ -1,4 +1,4 @@
-name: build vue
+name: vue
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
@@ -6,8 +6,11 @@ name: build vue
 # documentation.
 
 on:
-  push:
-    branches: [ main, vue ]
+  workflow_run:
+    workflows: ["base"]
+    branches: [ main ]
+    types:
+      - completed
 
 env:
   REGISTRY: docker.io
