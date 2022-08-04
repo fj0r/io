@@ -40,6 +40,7 @@ RUN set -eux \
   \
   ; echo '/usr/local/bin/nu' >> /etc/shells \
   ; git clone --depth=1 https://github.com/fj0r/nushell.git $XDG_CONFIG_HOME/nushell \
+  ; git clone --depth=1 https://github.com/fj0r/zellij.git $XDG_CONFIG_HOME/zellij \
   \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
