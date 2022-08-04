@@ -18,7 +18,7 @@ RUN set -eux \
   ; apt-get upgrade -y \
   ; DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends \
-      sudo tmux procps htop cron logrotate tzdata \
+      sudo procps htop cron logrotate tzdata \
       curl ca-certificates rsync tcpdump socat \
       git jq tree fuse xz-utils zstd zip unzip \
       lsof inetutils-ping iproute2 iptables net-tools \
@@ -37,9 +37,6 @@ RUN set -eux \
   ; git config --global user.email "unnamed@container" \
   \
   ; mkdir -p /etc/dropbear \
-  \
-  ; curl -sSL https://github.com/fj0r/configuration/raw/main/_tmux.conf -o /etc/skel/.tmux.conf \
-  ; ln -fs /etc/skel/.tmux.conf /root/.tmux.conf \
   \
   ; echo '/usr/local/bin/nu' >> /etc/shells \
   ; git clone --depth=1 https://github.com/fj0r/nushell.git $XDG_CONFIG_HOME/nushell \
