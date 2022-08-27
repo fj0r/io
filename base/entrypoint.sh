@@ -10,6 +10,18 @@ if [ ! -z "${PREBOOT}" ]; then
   bash $PREBOOT
 fi
 
+################################################################################
+if [ -n "\$git_pull" ]; then
+bash <<- EOF &
+    for dir in \$(echo \$git_pull| tr "," "\n"); do
+        cd \$dir
+        echo "git pull in \$dir"
+        git pull
+    done
+EOF
+fi
+
+################################################################################
 if [ -e /usr/local/bin/nu ]; then
     __shell=/usr/local/bin/nu
 elif [ -e /bin/zsh ]; then
@@ -19,6 +31,7 @@ elif [ -e /bin/bash ]; then
 else
     __shell=/bin/sh
 fi
+################################################################################
 # Add users if $1=user:uid:gid set
 set_user () {
     IFS=':' read -ra UA <<< "$1"
