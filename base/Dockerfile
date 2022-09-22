@@ -46,5 +46,9 @@ RUN set -eux \
 
 WORKDIR /world
 
+ENV DEBUGE
+ENV PREBOOT=
+ENV POSTBOOT=
+ENV CRONFILE=
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT [ "/entrypoint.sh" ]

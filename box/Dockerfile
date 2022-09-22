@@ -85,3 +85,10 @@ RUN set -eux \
   ; rm -rf $XDG_CONFIG_HOME/nvim/pack/packer/*/*/.git \
   ; pip3 --no-cache-dir install \
         neovim neovim-remote
+
+ENV S3ENDPOINT=
+ENV S3BUCKET=
+ENV S3MOUNTPOINT=
+ENV S3REGION=
+ENV S3ACCESS_KEY=
+ENV S3SECRET_KEY=
