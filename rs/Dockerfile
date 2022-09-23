@@ -14,6 +14,7 @@ RUN set -eux \
   ; curl -sSL https://sh.rustup.rs \
     | sh -s -- --default-toolchain stable -y --no-modify-path \
   ; rustup component add rust-src clippy rustfmt \
+  #; rustup component add rust-analyzer \
   ; rustup target add x86_64-unknown-linux-musl \
   ; rustup target add wasm32-wasi wasm32-unknown-unknown wasm32-unknown-emscripten \
   ; cargo install \
