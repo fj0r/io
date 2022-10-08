@@ -60,7 +60,6 @@ RUN set -eux \
                 pyright \
                 vscode-langservers-extracted \
                 yaml-language-server \
-  ; sed -i "s/\(exports.KUBERNETES_SCHEMA_URL = \)\(.*\)$/\1process.env['KUBERNETES_SCHEMA_URL'] || \2/" $(dirname $(which yaml-language-server))/../lib/node_modules/yaml-language-server/out/server/src/languageservice/utils/schemaUrls.js \
   ; npm cache clean -f \
   \
   ; lua_ls_url=$(curl -sSL https://api.github.com/repos/josa42/coc-lua-binaries/releases -H 'Accept: application/vnd.github.v3+json' \
