@@ -58,7 +58,7 @@ RUN set -eux \
   ; npm install --location=global \
                 quicktype \
                 pyright \
-                vscode-json-languageserver \
+                vscode-langservers-extracted \
                 yaml-language-server \
   ; sed -i "s/\(exports.KUBERNETES_SCHEMA_URL = \)\(.*\)$/\1process.env['KUBERNETES_SCHEMA_URL'] || \2/" $(dirname $(which yaml-language-server))/../lib/node_modules/yaml-language-server/out/server/src/languageservice/utils/schemaUrls.js \
   ; npm cache clean -f \
