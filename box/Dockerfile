@@ -48,7 +48,7 @@ ENV PATH=${NODE_ROOT}/bin:$PATH
 # '.[0].assets[].browser_download_url'
 RUN set -eux \
   ; apt update \
-  ; apt-get install -y --no-install-recommends xclip gnupg build-essential \
+  ; apt-get install -y --no-install-recommends gnupg build-essential \
   ; mkdir -p /opt/node \
   ; node_version=$(curl -sSL https://nodejs.org/en/download/ | rg 'Latest LTS Version.*<strong>(.+)</strong>' -or '$1') \
   ; curl -sSL https://nodejs.org/dist/v${node_version}/node-v${node_version}-linux-x64.tar.xz \
