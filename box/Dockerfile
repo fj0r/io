@@ -81,7 +81,6 @@ RUN set -eux \
   \
   ; tsl=$(cat $XDG_CONFIG_HOME/nvim/lua/lang/treesitter_lang.json|jq -r 'join(" ")') \
   ; nvim --headless -c "TSUpdateSync ${tsl}" -c 'quit' \
-  #; pip3 --no-cache-dir install neovim neovim-remote
   ; rm -rf $XDG_CONFIG_HOME/nvim/pack/packer/*/*/.git
 
 ENV S3ENDPOINT=
