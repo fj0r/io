@@ -67,7 +67,6 @@ RUN set -eux \
   ; mkdir -p /opt/language-server/sumneko_lua \
   ; curl -sSL ${lua_ls_url} | tar zxf - \
       -C /opt/language-server/sumneko_lua \
-      --strip-components=1 \
   \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
   \
