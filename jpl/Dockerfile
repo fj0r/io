@@ -97,7 +97,7 @@ RUN set -eux \
 #RUN set -ex \
 #  ; apt-get -y --no-install-recommends install leiningen \
 #  ; apt-get clean \
-#  ; git clone https://github.com/clojupyter/clojupyter \
+#  ; git clone --depth=1 https://github.com/clojupyter/clojupyter \
 #  ; cd clojupyter \
 #  ; make \
 #  ; make install \
@@ -112,7 +112,7 @@ RUN set -eux \
 #   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
 #   ; cd /usr/bin && ln -fsr lua5.3 lua \
 #   ; cd ${HOME} \
-#   ; git clone https://github.com/guysv/ilua.git --recurse-submodules \
+#   ; git clone --depth=1 https://github.com/guysv/ilua.git --recurse-submodules \
 #   ; cd ilua \
 #   ; pip --no-cache-dir install -e . --user \
 #   ; python setup.py install_data -d ${HOME}/.local \

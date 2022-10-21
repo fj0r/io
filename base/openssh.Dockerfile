@@ -2,7 +2,7 @@ FROM fj0rd/io:rs as rs
 
 RUN set -eux \
   ; mkdir -p /opt/assets \
-  ; git clone https://github.com/ogham/dog.git \
+  ; git clone --depth=1 https://github.com/ogham/dog.git \
   ; cd dog \
   ; cargo build --release \
   ; mv target/release/dog /opt/assets \
