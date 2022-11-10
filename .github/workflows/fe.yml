@@ -54,6 +54,6 @@ jobs:
           context: fe
           file: fe/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:v
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:fe
           labels: ${{ steps.meta.outputs.labels }}
 
