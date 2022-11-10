@@ -1,4 +1,4 @@
-name: vue
+name: frontend
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
@@ -6,9 +6,11 @@ name: vue
 # documentation.
 
 on:
-  push:
-    branches: [ vue ]
-    tags: [ 'v*.*.*' ]
+  workflow_run:
+    workflows: ["base"]
+    branches: [ main ]
+    types:
+      - completed
 
 env:
   REGISTRY: docker.io
@@ -17,6 +19,8 @@ env:
 
 jobs:
   build:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -44,11 +48,11 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Build vue
-        uses: docker/build-push-action@v2
+      - name: Build fe
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
-          context: vue
-          file: vue/Dockerfile
+          context: fe
+          file: fe/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:v
           labels: ${{ steps.meta.outputs.labels }}

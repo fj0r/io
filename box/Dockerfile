@@ -56,10 +56,10 @@ RUN set -eux \
   \
   ; mkdir -p /opt/language-server \
   ; npm install --location=global \
-                quicktype \
-                pyright \
-                vscode-langservers-extracted \
-                yaml-language-server \
+        quicktype \
+        pyright \
+        vscode-langservers-extracted \
+        yaml-language-server \
   ; npm cache clean -f \
   \
   ; lua_ls_url=$(curl -sSL https://api.github.com/repos/sumneko/lua-language-server/releases -H 'Accept: application/vnd.github.v3+json' \

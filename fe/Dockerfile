@@ -1,13 +1,19 @@
 FROM fj0rd/io
 
+ENV PNPM_HOME=/opt/pnpm
+ENV PATH=${PNPM_HOME}:$PATH
 RUN set -eux \
   ; apt-get update \
   ; apt-get upgrade -y \
   ; DEBIAN_FRONTEND=noninteractive \
-  ; npm install --location=global \
-        typescript-language-server typescript \
-        @volar/vue-language-server \
+  ; npm install --location=global pnpm \
+  ; mkdir -p ${PNPM_HOME}
   ; npm cache clean -f \
+  ; pnpm install -g \
+        typescript-language-server typescript \
+        vite vite-plugin-solid solid-js \
+        @volar/vue-language-server vue \
+  #; npx degit solidjs/templates/ts my-solid-project --yes \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 RUN set -eux \
