@@ -7,7 +7,7 @@ RUN set -eux \
   ; apt-get upgrade -y \
   ; DEBIAN_FRONTEND=noninteractive \
   ; npm install --location=global pnpm \
-  ; mkdir -p ${PNPM_HOME}
+  ; mkdir -p ${PNPM_HOME} \
   ; npm cache clean -f \
   ; pnpm install -g \
         typescript-language-server typescript \
@@ -20,5 +20,6 @@ RUN set -eux \
   ; git clone --depth=1 https://github.com/microsoft/vscode-node-debug2.git /opt/language-server/vscode-node-debug2 \
   ; cd /opt/language-server/vscode-node-debug2 \
   ; npm install \
-  ; NODE_OPTIONS=--no-experimental-fetch npm run build
+  ; NODE_OPTIONS=--no-experimental-fetch npm run build \
+  ; npm cache clean -f
 
