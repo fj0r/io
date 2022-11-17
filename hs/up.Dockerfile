@@ -16,3 +16,6 @@ RUN set -eux \
   ; curl -sSL https://get-ghcup.haskell.org | sh
 
 COPY ghci /root/.ghci
+
+RUN ghcup compile hls --cabal-update -g master --ghc 9.2.5
+
