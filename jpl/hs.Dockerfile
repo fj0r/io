@@ -26,7 +26,7 @@ RUN set -eux \
   ; stack install --no-interleaved-output \
       optparse-applicative shelly process unix \
       time clock hpc pretty filepath directory zlib \
-      array hashtables dlist binary bytestring text \
+      array hashtables dlist binary text \
       containers hashable unordered-containers vector \
       deepseq call-stack primitive ghc-prim \
       template-haskell aeson yaml taggy stache \
