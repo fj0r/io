@@ -23,6 +23,7 @@ RUN set -eux \
   ; export ihaskell_datadir=${IHASKELL_DATA_DIR} \
   ; ${HOME}/.local/bin/ihaskell install --stack --env-file ${IHASKELL_DATA_DIR}/env \
   # flow parsers boomerang criterion weigh arithmoi syb multipart HTTP html xhtml
+  ; nu -c "open ${STACK_ROOT}/config.yaml | upsert allow-different-user true | save ${STACK_ROOT}/config.yaml" \
   ; stack install --no-interleaved-output \
       optparse-applicative shelly process unix \
       time clock hpc pretty filepath directory zlib \
@@ -50,7 +51,6 @@ RUN set -eux \
   ; stack new hello-rio rio \
   ; stack new hello-haskell \
   ; cd $opwd \
-  ; nu -c "open ${STACK_ROOT}/config.yaml | upsert allow-different-user true | save ${STACK_ROOT}/config.yaml" \
   ; for x in config.yaml \
              templates \
              stack.sqlite3.pantry-write-lock \

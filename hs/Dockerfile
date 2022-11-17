@@ -23,6 +23,7 @@ RUN set -eux \
   ; stack update \
   ; stack config set system-ghc --global true \
   ; stack config set install-ghc --global false \
+  ; nu -c "open ${STACK_ROOT}/config.yaml | upsert allow-different-user true | upsert allow-newer true | save ${STACK_ROOT}/config.yaml" \
   # JuicyPixels xhtml criterion weigh alex happy
   # cassava diagrams \
   # flow mustache \
@@ -54,7 +55,6 @@ RUN set -eux \
   ; stack new hello-rio rio \
   ; stack new hello-haskell \
   ; cd $opwd \
-  ; nu -c "open ${STACK_ROOT}/config.yaml | upsert allow-different-user true | upsert allow-newer true | save ${STACK_ROOT}/config.yaml" \
   ; for x in config.yaml \
              templates \
              stack.sqlite3.pantry-write-lock \
