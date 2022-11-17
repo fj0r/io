@@ -45,11 +45,11 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Build hsn
+      - name: Build hs
         uses: docker/build-push-action@v2
         with:
           context: hs
-          file: hs/nightly.Dockerfile
+          file: hs/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hsn
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hs
           labels: ${{ steps.meta.outputs.labels }}

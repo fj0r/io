@@ -30,7 +30,7 @@ RUN set -eux \
       ghcid haskell-dap ghci-dap haskell-debug-adapter \
       optparse-applicative shelly process unix \
       time clock hpc pretty filepath directory zlib \
-      array hashtables dlist binary text \
+      array hashtables dlist binary bytestring text \
       containers hashable vector unordered-containers \
       deepseq call-stack primitive ghc-prim \
       template-haskell aeson yaml taggy stache \
@@ -54,7 +54,7 @@ RUN set -eux \
   ; stack new hello-rio rio \
   ; stack new hello-haskell \
   ; cd $opwd \
-  ; nu -c "open ${STACK_ROOT}/config.yaml | upsert allow-different-user true | save ${STACK_ROOT}/config.yaml" \
+  ; nu -c "open ${STACK_ROOT}/config.yaml | upsert allow-different-user true | upsert allow-newer true | save ${STACK_ROOT}/config.yaml" \
   ; for x in config.yaml \
              templates \
              stack.sqlite3.pantry-write-lock \
