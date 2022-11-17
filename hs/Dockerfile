@@ -30,7 +30,7 @@ RUN set -eux \
       ghcid haskell-dap ghci-dap haskell-debug-adapter \
       optparse-applicative shelly process unix \
       time clock hpc pretty filepath directory zlib \
-      array hashtables dlist binary bytestring text \
+      array hashtables dlist binary text \
       containers hashable vector unordered-containers \
       deepseq call-stack primitive ghc-prim \
       template-haskell aeson yaml taggy stache \
