@@ -10,6 +10,7 @@ RUN set -eux \
   ; mkdir -p ${PNPM_HOME} \
   ; npm cache clean -f \
   ; pnpm install -g \
+        rescript \
         typescript-language-server typescript \
         vite vite-plugin-solid solid-js \
         @volar/vue-language-server vue \
