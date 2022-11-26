@@ -7,7 +7,7 @@ name: frontend
 
 on:
   workflow_run:
-    workflows: ["base"]
+    workflows: ["go"]
     branches: [ main ]
     types:
       - completed
@@ -54,6 +54,6 @@ jobs:
           context: fe
           file: fe/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:fe
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:x
           labels: ${{ steps.meta.outputs.labels }}
 

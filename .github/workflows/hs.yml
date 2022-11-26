@@ -7,7 +7,7 @@ name: hs
 
 on:
   workflow_run:
-    workflows: ["base"]
+    workflows: ["rs"]
     branches: [ main, hs ]
     types:
       - completed

@@ -1,4 +1,4 @@
-FROM fj0rd/io
+FROM fj0rd/io:go
 
 ENV PNPM_HOME=/opt/pnpm
 ENV PATH=${PNPM_HOME}:$PATH
@@ -9,7 +9,7 @@ RUN set -eux \
   ; npm install --location=global pnpm \
   ; mkdir -p ${PNPM_HOME} \
   ; npm cache clean -f \
-  ; pnpm install -g \
+  ; npm install --location=global \
         rescript \
         typescript-language-server typescript \
         vite vite-plugin-solid solid-js \
