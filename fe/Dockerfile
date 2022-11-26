@@ -1,4 +1,4 @@
-FROM fj0rd/io:go
+FROM fj0rd/io
 
 ENV PNPM_HOME=/opt/pnpm
 ENV PATH=${PNPM_HOME}:$PATH

@@ -7,7 +7,7 @@ name: frontend
 
 on:
   workflow_run:
-    workflows: ["go"]
+    workflows: ["base"]
     branches: [ main ]
     types:
       - completed

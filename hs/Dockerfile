@@ -1,4 +1,4 @@
-FROM fj0rd/io:rs
+FROM fj0rd/io
 
 ENV STACK_ROOT=/opt/stack GHC_ROOT=/opt/ghc
 ENV PATH=${GHC_ROOT}/bin:$PATH

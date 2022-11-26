@@ -1,4 +1,4 @@
-FROM fj0rd/io:hs
+FROM fj0rd/io
 
 ENV GOROOT=/opt/go GOPATH=${HOME:-/root}/go
 ENV PATH=${GOPATH}/bin:${GOROOT}/bin:$PATH
