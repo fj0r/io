@@ -1,4 +1,4 @@
-FROM fj0rd/io:base as assets
+FROM fj0rd/io:base as dog
 
 RUN set -eux \
   ; apt-get update \
@@ -15,8 +15,11 @@ RUN set -eux \
 
 #FROM fj0rd/scratch:goofys as goofys
 
+FROM fj0rd/scratch:nu as utilities
+
 FROM fj0rd/io:base
-COPY --from=assets /opt/assets /usr/local/bin
+COPY --from=utilities / /
+COPY --from=dog /opt/assets /usr/local/bin
 #COPY --from=goofys / /
 
 ENV NVIM_PRESET=core \
@@ -27,7 +30,7 @@ RUN set -eux \
   ; apt-get upgrade -y \
   ; DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends \
-      pwgen s3fs python3 python3-pip ipython3 \
+      git pwgen s3fs python3 python3-pip ipython3 \
       # python3-dev python3-setuptools \
   ; pip3 --no-cache-dir install \
         # aiofile fastapi uvicorn \
@@ -35,6 +38,14 @@ RUN set -eux \
         httpx hydra-core typer pyyaml deepmerge \
         PyParsing structlog python-json-logger \
         decorator more-itertools cachetools \
+  \
+  ; git config --global pull.rebase false \
+  ; git config --global init.defaultBranch main \
+  ; git config --global user.name "unnamed" \
+  ; git config --global user.email "unnamed@container" \
+  \
+  ; echo '/usr/local/bin/nu' >> /etc/shells \
+  ; git clone --depth=1 https://github.com/fj0r/nushell.git $XDG_CONFIG_HOME/nushell \
   \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 

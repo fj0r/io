@@ -1,5 +1,4 @@
 FROM fj0rd/scratch:dropbear as dropbear
-FROM fj0rd/scratch:nu as utilities
 
 FROM ubuntu:jammy
 
@@ -12,7 +11,6 @@ ENV XDG_CONFIG_HOME=/etc \
     TIMEZONE=Asia/Shanghai
 
 COPY --from=dropbear / /
-COPY --from=utilities / /
 RUN set -eux \
   ; apt-get update \
   ; apt-get upgrade -y \
@@ -20,7 +18,7 @@ RUN set -eux \
     apt-get install -y --no-install-recommends \
       sudo procps htop cron logrotate tzdata \
       curl ca-certificates rsync tcpdump socat \
-      git jq tree fuse xz-utils zstd zip unzip \
+      jq tree fuse xz-utils zstd zip unzip \
       lsof inetutils-ping iproute2 iptables net-tools \
   \
   ; ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime \
@@ -31,15 +29,11 @@ RUN set -eux \
   #; locale-gen \
   ; sed -i 's/^.*\(%sudo.*\)ALL$/\1NOPASSWD:ALL/g' /etc/sudoers \
   \
-  ; git config --global pull.rebase false \
-  ; git config --global init.defaultBranch main \
-  ; git config --global user.name "unnamed" \
-  ; git config --global user.email "unnamed@container" \
+  ; rg_url=$(curl -sSL https://api.github.com/repos/BurntSushi/ripgrep/releases -H 'Accept: application/vnd.github.v3+json' \
+          | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep x86_64-unknown-linux-musl) \
+  ; curl -sSL ${rg_url} | tar zxf - -C /usr/local/bin --strip-components=1 --wildcards '*/rg' \
   \
   ; mkdir -p /etc/dropbear \
-  \
-  ; echo '/usr/local/bin/nu' >> /etc/shells \
-  ; git clone --depth=1 https://github.com/fj0r/nushell.git $XDG_CONFIG_HOME/nushell \
   \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
