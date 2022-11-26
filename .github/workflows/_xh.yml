@@ -44,14 +44,14 @@ jobs:
       # https://github.com/docker/metadata-action
       - name: Extract Docker metadata
         id: meta
-        uses: docker/metadata-action@v2
+        uses: docker/metadata-action@v4
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
       - name: Build base
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           context: base
           push: ${{ github.event_name != 'pull_request' }}
@@ -59,7 +59,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           context: box
           push: ${{ github.event_name != 'pull_request' }}
@@ -67,7 +67,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build go
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           context: go
           push: ${{ github.event_name != 'pull_request' }}
@@ -75,7 +75,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build torch
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           context: py
           file: py/torch.Dockerfile
