@@ -8,7 +8,7 @@ name: go
 on:
   workflow_run:
     workflows: ["base"]
-    branches: [ main ]
+    branches: [ master ]
     types:
       - completed
 

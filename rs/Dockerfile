@@ -1,4 +1,4 @@
-FROM fj0rd/io
+FROM fj0rd/io:x
 
 ENV CARGO_HOME=/opt/cargo RUSTUP_HOME=/opt/rustup
 ENV PATH=${CARGO_HOME}/bin:$PATH

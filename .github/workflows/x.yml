@@ -1,4 +1,4 @@
-name: frontend
+name: ext
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
@@ -8,12 +8,13 @@ name: frontend
 on:
   workflow_run:
     workflows: ["base"]
-    branches: [ master ]
+    branches: [ main ]
     types:
       - completed
 
 env:
   REGISTRY: docker.io
+  # github.repository as <account>/<repo>
   IMAGE_NAME: fj0rd/io
 
 
@@ -47,6 +48,30 @@ jobs:
         uses: docker/metadata-action@v2
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Build go
+        uses: docker/build-push-action@v2
+        with:
+          context: go
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:x
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Build rs
+        uses: docker/build-push-action@v2
+        with:
+          context: rs
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:x
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Build hs
+        uses: docker/build-push-action@v2
+        with:
+          context: hs
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:x
+          labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build fe
         uses: docker/build-push-action@v2
