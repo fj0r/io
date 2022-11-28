@@ -18,7 +18,7 @@ RUN set -eux \
     apt-get install -y --no-install-recommends \
       sudo procps htop cron logrotate tzdata \
       curl ca-certificates rsync tcpdump socat \
-      jq tree fuse xz-utils zstd zip unzip \
+      jq ripgrep tree fuse xz-utils zstd zip unzip \
       lsof inetutils-ping iproute2 iptables net-tools \
   \
   ; ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime \
@@ -28,10 +28,6 @@ RUN set -eux \
   #      -e 's/# \(zh_CN.UTF-8 UTF-8\)/\1/' \
   #; locale-gen \
   ; sed -i 's/^.*\(%sudo.*\)ALL$/\1NOPASSWD:ALL/g' /etc/sudoers \
-  \
-  ; rg_url=$(curl -sSL https://api.github.com/repos/BurntSushi/ripgrep/releases -H 'Accept: application/vnd.github.v3+json' \
-          | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep x86_64-unknown-linux-musl) \
-  ; curl -sSL ${rg_url} | tar zxf - -C /usr/local/bin --strip-components=1 --wildcards '*/rg' \
   \
   ; mkdir -p /etc/dropbear \
   \
