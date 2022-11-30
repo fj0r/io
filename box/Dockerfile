@@ -1,9 +1,32 @@
 #FROM fj0rd/scratch:goofys as goofys
+FROM fj0rd/io:base as nu
+RUN set -eux \
+  ; apt-get update \
+  ; DEBIAN_FRONTEND=noninteractive \
+    apt-get install -y --no-install-recommends binutils \
+  ; mkdir -p /opt/assets \
+  \
+  ; nu_url=$(curl -sSL https://api.github.com/repos/nushell/nushell/releases -H 'Accept: application/vnd.github.v3+json' \
+          | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep x86_64-unknown-linux-musl) \
+  ; curl -sSL ${nu_url} | tar zxf - -C /opt/assets --strip-components=1 --wildcards '*/nu' \
+  \
+  ; zoxide_url=$(curl -sSL https://api.github.com/repos/ajeetdsouza/zoxide/releases -H 'Accept: application/vnd.github.v3+json' \
+          | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep x86_64-unknown-linux-musl) \
+  ; curl -sSL ${zoxide_url} | tar zxf - -C /opt/assets zoxide \
+  \
+  ; btm_url=$(curl -sSL https://api.github.com/repos/ClementTsang/bottom/releases -H 'Accept: application/vnd.github.v3+json' \
+          | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep x86_64-unknown-linux-musl) \
+  ; curl -sSL ${btm_url} | tar zxf - -C /opt/assets btm \
+  \
+  ; dust_url=$(curl -sSL https://api.github.com/repos/bootandy/dust/releases -H 'Accept: application/vnd.github.v3+json' \
+          | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep x86_64-unknown-linux-musl) \
+  ; curl -sSL ${dust_url} | tar zxf - -C /opt/assets --strip-components=1 --wildcards '*/dust' \
+  \
+  ; find /opt/assets -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s
 
-FROM fj0rd/scratch:nu as utilities
 
 FROM fj0rd/io:base
-COPY --from=utilities / /
+COPY --from=nu /opt/assets /usr/local/bin
 #COPY --from=goofys / /
 
 ENV NVIM_PRESET=core \
