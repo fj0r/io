@@ -6,24 +6,23 @@ RUN set -eux \
     apt-get install -y --no-install-recommends binutils \
   ; mkdir -p /opt/assets \
   \
-  ; nu_url=$(curl -sSL https://api.github.com/repos/nushell/nushell/releases -H 'Accept: application/vnd.github.v3+json' \
-          | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep x86_64-unknown-linux-musl) \
+  ; nu_ver=$(curl -sSL https://api.github.com/repos/nushell/nushell/releases -H 'Accept: application/vnd.github.v3+json' | jq -r '[.[]|select(.prerelease == false)][0].tag_name') \
+  ; nu_url="https://github.com/nushell/nushell/releases/latest/download/nu-${nu_ver}-x86_64-unknown-linux-musl.tar.gz" \
   ; curl -sSL ${nu_url} | tar zxf - -C /opt/assets --strip-components=1 --wildcards '*/nu' \
   \
-  ; zoxide_url=$(curl -sSL https://api.github.com/repos/ajeetdsouza/zoxide/releases -H 'Accept: application/vnd.github.v3+json' \
-          | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep x86_64-unknown-linux-musl) \
+  ; zoxide_ver=$(curl -sSL https://api.github.com/repos/ajeetdsouza/zoxide/releases -H 'Accept: application/vnd.github.v4+json' | jq -r '[.[]|select(.prerelease == false)][0].tag_name' | cut -c 2-) \
+  ; zoxide_url="https://github.com/ajeetdsouza/zoxide/releases/latest/download/zoxide-${zoxide_ver}-x86_64-unknown-linux-musl.tar.gz" \
   ; curl -sSL ${zoxide_url} | tar zxf - -C /opt/assets zoxide \
   \
-  ; just_url=$(curl -sSL https://api.github.com/repos/casey/just/releases -H 'Accept: application/vnd.github.v3+json' \
-          | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep x86_64-unknown-linux-musl) \
+  ; just_ver=$(curl -sSL https://api.github.com/repos/casey/just/releases -H 'Accept: application/vnd.github.v3+json' | jq -r '[.[]|select(.prerelease == false)][0].tag_name') \
+  ; just_url="https://github.com/casey/just/releases/latest/download/just-${just_ver}-x86_64-unknown-linux-musl.tar.gz" \
   ; curl -sSL ${just_url} | tar zxf - -C /opt/assets just \
   \
-  ; btm_url=$(curl -sSL https://api.github.com/repos/ClementTsang/bottom/releases -H 'Accept: application/vnd.github.v3+json' \
-          | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep x86_64-unknown-linux-musl) \
+  ; btm_url="https://github.com/ClementTsang/bottom/releases/latest/download/bottom_x86_64-unknown-linux-musl.tar.gz" \
   ; curl -sSL ${btm_url} | tar zxf - -C /opt/assets btm \
   \
-  ; dust_url=$(curl -sSL https://api.github.com/repos/bootandy/dust/releases -H 'Accept: application/vnd.github.v3+json' \
-          | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep x86_64-unknown-linux-musl) \
+  ; dust_ver=$(curl -sSL https://api.github.com/repos/bootandy/dust/releases -H 'Accept: application/vnd.github.v3+json' | jq -r '[.[]|select(.prerelease == false)][0].tag_name') \
+  ; dust_url="https://github.com/bootandy/dust/releases/latest/download/dust-${dust_ver}-x86_64-unknown-linux-musl.tar.gz" \
   ; curl -sSL ${dust_url} | tar zxf - -C /opt/assets --strip-components=1 --wildcards '*/dust' \
   \
   ; find /opt/assets -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s
@@ -44,8 +43,8 @@ RUN set -eux \
       git pwgen s3fs python3 python3-pip ipython3 \
       # python3-dev python3-setuptools \
   \
-  ; wasmtime_url=$(curl -sSL https://api.github.com/repos/bytecodealliance/wasmtime/releases -H 'Accept: application/vnd.github.v3+json' \
-                 | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep x86_64-linux | grep -v api) \
+  ; wasmtime_ver=$(curl -sSL https://api.github.com/repos/bytecodealliance/wasmtime/releases -H 'Accept: application/vnd.github.v3+json' | jq -r '[.[]|select(.prerelease == false)][0].tag_name') \
+  ; wasmtime_url="https://github.com/bytecodealliance/wasmtime/releases/latest/download/wasmtime-${wasmtime_ver}-x86_64-linux.tar.xz" \
   ; curl -sSL ${wasmtime_url} | tar Jxf - --strip-components=1 -C /usr/local/bin --wildcards '*/wasmtime' \
   \
   ; pip3 --no-cache-dir install \
@@ -89,16 +88,15 @@ RUN set -eux \
         yaml-language-server \
   ; npm cache clean -f \
   \
-  ; lua_ls_url=$(curl -sSL https://api.github.com/repos/sumneko/lua-language-server/releases -H 'Accept: application/vnd.github.v3+json' \
-               | jq -r '[.[]|select(.prerelease == false)][0].assets[].browser_download_url' | grep 'linux-x64') \
+  ; lslua_ver=$(curl -sSL https://api.github.com/repos/sumneko/lua-language-server/releases -H 'Accept: application/vnd.github.v3+json' | jq -r '[.[]|select(.prerelease == false)][0].tag_name') \
+  ; lslua_url="https://github.com/sumneko/lua-language-server/releases/latest/download/lua-language-server-${lslua_ver}-linux-x64.tar.gz" \
   ; mkdir -p /opt/language-server/sumneko_lua \
-  ; curl -sSL ${lua_ls_url} | tar zxf - \
+  ; curl -sSL ${lslua_url} | tar zxf - \
       -C /opt/language-server/sumneko_lua \
   \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
   \
-  ; nvim_url=$(curl -sSL https://api.github.com/repos/neovim/neovim/releases -H 'Accept: application/vnd.github.v3+json' \
-             | jq -r '[.[]|select(.prerelease==false)][0].assets[].browser_download_url' | grep -v sha256sum | grep linux64.tar.gz) \
+  ; nvim_url=https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz \
   ; curl -sSL ${nvim_url} | tar zxf - -C /usr/local --strip-components=1 \
   ; strip /usr/local/bin/nvim \
   ; git clone --depth=1 https://github.com/fj0r/nvim-lua.git $XDG_CONFIG_HOME/nvim \

@@ -44,9 +44,7 @@ RUN set -eux \
 
 RUN set -eux \
   ; mkdir -p /opt/language-server/rust \
-  ; ra_url=$(curl -sSL https://api.github.com/repos/rust-analyzer/rust-analyzer/releases -H 'Accept: application/vnd.github.v3+json' \
-      | jq -r '[.[]|select(.prerelease==false)][0].assets[].browser_download_url' \
-      | grep 'analyzer-x86_64-unknown-linux-gnu') \
+  ; ra_url="https://github.com/rust-lang/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-unknown-linux-gnu.gz" \
   ; curl -sSL ${ra_url} | gzip -d > /opt/language-server/rust/rust-analyzer \
   ; chmod +x /opt/language-server/rust/rust-analyzer \
   ; strip -s /opt/language-server/rust/rust-analyzer \
