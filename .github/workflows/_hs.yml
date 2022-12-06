@@ -45,11 +45,11 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Build hs
+      - name: Build hs wasm
         uses: docker/build-push-action@v3
         with:
           context: hs
-          file: hs/Dockerfile
+          file: hs/wasm.Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hs
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hsw
           labels: ${{ steps.meta.outputs.labels }}
