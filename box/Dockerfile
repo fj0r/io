@@ -93,6 +93,7 @@ RUN set -eux \
   ; mkdir -p /opt/language-server/sumneko_lua \
   ; curl -sSL ${lslua_url} | tar zxf - \
       -C /opt/language-server/sumneko_lua \
+  ; ln -fs /opt/language-server/sumneko_lua/bin/lua-language-server /usr/local/bin \
   \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
   \
