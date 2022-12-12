@@ -6,11 +6,8 @@ name: hs
 # documentation.
 
 on:
-  workflow_run:
-    workflows: ["base"]
-    branches: [ master ]
-    types:
-      - completed
+  push:
+    branches: [ master, hls ]
 
 env:
   REGISTRY: docker.io
@@ -20,8 +17,6 @@ env:
 
 jobs:
   build:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -53,7 +48,8 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: hs
+          file: hs/up.Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hs
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hls
           labels: ${{ steps.meta.outputs.labels }}
 
