@@ -17,7 +17,7 @@ RUN set -eux \
   ; mkdir -p ${STACK_ROOT} \
   ; curl -sSL https://get-ghcup.haskell.org | sh \
   ; rm -rf ${GHCUP_ROOT}/cache \
-  ; rm -rf ${GHCUP_ROOT}/share/doc \
+  #; rm -rf ${GHCUP_ROOT}/share/doc \
   \
   ; stack config set system-ghc --global true \
   ; stack config set install-ghc --global false \
@@ -43,7 +43,7 @@ RUN set -eux \
       mwc-random MonadRandom random \
       katip monad-logger monad-journal \
       regex-base regex-posix regex-compat \
-      pipes conduit machines \
+      flow pipes conduit machines \
       http-conduit wreq HTTP html websockets multipart \
       servant scotty wai network network-uri warp \
       QuickCheck smallcheck hspec \
@@ -60,7 +60,11 @@ RUN set -eux \
   ; do chmod 777 ${STACK_ROOT}/$x; done \
   ; chmod -R 777 ${STACK_ROOT}/global-project
 
-#RUN ghcup install hls
+COPY ghci /root/.ghci
+
+#RUN set -eux \
+#  ; ghcup install hls \
+#  ; rm -rf ${GHCUP_ROOT}/cache
 #RUN set -eux \
 #  ; ghcup compile hls --cabal-update -g master --ghc 9.2.5
 

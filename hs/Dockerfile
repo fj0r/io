@@ -26,7 +26,6 @@ RUN set -eux \
   ; nu -c "open ${STACK_ROOT}/config.yaml | upsert allow-different-user true | upsert allow-newer true | save ${STACK_ROOT}/config.yaml" \
   # JuicyPixels xhtml criterion weigh alex happy
   # cassava diagrams \
-  # flow mustache \
   ; stack install --no-interleaved-output \
       ghcid haskell-dap ghci-dap haskell-debug-adapter \
       optparse-applicative shelly process unix \
@@ -45,7 +44,7 @@ RUN set -eux \
       mwc-random MonadRandom random \
       katip monad-logger monad-journal \
       regex-base regex-posix regex-compat \
-      pipes conduit machines \
+      flow pipes conduit machines \
       http-conduit wreq HTTP html websockets multipart \
       servant scotty wai network network-uri warp \
       QuickCheck smallcheck hspec \
