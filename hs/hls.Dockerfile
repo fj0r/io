@@ -2,9 +2,9 @@ FROM fj0rd/io:ghcup as build
 
 #RUN ghcup install hls
 RUN set -eux \
-  ; mkdir -p /opt/hls \
+  ; mkdir -p /opt/hls/bin \
   ; ghcup compile hls --cabal-update -g master --ghc 9.2.5 \
-  ; cp haskell-language-server* /opt/hls
+  ; cp ${GHCUP_ROOT}/bin/haskell-language-server* /opt/hls/bin
 
 FROM scratch
 

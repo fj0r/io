@@ -62,7 +62,6 @@ RUN set -eux \
 
 COPY ghci /root/.ghci
 
-
 #RUN set -eux \
 #  ; mkdir -p /opt/language-server/haskell \
 #  ; hls_version=$(curl -sSL https://api.github.com/repos/haskell/haskell-language-server/releases/latest | jq -r '.tag_name') \
