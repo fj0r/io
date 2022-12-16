@@ -29,8 +29,6 @@ RUN set -eux \
   #; locale-gen \
   ; sed -i 's/^.*\(%sudo.*\)ALL$/\1NOPASSWD:ALL/g' /etc/sudoers \
   \
-  ; mkdir -p /etc/dropbear \
-  \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /world
