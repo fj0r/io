@@ -21,7 +21,7 @@ RUN set -eux \
   \
   ; stack config set system-ghc --global true \
   ; stack config set install-ghc --global false \
-  ; nu -c "open ${STACK_ROOT}/config.yaml | upsert allow-different-user true | upsert allow-newer true | save ${STACK_ROOT}/config.yaml" \
+  ; nu -c "open ${STACK_ROOT}/config.yaml | upsert allow-different-user true | upsert allow-newer true | save -f ${STACK_ROOT}/config.yaml" \
   ;
 
 RUN set -eux \

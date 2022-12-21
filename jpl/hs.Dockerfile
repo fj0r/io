@@ -23,7 +23,7 @@ RUN set -eux \
   ; export ihaskell_datadir=${IHASKELL_DATA_DIR} \
   ; ${HOME}/.local/bin/ihaskell install --stack --env-file ${IHASKELL_DATA_DIR}/env \
   # flow parsers boomerang criterion weigh arithmoi syb multipart HTTP html xhtml
-  ; nu -c "open ${STACK_ROOT}/config.yaml | upsert allow-different-user true | save ${STACK_ROOT}/config.yaml" \
+  ; nu -c "open ${STACK_ROOT}/config.yaml | upsert allow-different-user true | save -f ${STACK_ROOT}/config.yaml" \
   ; stack install --no-interleaved-output \
       optparse-applicative shelly process unix \
       time clock hpc pretty filepath directory zlib \
@@ -62,7 +62,7 @@ RUN set -eux \
   ; echo "packages: []" > ${STACK_ROOT}/global-project/stack.yaml \
   ; nu -c "open ${STACK_ROOT}/global-project/stack.yaml \
           | upsert resolver (open ${IHASKELL_DATA_DIR}/stack.yaml | get resolver) \
-          | save ${STACK_ROOT}/global-project/stack.yaml" \
+          | save -f ${STACK_ROOT}/global-project/stack.yaml" \
   ; cp ${IHASKELL_DATA_DIR}/stack.yaml.lock ${STACK_ROOT}/global-project \
   \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
