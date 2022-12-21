@@ -24,7 +24,7 @@ ENV RACKET_HOME=/opt/racket
 ENV PATH=${RACKET_HOME}/bin:$PATH
 
 RUN set -eux \
-  ; racket_ver=$(curl -sSL https://api.github.com/repos/racket/racket/releases -H 'Accept: application/vnd.github.v3+json' | jq -r '[.[]|select(.prerelease==false)][0].tag_name' | cut -c 2-) \
+  ; racket_ver=$(curl -sSL https://api.github.com/repos/racket/racket/releases/latest | jq -r '.tag_name' | cut -c 2-) \
   ; racket_url=https://mirror.racket-lang.org/installers/${racket_ver}/racket-${racket_ver}-x86_64-linux-cs.sh \
   ; curl -sSLo racket.sh ${racket_url} \
   ; sh ./racket.sh --in-place --dest ${RACKET_HOME} \
