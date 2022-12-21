@@ -25,21 +25,3 @@ RUN set -eux \
   ; rm -rf ${CARGO_HOME}/registry/src/*
   #; find ${CARGO_HOME}/bin -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s
 
-RUN set -eux \
-  ; mkdir -p /opt/language-server/rust \
-  ; ra_url=$(curl -sSL https://api.github.com/repos/rust-analyzer/rust-analyzer/releases -H 'Accept: application/vnd.github.v3+json' \
-      | jq -r '[.[]|select(.prerelease==false)][0].assets[].browser_download_url' \
-      | grep 'analyzer-x86_64-unknown-linux-gnu') \
-  ; curl -sSL ${ra_url} | gzip -d > /opt/language-server/rust/rust-analyzer \
-  ; chmod +x /opt/language-server/rust/rust-analyzer \
-  ; strip -s /opt/language-server/rust/rust-analyzer \
-  ; ln -fs /opt/language-server/rust/rust-analyzer /usr/local/bin \
-  \
-  ; export USER=root \
-  ; opwd=$PWD; cd /world \
-  ; PROJ=hello-rust \
-  ; cargo new $PROJ \
-  ; cd $PROJ \
-  ; cargo wasi build --release \
-  ; rm -rf target \
-  ; cd $opwd
