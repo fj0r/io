@@ -16,7 +16,7 @@ RUN set -eux \
   ; mkdir -p ${GHCUP_ROOT}/bin \
   ; mkdir -p ${STACK_ROOT} \
   #; curl -sSL https://get-ghcup.haskell.org | sh \
-  ; curl -sSLo ${GHCUP_ROOT}/bin/ghcup  https://downloads.haskell.org/~ghcup/x86_64-linux-ghcup \
+  ; curl -sSLo ${GHCUP_ROOT}/bin/ghcup https://downloads.haskell.org/~ghcup/x86_64-linux-ghcup \
   ; chmod +x ${GHCUP_ROOT}/bin/ghcup \
   \
   ; ghcup install ghc \
@@ -32,9 +32,10 @@ RUN set -eux \
 
 COPY ghci /root/.ghci
 
-#RUN set -eux \
-#  ; ghcup install hls \
-#  ; rm -rf ${GHCUP_ROOT}/cache
+RUN set -eux \
+  ; ghcup install hls \
+  #; rm -rf ${GHCUP_ROOT}/cache
+  ;
 #RUN set -eux \
 #  ; ghcup compile hls --cabal-update -g master --ghc 9.2.5
 

@@ -13,9 +13,15 @@ RUN set -eux \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 RUN set -eux \
-  ; mkdir -p ${GHCUP_ROOT} \
+  ; mkdir -p ${GHCUP_ROOT}/bin \
   ; mkdir -p ${STACK_ROOT} \
-  ; curl -sSL https://get-ghcup.haskell.org | sh \
+  #; curl -sSL https://get-ghcup.haskell.org | sh \
+  ; curl -sSLo ${GHCUP_ROOT}/bin/ghcup https://downloads.haskell.org/~ghcup/x86_64-linux-ghcup \
+  ; chmod +x ${GHCUP_ROOT}/bin/ghcup \
+  ; ghcup install ghc \
+  ; ghcup install stack \
+  ; ghcup install cabal \
+  ; ghcup install hls \
   ; rm -rf ${GHCUP_ROOT}/cache \
   #; rm -rf ${GHCUP_ROOT}/share/doc \
   \
