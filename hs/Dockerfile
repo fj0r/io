@@ -22,7 +22,7 @@ RUN set -eux \
   ; ghcup install stack \
   ; ghcup install cabal \
   ; ghcup install hls \
-  ; rm -rf ${GHCUP_ROOT}/cache \
+  #; rm -rf ${GHCUP_ROOT}/cache \
   #; rm -rf ${GHCUP_ROOT}/share/doc \
   \
   ; stack config set system-ghc --global true \
