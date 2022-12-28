@@ -20,8 +20,7 @@ RUN set -eux \
   \
   ; mkdir -p ${STACK_ROOT} && mkdir -p ${HOME}/.cabal \
   ; curl -sSL https://get.haskellstack.org/ | sh \
-  ; stack update \
-  \
+  #; stack update \
   ; stack config set system-ghc --global true \
   ; stack config set install-ghc --global false \
   ; nu -c "open ${STACK_ROOT}/config.yaml | upsert allow-different-user true | upsert allow-newer true | save -f ${STACK_ROOT}/config.yaml" \
