@@ -18,10 +18,10 @@ RUN set -eux \
   #; curl -sSL https://get-ghcup.haskell.org | sh \
   ; curl -sSLo ${GHCUP_ROOT}/bin/ghcup https://downloads.haskell.org/~ghcup/x86_64-linux-ghcup \
   ; chmod +x ${GHCUP_ROOT}/bin/ghcup \
-  \
   ; ghcup install ghc \
   ; ghcup install stack \
   ; ghcup install cabal \
+  #; ghcup install hls \
   #; rm -rf ${GHCUP_ROOT}/cache \
   #; rm -rf ${GHCUP_ROOT}/share/doc \
   \
@@ -33,9 +33,14 @@ RUN set -eux \
 COPY ghci /root/.ghci
 
 RUN set -eux \
-  ; ghcup install hls \
-  #; rm -rf ${GHCUP_ROOT}/cache
-  ;
-#RUN set -eux \
-#  ; ghcup compile hls --cabal-update -g master --ghc 9.2.5
-
+  ; mkdir -p /opt/language-server/haskell \
+  ; hls_version=$(curl -sSL https://api.github.com/repos/haskell/haskell-language-server/releases/latest | jq -r '.tag_name') \
+  #; hls_version=$(curl https://downloads.haskell.org/~hls/ | rg '>haskell-language-server-(.+)/<' -or '$1' | tail -n 1) \
+  ; ghc_version=$(stack ghc -- --numeric-version) \
+  ; curl -sSL https://downloads.haskell.org/~hls/haskell-language-server-${hls_version}/haskell-language-server-${hls_version}-x86_64-linux-ubuntu20.04.tar.xz \
+        | tar Jxvf - -C /opt/language-server/haskell --strip-components=1 \
+          haskell-language-server-${hls_version}/bin/haskell-language-server-${ghc_version} \
+          haskell-language-server-${hls_version}/bin/haskell-language-server-wrapper \
+          haskell-language-server-${hls_version}/lib/${ghc_version} \
+  ; find /opt/language-server/haskell -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s \
+  ; find /opt/language-server/haskell/bin -maxdepth 1 -type f | xargs -i ln -fs {} /usr/local/bin

@@ -13,7 +13,7 @@ RUN set -eux \
 RUN set -eux \
   ; mkdir -p ${GHC_ROOT} \
   ; ghc_ver=$(curl -sSL https://www.stackage.org/lts -H 'Accept: application/json' | jq -r '.snapshot.ghc') \
-  ; ghc_url=https://downloads.haskell.org/~ghc/${ghc_ver}/ghc-${ghc_ver}-x86_64-deb10-linux.tar.xz \
+  ; ghc_url=https://downloads.haskell.org/~ghc/${ghc_ver}/ghc-${ghc_ver}-x86_64-ubuntu20.04-linux.tar.xz \
   ; curl -sSL ${ghc_url} | tar Jxf - \
   ; cd ghc-${ghc_ver} && ./configure --prefix=${GHC_ROOT} && make install \
   ; cd .. && rm -rf ghc-${ghc_ver} \

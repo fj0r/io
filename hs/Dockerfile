@@ -13,7 +13,7 @@ RUN set -eux \
 RUN set -eux \
   ; mkdir -p ${GHC_ROOT} \
   ; ghc_ver=$(curl -sSL https://www.stackage.org/lts -H 'Accept: application/json' | jq -r '.snapshot.ghc') \
-  ; ghc_url=https://downloads.haskell.org/~ghc/${ghc_ver}/ghc-${ghc_ver}-x86_64-deb10-linux.tar.xz \
+  ; ghc_url=https://downloads.haskell.org/~ghc/${ghc_ver}/ghc-${ghc_ver}-x86_64-ubuntu20.04-linux.tar.xz \
   ; curl -sSL ${ghc_url} | tar Jxf - \
   ; cd ghc-${ghc_ver} && ./configure --prefix=${GHC_ROOT} && make install \
   ; cd .. && rm -rf ghc-${ghc_ver} \
@@ -21,17 +21,6 @@ RUN set -eux \
   ; mkdir -p ${STACK_ROOT} && mkdir -p ${HOME}/.cabal \
   ; curl -sSL https://get.haskellstack.org/ | sh \
   ; stack update \
-  # ; mkdir -p ${GHCUP_ROOT}/bin \
-  # ; mkdir -p ${STACK_ROOT} \
-  # #; curl -sSL https://get-ghcup.haskell.org | sh \
-  # ; curl -sSLo ${GHCUP_ROOT}/bin/ghcup https://downloads.haskell.org/~ghcup/x86_64-linux-ghcup \
-  # ; chmod +x ${GHCUP_ROOT}/bin/ghcup \
-  # ; ghcup install ghc \
-  # ; ghcup install stack \
-  # ; ghcup install cabal \
-  # #; ghcup install hls \
-  # #; rm -rf ${GHCUP_ROOT}/cache \
-  # #; rm -rf ${GHCUP_ROOT}/share/doc \
   \
   ; stack config set system-ghc --global true \
   ; stack config set install-ghc --global false \
@@ -81,7 +70,7 @@ RUN set -eux \
   ; hls_version=$(curl -sSL https://api.github.com/repos/haskell/haskell-language-server/releases/latest | jq -r '.tag_name') \
   #; hls_version=$(curl https://downloads.haskell.org/~hls/ | rg '>haskell-language-server-(.+)/<' -or '$1' | tail -n 1) \
   ; ghc_version=$(stack ghc -- --numeric-version) \
-  ; curl -sSL https://downloads.haskell.org/~hls/haskell-language-server-${hls_version}/haskell-language-server-${hls_version}-x86_64-linux-deb10.tar.xz \
+  ; curl -sSL https://downloads.haskell.org/~hls/haskell-language-server-${hls_version}/haskell-language-server-${hls_version}-x86_64-linux-ubuntu20.04.tar.xz \
         | tar Jxvf - -C /opt/language-server/haskell --strip-components=1 \
           haskell-language-server-${hls_version}/bin/haskell-language-server-${ghc_version} \
           haskell-language-server-${hls_version}/bin/haskell-language-server-wrapper \

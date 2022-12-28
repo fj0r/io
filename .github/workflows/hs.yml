@@ -7,7 +7,7 @@ name: hs
 
 on:
   push:
-    branches: [ master, hls ]
+    branches: [ master, ghcup ]
 
 env:
   REGISTRY: docker.io
@@ -44,7 +44,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Build hs
+      - name: Build ghcup
         uses: docker/build-push-action@v3
         with:
           context: hs
@@ -53,12 +53,12 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:ghcup
           labels: ${{ steps.meta.outputs.labels }}
 
-      #- name: Build hls
-      #  uses: docker/build-push-action@v3
-      #  with:
-      #    context: hs
-      #    file: hs/hls.Dockerfile
-      #    push: ${{ github.event_name != 'pull_request' }}
-      #    tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hls
-      #    labels: ${{ steps.meta.outputs.labels }}
+      - name: Build stack
+        uses: docker/build-push-action@v3
+        with:
+          context: hs
+          file: hs/stack.Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:stack
+          labels: ${{ steps.meta.outputs.labels }}
 
