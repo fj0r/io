@@ -16,9 +16,10 @@ RUN set -eux \
   ; apt-get upgrade -y \
   ; DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends \
-      sudo procps htop cron logrotate tzdata openssl \
+      sudo procps htop cron tzdata openssl \
       curl ca-certificates rsync tcpdump socat \
-      jq ripgrep tree fuse xz-utils zstd zip unzip \
+      jq ripgrep patch tree logrotate \
+      fuse xz-utils zstd zip unzip \
       lsof inetutils-ping iproute2 iptables net-tools \
   \
   ; ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime \
