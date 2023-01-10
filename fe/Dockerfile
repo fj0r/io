@@ -8,6 +8,7 @@ RUN set -eux \
   ; DEBIAN_FRONTEND=noninteractive \
   ; npm install --location=global pnpm \
   ; mkdir -p ${PNPM_HOME} \
+  ; pnpm config set store-dir ${PNPM_HOME} \
   ; npm cache clean -f \
   ; npm install --location=global \
         rescript \
