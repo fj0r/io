@@ -38,7 +38,7 @@ RUN set -ex \
         cffi zeromq libssh2 openssl pyzmq pcre \
   ; conda install pytorch torchserve torchtext torchvision torchaudio cudatoolkit -c pytorch -c nvidia \
   ; conda clean --all -f -y \
-  ; pip --no-cache-dir install neovim \
+  ; pip --no-cache-dir install \
         pytorch-lightning plotly_express \
         transitions Requests furl html5lib envelopes \
         bash_kernel ipython-sql pgspecial jieba sh \

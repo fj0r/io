@@ -38,7 +38,7 @@ RUN set -ex \
         cffi zeromq libssh2 openssl pyzmq pcre \
   ; conda clean --all -f -y \
   #; pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple \
-  ; pip --no-cache-dir install neovim \
+  ; pip --no-cache-dir install \
         tensorflow \
         plotly_express \
         transitions Requests furl html5lib envelopes \

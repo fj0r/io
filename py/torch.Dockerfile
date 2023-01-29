@@ -37,7 +37,7 @@ RUN set -ex \
         xz zlib zstd cryptography \
         cffi zeromq libssh2 openssl pyzmq pcre \
   ; conda clean --all -f -y \
-  ; pip --no-cache-dir install neovim \
+  ; pip --no-cache-dir install \
         torch torchserve torchtext torchvision torchaudio pytorch-lightning \
         plotly_express \
         transitions Requests furl html5lib envelopes \
