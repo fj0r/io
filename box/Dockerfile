@@ -105,7 +105,8 @@ RUN set -eux \
   \
   ; tsl=$(cat $XDG_CONFIG_HOME/nvim/lua/lang/treesitter_lang.json|jq -r 'join(" ")') \
   ; nvim --headless -c "TSUpdateSync ${tsl}" -c 'quit' \
-  ; rm -rf $XDG_CONFIG_HOME/nvim/pack/packer/*/*/.git
+  ; rm -rf $XDG_CONFIG_HOME/nvim/lazy/packages/*/.git \
+  ;
 
 ENV S3ENDPOINT=
 ENV S3BUCKET=
