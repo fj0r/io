@@ -1,13 +1,13 @@
 FROM fj0rd/io:jpl
 
 ### GO
-ENV GOROOT=/opt/go GOPATH=${HOME}/go
+ENV GOROOT=/opt/golang GOPATH=/opt/go
 ENV PATH=${GOPATH}/bin:${GOROOT}/bin:$PATH
 ENV GO111MODULE=on
 RUN set -ex \
-  ; cd /opt \
+  ; mkdir -p $GOROOT $GOPATH \
   ; GO_VERSION=$(curl -sSL 'https://go.dev/VERSION?m=text') \
-  ; curl -sSL https://go.dev/dl/${GO_VERSION}.linux-amd64.tar.gz | tar xzf - \
+  ; curl -sSL https://go.dev/dl/${GO_VERSION}.linux-amd64.tar.gz | tar xzf - -C ${GOROOT} --strip-components=1 \
   ; go mod download \
       github.com/sirupsen/logrus@latest \
       github.com/spf13/viper@latest \
@@ -25,7 +25,7 @@ RUN set -ex \
   ; chmod +w $gophernotes_dir/kernel.json \
   ; sed "s|gophernotes|$(go env GOPATH)/bin/gophernotes|" < $gophernotes_dir/kernel.json.in > $gophernotes_dir/kernel.json \
   ; rm -rf $(go env GOCACHE)/* \
-  ; find ${HOME}/go/bin -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s \
+  ; find ${GOROOT}/bin -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s \
   ; opwd=$PWD; cd /world \
   ; PROJ=hello-go \
   ; mkdir $PROJ \

@@ -1,12 +1,12 @@
 FROM fj0rd/io:latest
 
-ENV GOROOT=/opt/go GOPATH=${HOME:-/root}/go
+ENV GOROOT=/opt/golang GOPATH=/opt/go
 ENV PATH=${GOPATH}/bin:${GOROOT}/bin:$PATH
 ENV GO111MODULE=on
 RUN set -eux \
-  ; cd /opt \
+  ; mkdir -p $GOROOT $GOPATH \
   ; GO_VERSION=$(curl -sSL 'https://go.dev/VERSION?m=text') \
-  ; curl -sSL https://go.dev/dl/${GO_VERSION}.linux-amd64.tar.gz | tar xzf - \
+  ; curl -sSL https://go.dev/dl/${GO_VERSION}.linux-amd64.tar.gz | tar xzf - -C ${GOROOT} --strip-components=1 \
   #; go get -u -v \
   ; go mod download \
       github.com/sirupsen/logrus@latest \
@@ -19,7 +19,7 @@ RUN set -eux \
   ; go install golang.org/x/tools/gopls@latest \
   ; go install github.com/go-delve/delve/cmd/dlv@latest \
   ; rm -rf $(go env GOCACHE)/* \
-  ; find ${HOME}/go/bin -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s \
+  ; find ${GOPATH}/bin -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s \
   ; opwd=$PWD; cd /world \
   ; PROJ=hello-go \
   ; mkdir $PROJ \
