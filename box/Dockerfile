@@ -81,8 +81,9 @@ RUN set -eux \
     | tar Jxf - --strip-components=1 -C /opt/node \
   \
   ; mkdir -p /opt/language-server \
+  ; npm install -g npm@8 \
   ; npm install --location=global \
-        #quicktype \
+        quicktype \
         pyright \
         vscode-langservers-extracted \
         yaml-language-server \
