@@ -82,7 +82,7 @@ RUN set -eux \
   \
   ; mkdir -p /opt/language-server \
   ; npm install --location=global \
-        quicktype \
+        #quicktype \
         pyright \
         vscode-langservers-extracted \
         yaml-language-server \
