@@ -25,5 +25,8 @@ RUN set -eux \
   ; mkdir $PROJ \
   ; cd $PROJ \
   ; go mod init $PROJ \
+  ; printf "package main\n\nimport \"fmt\"\n\nimport \"rsc.io/quote\"\n\nfunc main() {\n    fmt.Println(quote.Go())\n}\n" > hello.go \
+  ; go mod tidy \
+  #; go run . \
   ; cd $opwd \
   ; go env -w GOPROXY=https://goproxy.cn,direct
