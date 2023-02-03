@@ -1,4 +1,5 @@
-FROM fj0rd/io:x
+ARG BASE_IMAGE=fj0rd/io:latest
+FROM ${BASE_IMAGE}
 
 ENV PNPM_HOME=/opt/pnpm
 ENV PATH=${PNPM_HOME}:$PATH

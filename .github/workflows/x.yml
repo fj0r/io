@@ -54,7 +54,7 @@ jobs:
         with:
           context: go
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:x
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:go
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build rs
@@ -62,7 +62,7 @@ jobs:
         with:
           context: rs
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:x
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:rs
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build hs
@@ -70,15 +70,24 @@ jobs:
         with:
           context: hs
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:x
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hs
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Build fe
+      - name: Build x
         uses: docker/build-push-action@v3
         with:
-          context: fe
-          file: fe/Dockerfile
+          context: js
+          file: js/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:x
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: BASE_IMAGE=fj0rd/io:hs
 
+      - name: Build js
+        uses: docker/build-push-action@v3
+        with:
+          context: js
+          file: js/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:js
+          labels: ${{ steps.meta.outputs.labels }}
