@@ -75,10 +75,10 @@ ENV PATH=${NODE_ROOT}/bin:$PATH
 RUN set -eux \
   ; apt update \
   ; apt-get install -y --no-install-recommends gnupg build-essential \
-  ; mkdir -p /opt/node \
+  ; mkdir -p ${NODE_ROOT} \
   ; node_version=$(curl -sSL https://nodejs.org/en/download/ | rg 'Latest LTS Version.*<strong>(.+)</strong>' -or '$1') \
   ; curl -sSL https://nodejs.org/dist/v${node_version}/node-v${node_version}-linux-x64.tar.xz \
-    | tar Jxf - --strip-components=1 -C /opt/node \
+    | tar Jxf - --strip-components=1 -C ${NODE_ROOT} \
   \
   ; mkdir -p /opt/language-server \
   ; npm install -g npm@8 \
