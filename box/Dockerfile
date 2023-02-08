@@ -104,7 +104,7 @@ RUN set -eux \
   ; git clone --depth=1 https://github.com/fj0r/nvim-lua.git $XDG_CONFIG_HOME/nvim \
   ; nvim --headless "+Lazy! sync" +qa \
   \
-  ; tsl=$(cat $XDG_CONFIG_HOME/nvim/lua/lang/treesitter_lang.json|jq -r 'join(" ")') \
+  ; tsl=$(cat $XDG_CONFIG_HOME/nvim/lua/settings/treesitter.json|jq -r '.languages|join(" ")') \
   ; nvim --headless -c "TSUpdateSync ${tsl}" -c 'quit' \
   ; rm -rf $XDG_CONFIG_HOME/nvim/lazy/packages/*/.git \
   ;
