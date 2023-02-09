@@ -61,6 +61,7 @@ RUN set -eux \
   \
   ; echo '/usr/local/bin/nu' >> /etc/shells \
   ; git clone --depth=1 https://github.com/fj0r/nushell.git $XDG_CONFIG_HOME/nushell \
+  ; opwd=$PWD; cd $XDG_CONFIG_HOME/nushell; git log -1 --date=iso; cd $opwd \
   \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
@@ -102,6 +103,7 @@ RUN set -eux \
   ; curl -sSL ${nvim_url} | tar zxf - -C /usr/local --strip-components=1 \
   ; strip /usr/local/bin/nvim \
   ; git clone --depth=1 https://github.com/fj0r/nvim-lua.git $XDG_CONFIG_HOME/nvim \
+  ; opwd=$PWD; cd $XDG_CONFIG_HOME/nvim; git log -1 --date=iso; cd $opwd \
   ; nvim --headless "+Lazy! sync" +qa \
   \
   ; tsl=$(cat $XDG_CONFIG_HOME/nvim/lua/settings/treesitter.json|jq -r '.languages|join(" ")') \
