@@ -88,6 +88,7 @@ RUN set -eux \
         pyright \
         vscode-langservers-extracted \
         yaml-language-server \
+        neovim \
   ; npm cache clean -f \
   \
   ; lslua_ver=$(curl -sSL https://api.github.com/repos/sumneko/lua-language-server/releases/latest | jq -r '.tag_name') \
