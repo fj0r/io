@@ -91,12 +91,11 @@ RUN set -eux \
         neovim \
   ; npm cache clean -f \
   \
-  ; lslua_ver=$(curl -sSL https://api.github.com/repos/sumneko/lua-language-server/releases/latest | jq -r '.tag_name') \
-  ; lslua_url="https://github.com/sumneko/lua-language-server/releases/latest/download/lua-language-server-${lslua_ver}-linux-x64.tar.gz" \
-  ; mkdir -p /opt/language-server/sumneko_lua \
-  ; curl -sSL ${lslua_url} | tar zxf - \
-      -C /opt/language-server/sumneko_lua \
-  ; ln -fs /opt/language-server/sumneko_lua/bin/lua-language-server /usr/local/bin \
+  ; lslua_ver=$(curl -sSL https://api.github.com/repos/LuaLS/lua-language-server/releases/latest | jq -r '.tag_name') \
+  ; lslua_url="https://github.com/LuaLS/lua-language-server/releases/latest/download/lua-language-server-${lslua_ver}-linux-x64.tar.gz" \
+  ; mkdir -p /opt/language-server/lua-language-server \
+  ; curl -sSL ${lslua_url} | tar zxf - -C /opt/language-server/lua-language-server \
+  ; ln -fs /opt/language-server/lua-language-server/bin/lua-language-server /usr/local/bin \
   \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
   \
