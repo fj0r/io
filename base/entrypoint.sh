@@ -87,7 +87,7 @@ if [ ! -z "$__ssh" ] || [ -f /root/.ssh/authorized_keys ]; then
     echo "[$(date -Is)] starting ssh"
     init_ssh
     mkdir -p /etc/dropbear
-    /usr/bin/dropbear -REFems -p 22 -K 300 -I 600 2>&1 &
+    /usr/bin/dropbear -REFems -p 22 2>&1 &
     echo -n "$! " >> /var/run/services
 fi
 
