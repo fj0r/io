@@ -22,9 +22,7 @@ EOF
 fi
 
 ################################################################################
-if [ -e /usr/local/bin/nu ]; then
-    __shell=/usr/local/bin/nu
-elif [ -e /bin/zsh ]; then
+if [ -e /bin/zsh ]; then
     __shell=/bin/zsh
 elif [ -e /bin/bash ]; then
     __shell=/bin/bash
@@ -143,7 +141,11 @@ if [ ! -z "${POSTBOOT}" ]; then
   bash $POSTBOOT
 fi
 
+
 if [ -z $1 ]; then
+    if [ -e /usr/local/bin/nu ]; then
+        __shell=/usr/local/bin/nu
+    fi
     exec ${__shell}
 elif [[ $1 == "srv" ]]; then
     sleep infinity &
