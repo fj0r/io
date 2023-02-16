@@ -21,6 +21,7 @@ RUN set -eux \
       cargo-wasi wasm-pack wasm-bindgen-cli trunk \
       cargo-watch cargo-expand cargo-eval cargo-tree \
       cargo-feature cargo-prefetch cargo-generate \
+      lunatic-runtime \
   ; cargo prefetch \
       quicli structopt structopt-yaml \
       surf scraper handlebars \
