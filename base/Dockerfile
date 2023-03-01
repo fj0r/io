@@ -46,5 +46,5 @@ ENV DEBUGE=
 ENV PREBOOT=
 ENV POSTBOOT=
 ENV CRONFILE=
-COPY entrypoint.sh /entrypoint.sh
-ENTRYPOINT [ "/entrypoint.sh" ]
+COPY startup /startup
+ENTRYPOINT [ "/startup/entrypoint.sh" ]
