@@ -111,9 +111,3 @@ RUN set -eux \
   ; pip3 --no-cache-dir install neovim \
   ;
 
-ENV S3ENDPOINT=
-ENV S3BUCKET=
-ENV S3MOUNTPOINT=
-ENV S3REGION=
-ENV S3ACCESS_KEY=
-ENV S3SECRET_KEY=
