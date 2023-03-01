@@ -25,7 +25,7 @@ RUN set -eux \
   ; cargo prefetch \
       quicli structopt structopt-yaml \
       surf scraper handlebars \
-      snafu thiserror anyhow lazy_static \
+      anyhow thiserror snafu lazy_static \
       proc-macro2 syn quote nom regex \
       tokio async-std async-graphql \
       warp async-graphql-warp \

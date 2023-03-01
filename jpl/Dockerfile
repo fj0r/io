@@ -80,7 +80,7 @@ RUN set -eux \
 #RUN set -ex \
 #  ; mkdir -p /usr/share/man/man1 \
 #  ; mkdir -p ${SCALA_HOME} \
-#  ; apt-get -y --no-install-recommends install openjdk-${JAVA_VERSION}-jdk-headless \
+#  ; apt-get install -y --no-install-recommends openjdk-${JAVA_VERSION}-jdk-headless \
 #  ; apt-get clean \
 #  ; curl -sSL https://downloads.lightbend.com/scala/$SCALA_VERSION/scala-$SCALA_VERSION.tgz \
 #      | tar xzf - -C ${SCALA_HOME} --strip-components=1  \
@@ -95,7 +95,7 @@ RUN set -eux \
 
 ### clojure
 #RUN set -ex \
-#  ; apt-get -y --no-install-recommends install leiningen \
+#  ; apt-get install -y --no-install-recommends leiningen \
 #  ; apt-get clean \
 #  ; git clone --depth=1 https://github.com/clojupyter/clojupyter \
 #  ; cd clojupyter \
