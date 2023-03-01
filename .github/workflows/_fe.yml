@@ -1,4 +1,4 @@
-name: fe
+name: frontend
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
@@ -6,9 +6,11 @@ name: fe
 # documentation.
 
 on:
-  push:
-    branches: [ fe ]
-    tags: [ 'v*.*.*' ]
+  workflow_run:
+    workflows: ["base"]
+    branches: [ master ]
+    types:
+      - completed
 
 env:
   REGISTRY: docker.io
@@ -17,6 +19,8 @@ env:
 
 jobs:
   build:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -50,6 +54,6 @@ jobs:
           context: fe
           file: fe/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:fe
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:x
           labels: ${{ steps.meta.outputs.labels }}
 
