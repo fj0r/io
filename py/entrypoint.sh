@@ -33,6 +33,7 @@ source $BASEDIR/env.sh
 source $BASEDIR/git.sh
 source $BASEDIR/ssh.sh
 source $BASEDIR/s3.sh
+source $BASEDIR/socat.sh
 source $BASEDIR/cron.sh
 
 if [ ! -z "${POSTBOOT}" ]; then
