@@ -46,7 +46,7 @@ ENV DEBUGE=
 ENV PREBOOT=
 ENV POSTBOOT=
 ENV CRONFILE=
-COPY startup /startup
+COPY entrypoint /entrypoint
 
 ENV S3ENDPOINT=
 ENV S3BUCKET=
@@ -58,4 +58,4 @@ ENV S3SECRET_KEY=
 ENV git_pull=
 #ENV ed25519_xxx=
 
-ENTRYPOINT [ "/startup/entrypoint.sh" ]
+ENTRYPOINT [ "/entrypoint/init.sh" ]

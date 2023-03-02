@@ -72,4 +72,4 @@ RUN set -eux \
   ; julia -e 'using Pkg; Pkg.add("IJulia"); using IJulia'
 
 
-COPY entrypoint.sh /startup/entrypoint.sh
+COPY entrypoint.sh /entrypoint/init.sh
