@@ -16,6 +16,7 @@ RUN set -eux \
         typescript-language-server typescript \
         vite vite-plugin-solid solid-js \
         @volar/vue-language-server vue \
+  ; chown -R root:root ${NODE_ROOT}/lib \
   #; npx degit solidjs/templates/ts my-solid-project --yes \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
@@ -24,5 +25,6 @@ RUN set -eux \
   ; cd /opt/language-server/vscode-node-debug2 \
   ; npm install \
   ; NODE_OPTIONS=--no-experimental-fetch npm run build \
+  ; chown -R root:root /opt/language-server/vscode-node-debug2 \
   ; npm cache clean -f
 
