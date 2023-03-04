@@ -83,13 +83,13 @@ RUN set -eux \
     | tar Jxf - --strip-components=1 -C ${NODE_ROOT} \
   \
   ; mkdir -p /opt/language-server \
-  ; npm install -g npm@8 \
   ; npm install --location=global \
         quicktype \
         pyright \
         vscode-langservers-extracted \
         yaml-language-server \
         neovim \
+  ; chown -R root:root ${NODE_ROOT}/lib \
   ; npm cache clean -f \
   \
   ; lslua_ver=$(curl -sSL https://api.github.com/repos/LuaLS/lua-language-server/releases/latest | jq -r '.tag_name') \
