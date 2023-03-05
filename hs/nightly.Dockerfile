@@ -2,6 +2,7 @@ FROM fj0rd/io
 
 ENV STACK_ROOT=/opt/stack GHC_ROOT=/opt/ghc
 ENV PATH=${GHC_ROOT}/bin:$PATH
+ENV GHC_OS=ubuntu20.04
 
 RUN set -eux \
   ; apt-get update \
@@ -13,7 +14,7 @@ RUN set -eux \
 RUN set -eux \
   ; mkdir -p ${GHC_ROOT} \
   ; ghc_ver=$(curl -sSL https://www.stackage.org/nightly -H 'Accept: application/json' | jq -r '.snapshot.ghc') \
-  ; ghc_url=https://downloads.haskell.org/~ghc/${ghc_ver}/ghc-${ghc_ver}-x86_64-deb10-linux.tar.xz \
+  ; ghc_url=https://downloads.haskell.org/~ghc/${ghc_ver}/ghc-${ghc_ver}-x86_64-${GHC_OS}-linux.tar.xz \
   ; curl -sSL ${ghc_url} | tar Jxf - \
   ; cd ghc-${ghc_ver} && ./configure --prefix=${GHC_ROOT} && make install \
   ; cd .. && rm -rf ghc-${ghc_ver} \
@@ -67,7 +68,7 @@ RUN set -eux \
   #; hls_version=$(curl -sSL https://api.github.com/repos/haskell/haskell-language-server/releases -H 'Accept: application/vnd.github.v3+json' | jq -r '[.[]|select(.prerelease==false)][0].tag_name') \
   ; hls_version=$(curl https://downloads.haskell.org/~hls/ | rg '>haskell-language-server-(.+)/<' -or '$1' | tail -n 1) \
   ; ghc_version=$(stack ghc -- --numeric-version) \
-  ; curl -sSL https://downloads.haskell.org/~hls/haskell-language-server-${hls_version}/haskell-language-server-${hls_version}-x86_64-linux-deb10.tar.xz \
+  ; curl -sSL https://downloads.haskell.org/~hls/haskell-language-server-${hls_version}/haskell-language-server-${hls_version}-x86_64-linux-${GHC_OS}.tar.xz \
         | tar Jxvf - -C /opt/language-server/haskell --strip-components=1 \
           haskell-language-server-${hls_version}/bin/haskell-language-server-${ghc_version} \
           haskell-language-server-${hls_version}/bin/haskell-language-server-wrapper \

@@ -2,6 +2,7 @@ FROM fj0rd/io
 
 ENV BOOTSTRAP_HASKELL_NONINTERACTIVE=1
 ENV STACK_ROOT=/opt/stack GHCUP_ROOT=/opt/.ghcup
+ENV GHC_OS=ubuntu20.04
 ENV PATH=${GHCUP_ROOT}/bin:$PATH \
     GHCUP_INSTALL_BASE_PREFIX=/opt
 
@@ -37,7 +38,7 @@ RUN set -eux \
   ; hls_version=$(curl -sSL https://api.github.com/repos/haskell/haskell-language-server/releases/latest | jq -r '.tag_name') \
   #; hls_version=$(curl https://downloads.haskell.org/~hls/ | rg '>haskell-language-server-(.+)/<' -or '$1' | tail -n 1) \
   ; ghc_version=$(stack ghc -- --numeric-version) \
-  ; curl -sSL https://downloads.haskell.org/~hls/haskell-language-server-${hls_version}/haskell-language-server-${hls_version}-x86_64-linux-ubuntu20.04.tar.xz \
+  ; curl -sSL https://downloads.haskell.org/~hls/haskell-language-server-${hls_version}/haskell-language-server-${hls_version}-x86_64-linux-${GHC_OS}.tar.xz \
         | tar Jxvf - -C /opt/language-server/haskell --strip-components=1 \
           haskell-language-server-${hls_version}/bin/haskell-language-server-${ghc_version} \
           haskell-language-server-${hls_version}/bin/haskell-language-server-wrapper \
