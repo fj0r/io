@@ -6,7 +6,7 @@ if [[ "$DEBUG" == 'true' ]]; then
     set -x
 fi
 
-if [ ! -z "${PREBOOT}" ]; then
+if [ -n "${PREBOOT}" ]; then
   bash $PREBOOT
 fi
 
@@ -36,7 +36,7 @@ source $BASEDIR/s3.sh
 source $BASEDIR/socat.sh
 source $BASEDIR/cron.sh
 
-if [ ! -z "${POSTBOOT}" ]; then
+if [ -n "${POSTBOOT}" ]; then
   bash $POSTBOOT
 fi
 
