@@ -33,8 +33,7 @@ FROM fj0rd/io:base
 COPY --from=nu /opt/assets /usr/local/bin
 #COPY --from=goofys / /
 
-ENV NVIM_PRESET=core \
-    PYTHONUNBUFFERED=x
+ENV PYTHONUNBUFFERED=x
 
 RUN set -eux \
   ; apt-get update \
