@@ -1,8 +1,9 @@
+ARG GHC_OS=deb10
 FROM fj0rd/io:rs
 
 ENV STACK_ROOT=/opt/stack GHC_ROOT=/opt/ghc
 ENV PATH=${GHC_ROOT}/bin:$PATH
-ENV GHC_OS=deb10
+ENV GHC_OS=${GHC_OS}
 
 RUN set -eux \
   ; apt-get update \
