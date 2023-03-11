@@ -1,6 +1,7 @@
+ARG BASEIMAGE=debian:testing-slim
 FROM fj0rd/scratch:dropbear as dropbear
 
-FROM debian:testing-slim
+FROM ${BASEIMAGE}
 
 EXPOSE 22
 VOLUME /world

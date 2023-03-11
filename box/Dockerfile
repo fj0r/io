@@ -1,5 +1,6 @@
+ARG BASEIMAGE=fj0rd/io:base
 #FROM fj0rd/scratch:goofys as goofys
-FROM fj0rd/io:base as nu
+FROM ${BASEIMAGE}  as nu
 RUN set -eux \
   ; apt-get update \
   ; DEBIAN_FRONTEND=noninteractive \
@@ -29,7 +30,7 @@ RUN set -eux \
   ; find /opt/assets -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s
 
 
-FROM fj0rd/io:base
+FROM ${BASEIMAGE}
 COPY --from=nu /opt/assets /usr/local/bin
 #COPY --from=goofys / /
 
