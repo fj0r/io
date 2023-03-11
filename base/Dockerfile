@@ -1,6 +1,6 @@
 FROM fj0rd/scratch:dropbear as dropbear
 
-FROM ubuntu:jammy
+FROM debian:testing-slim
 
 EXPOSE 22
 VOLUME /world
