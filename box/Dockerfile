@@ -47,7 +47,7 @@ RUN set -eux \
   ; wasmtime_url="https://github.com/bytecodealliance/wasmtime/releases/latest/download/wasmtime-${wasmtime_ver}-x86_64-linux.tar.xz" \
   ; curl -sSL ${wasmtime_url} | tar Jxf - --strip-components=1 -C /usr/local/bin --wildcards '*/wasmtime' \
   \
-  ; pip3 --no-cache-dir install \
+  ; pip3 install --no-cache-dir --prefix=/usr \
         # aiofile fastapi uvicorn \
         debugpy pydantic pytest \
         httpx hydra-core typer pyyaml deepmerge \
@@ -107,6 +107,6 @@ RUN set -eux \
   ; nvim --headless "+Lazy! sync" +qa \
   \
   ; rm -rf $XDG_CONFIG_HOME/nvim/lazy/packages/*/.git \
-  ; pip3 --no-cache-dir install neovim \
+  ; pip3 install --no-cache-dir --prefix=/usr neovim \
   ;
 

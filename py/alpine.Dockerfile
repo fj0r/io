@@ -14,7 +14,7 @@ RUN set -eux \
   ; apk add --no-cache --virtual .build-deps \
       build-base make coreutils \
   \
-  ; pip3 --no-cache-dir install \
+  ; pip3 install --no-cache-dir \
         debugpy fastapi uvicorn aiofile pytest \
         httpx typer hydra-core pyyaml deepmerge structlog \
         pydantic PyParsing decorator more-itertools fn.py cachetools \
