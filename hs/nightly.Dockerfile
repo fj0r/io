@@ -31,7 +31,7 @@ RUN set -eux \
 
 RUN set -eux \
   ; stack install ${STACK_RESOLVER} --no-interleaved-output \
-      ghcid haskell-dap ghci-dap haskell-debug-adapter \
+      ghcid implicit-hie haskell-dap ghci-dap haskell-debug-adapter \
       optparse-applicative shelly process unix \
       time clock hpc pretty filepath directory zlib \
       array hashtables dlist binary bytestring text \
@@ -54,9 +54,9 @@ RUN set -eux \
       QuickCheck smallcheck hspec \
       hmatrix linear statistics ad integration \
   ; rm -rf ${STACK_ROOT}/pantry/hackage/* \
-  ; opwd=$PWD; cd /world \
-  ; stack ${STACK_RESOLVER} new hello-rio rio \
-  ; stack ${STACK_RESOLVER} new hello-haskell \
+  ; opwd=$PWD \
+  ; cd /world && stack ${STACK_RESOLVER} new hello-rio rio && cd hello-rio && gen-hie > hie.yaml \
+  ; cd /world && stack ${STACK_RESOLVER} new hello-haskell && cd hello-haskell && gen-hie > hie.yaml \
   ; cd $opwd \
   ; for x in config.yaml \
              templates \
