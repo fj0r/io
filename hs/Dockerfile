@@ -1,6 +1,6 @@
 FROM fj0rd/io:rs
 
-ARG STACK_RESOLVER=""
+ARG STACK_FLAGS="--local-bin-path=/usr/local/bin --no-interleaved-output"
 ARG GHC_OS=deb10
 
 ENV STACK_ROOT=/opt/stack GHC_ROOT=/opt/ghc
@@ -30,7 +30,7 @@ RUN set -eux \
   ;
 
 RUN set -eux \
-  ; stack install --no-interleaved-output \
+  ; stack install ${STACK_FLAGS}  \
       ghcid implicit-hie haskell-dap ghci-dap haskell-debug-adapter \
       optparse-applicative shelly process unix \
       time clock hpc pretty filepath directory zlib \
@@ -55,8 +55,8 @@ RUN set -eux \
       hmatrix linear statistics ad integration \
   ; rm -rf ${STACK_ROOT}/pantry/hackage/* \
   ; opwd=$PWD \
-  ; cd /world && stack ${STACK_RESOLVER} new hello-rio rio && cd hello-rio && gen-hie > hie.yaml \
-  ; cd /world && stack ${STACK_RESOLVER} new hello-haskell && cd hello-haskell && gen-hie > hie.yaml \
+  ; cd /world && stack new ${STACK_FLAGS} hello-rio rio && cd hello-rio && gen-hie > hie.yaml \
+  ; cd /world && stack new ${STACK_FLAGS} hello-haskell && cd hello-haskell && gen-hie > hie.yaml \
   ; cd $opwd \
   ; for x in config.yaml \
              templates \

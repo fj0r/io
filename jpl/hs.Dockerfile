@@ -1,4 +1,5 @@
 FROM fj0rd/io:jpl
+ARG STACK_FLAGS="--local-bin-path=/usr/local/bin --no-interleaved-output"
 
 ### Haskell
 ENV STACK_ROOT=/opt/stack
@@ -18,13 +19,14 @@ RUN set -eux \
   # pip: 去掉版本号,使用已安装版本
   ; sed -i 's/==.*$//g' requirements.txt \
   ; pip --no-cache-dir install -r requirements.txt \
-  ; stack install --fast \
+  ; stack install ${STACK_FLAGS} --fast \
   ; stack exec env | grep -v COLOR > ${IHASKELL_DATA_DIR}/env \
   ; export ihaskell_datadir=${IHASKELL_DATA_DIR} \
   ; ${HOME}/.local/bin/ihaskell install --stack --env-file ${IHASKELL_DATA_DIR}/env \
   # flow parsers boomerang criterion weigh arithmoi syb multipart HTTP html xhtml
   ; nu -c "open ${STACK_ROOT}/config.yaml | upsert allow-different-user true | save -f ${STACK_ROOT}/config.yaml" \
-  ; stack install --no-interleaved-output \
+  ; stack install ${STACK_FLAGS} \
+      ghcid implicit-hie haskell-dap ghci-dap haskell-debug-adapter \
       optparse-applicative shelly process unix \
       time clock hpc pretty filepath directory zlib \
       array hashtables dlist binary text \
@@ -47,9 +49,9 @@ RUN set -eux \
   ; rm -rf ${STACK_ROOT}/programs/x86_64-linux/*.tar.xz \
   ; rm -rf ${STACK_ROOT}/pantry/hackage/* \
   ; rm -rf ${STACK_ROOT}/pantry/pantry.sqlite3* \
-  ; opwd=$PWD; cd /world \
-  ; stack new hello-rio rio \
-  ; stack new hello-haskell \
+  ; opwd=$PWD \
+  ; cd /world && stack new ${STACK_FLAGS} hello-rio rio && cd hello-rio && gen-hie > hie.yaml \
+  ; cd /world && stack new ${STACK_FLAGS} hello-haskell && cd hello-haskell && gen-hie > hie.yaml \
   ; cd $opwd \
   ; for x in config.yaml \
              templates \
@@ -79,6 +81,6 @@ COPY .ghci ${HOME}/.ghci
 
 ### misc
 #RUN set -ex \
-#  ; stack install flow \
+#  ; stack install ${STACK_FLAGS} flow \
 #  ; stack repl
 

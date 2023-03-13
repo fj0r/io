@@ -1,4 +1,5 @@
 FROM fj0rd/io:torch
+ARG STACK_FLAGS="--local-bin-path=/usr/local/bin --no-interleaved-output"
 
 RUN set -ex \
   ; apt-get update \
@@ -53,7 +54,7 @@ RUN set -eux \
 #  - zip-archive-0.3.3\n\
 #" > ${IDRIS_ROOT}/stack.yaml \
 #  ; cd ${IDRIS_ROOT} \
-#  ; stack install idris \
+#  ; stack install ${STACK_FLAGS} idris \
 #  #; rm -rf ${STACK_ROOT}/global-project/.stack-work/install/x86_64-linux/${STACKAGE_VERSION}/8.6.5/lib/* \
 #  ; rm -rf ${STACK_ROOT}/indices/*
 
