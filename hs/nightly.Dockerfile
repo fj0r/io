@@ -17,9 +17,9 @@ RUN set -eux \
   ; mkdir -p ${GHC_ROOT} \
   ; ghc_ver=$(curl -sSL https://www.stackage.org/nightly -H 'Accept: application/json' | jq -r '.snapshot.ghc') \
   ; ghc_url=https://downloads.haskell.org/~ghc/${ghc_ver}/ghc-${ghc_ver}-x86_64-${GHC_OS}-linux.tar.xz \
-  ; curl -sSL ${ghc_url} | tar Jxf - \
-  ; cd ghc-${ghc_ver} && ./configure --prefix=${GHC_ROOT} && make install \
-  ; cd .. && rm -rf ghc-${ghc_ver} \
+  ; mkdir ghc_install && curl -sSL ${ghc_url} | tar Jxf - -C ghc_install --strip-components=1 \
+  ; cd ghc_install && ./configure --prefix=${GHC_ROOT} && make install \
+  ; cd .. && rm -rf ghc_install \
   \
   ; mkdir -p ${STACK_ROOT} && mkdir -p ${HOME}/.cabal \
   ; curl -sSL https://get.haskellstack.org/ | sh \
@@ -52,7 +52,7 @@ RUN set -eux \
       http-conduit wreq HTTP html websockets multipart \
       servant scotty wai network network-uri warp \
       QuickCheck smallcheck hspec \
-      hmatrix linear statistics ad integration arithmoi \
+      hmatrix linear statistics ad integration \
   ; rm -rf ${STACK_ROOT}/pantry/hackage/* \
   ; opwd=$PWD; cd /world \
   ; stack ${STACK_RESOLVER} new hello-rio rio \
