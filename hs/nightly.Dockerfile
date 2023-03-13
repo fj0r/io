@@ -1,15 +1,16 @@
-ARG GHC_OS=deb10
-FROM fj0rd/io
+FROM fj0rd/io:rs
+
+ARG GHC_OS=deb11
+ARG STACK_RESOLVER="--resolver nightly"
 
 ENV STACK_ROOT=/opt/stack GHC_ROOT=/opt/ghc
 ENV PATH=${GHC_ROOT}/bin:$PATH
-ENV GHC_OS=${GHC_OS}
 
 RUN set -eux \
   ; apt-get update \
   ; apt-get install -y --no-install-recommends \
         libicu-dev libffi-dev libgmp-dev zlib1g-dev \
-        libncurses-dev libtinfo-dev libblas-dev liblapack-dev libnuma-dev \
+        libncurses-dev libtinfo-dev libblas-dev liblapack-dev \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 RUN set -eux \
@@ -22,14 +23,14 @@ RUN set -eux \
   \
   ; mkdir -p ${STACK_ROOT} && mkdir -p ${HOME}/.cabal \
   ; curl -sSL https://get.haskellstack.org/ | sh \
-  ; stack update \
+  #; stack update \
   ; stack config set system-ghc --global true \
   ; stack config set install-ghc --global false \
   ; nu -c "open ${STACK_ROOT}/config.yaml | upsert allow-different-user true | upsert allow-newer true | save -f ${STACK_ROOT}/config.yaml" \
-  # JuicyPixels xhtml criterion weigh alex happy
-  # cassava diagrams \
-  # flow mustache \
-  ; stack install --resolver nightly --no-interleaved-output \
+  ;
+
+RUN set -eux \
+  ; stack install ${STACK_RESOLVER} --no-interleaved-output \
       ghcid haskell-dap ghci-dap haskell-debug-adapter \
       optparse-applicative shelly process unix \
       time clock hpc pretty filepath directory zlib \
@@ -47,15 +48,15 @@ RUN set -eux \
       mwc-random MonadRandom random \
       katip monad-logger monad-journal \
       regex-base regex-posix regex-compat \
-      pipes conduit machines \
+      flow pipes conduit machines \
       http-conduit wreq HTTP html websockets multipart \
       servant scotty wai network network-uri warp \
       QuickCheck smallcheck hspec \
       hmatrix linear statistics ad integration arithmoi \
   ; rm -rf ${STACK_ROOT}/pantry/hackage/* \
   ; opwd=$PWD; cd /world \
-  ; stack --resolver nightly new hello-rio rio \
-  ; stack --resolver nightly new hello-haskell \
+  ; stack ${STACK_RESOLVER} new hello-rio rio \
+  ; stack ${STACK_RESOLVER} new hello-haskell \
   ; cd $opwd \
   ; for x in config.yaml \
              templates \
@@ -64,10 +65,12 @@ RUN set -eux \
   ; do chmod 777 ${STACK_ROOT}/$x; done \
   ; chmod -R 777 ${STACK_ROOT}/global-project
 
+COPY ghci /root/.ghci
+
 RUN set -eux \
   ; mkdir -p /opt/language-server/haskell \
-  #; hls_version=$(curl -sSL https://api.github.com/repos/haskell/haskell-language-server/releases -H 'Accept: application/vnd.github.v3+json' | jq -r '[.[]|select(.prerelease==false)][0].tag_name') \
-  ; hls_version=$(curl https://downloads.haskell.org/~hls/ | rg '>haskell-language-server-(.+)/<' -or '$1' | tail -n 1) \
+  ; hls_version=$(curl -sSL https://api.github.com/repos/haskell/haskell-language-server/releases/latest | jq -r '.tag_name') \
+  #; hls_version=$(curl https://downloads.haskell.org/~hls/ | rg '>haskell-language-server-(.+)/<' -or '$1' | tail -n 1) \
   ; ghc_version=$(stack ghc -- --numeric-version) \
   ; curl -sSL https://downloads.haskell.org/~hls/haskell-language-server-${hls_version}/haskell-language-server-${hls_version}-x86_64-linux-${GHC_OS}.tar.xz \
         | tar Jxvf - -C /opt/language-server/haskell --strip-components=1 \
@@ -77,4 +80,3 @@ RUN set -eux \
   ; find /opt/language-server/haskell -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s \
   ; find /opt/language-server/haskell/bin -maxdepth 1 -type f | xargs -i ln -fs {} /usr/local/bin
 
-COPY ghci /root/.ghci

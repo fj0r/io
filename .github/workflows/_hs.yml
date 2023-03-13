@@ -7,7 +7,7 @@ name: hs
 
 on:
   push:
-    branches: [ master, ghcup ]
+    branches: [ hs ]
 
 env:
   REGISTRY: docker.io
@@ -17,6 +17,8 @@ env:
 
 jobs:
   build:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -44,21 +46,30 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Build ghcup
-        uses: docker/build-push-action@v3
+      - name: Build hs
+        uses: docker/build-push-action@v4
         with:
           context: hs
-          file: hs/up.Dockerfile
+          file: hs/nightly.Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:ghcup
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hs
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Build stack
-        uses: docker/build-push-action@v3
+      - name: Build x
+        uses: docker/build-push-action@v4
         with:
-          context: hs
-          file: hs/stack.Dockerfile
+          context: js
+          file: js/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:stack
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:x
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: BASE_IMAGE=fj0rd/io:hs
 
+      - name: Build js
+        uses: docker/build-push-action@v4
+        with:
+          context: js
+          file: js/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:js
+          labels: ${{ steps.meta.outputs.labels }}
