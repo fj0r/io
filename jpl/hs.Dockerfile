@@ -22,7 +22,7 @@ RUN set -eux \
   ; stack install ${STACK_FLAGS} --fast \
   ; stack exec env | grep -v COLOR > ${IHASKELL_DATA_DIR}/env \
   ; export ihaskell_datadir=${IHASKELL_DATA_DIR} \
-  ; ${HOME}/.local/bin/ihaskell install --stack --env-file ${IHASKELL_DATA_DIR}/env \
+  ; /usr/local/bin/ihaskell install --stack --env-file ${IHASKELL_DATA_DIR}/env \
   # flow parsers boomerang criterion weigh arithmoi syb multipart HTTP html xhtml
   ; nu -c "open ${STACK_ROOT}/config.yaml | upsert allow-different-user true | save -f ${STACK_ROOT}/config.yaml" \
   ; stack install ${STACK_FLAGS} \
