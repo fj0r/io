@@ -1,4 +1,5 @@
 ARG BASEIMAGE=fj0rd/io:base
+ARG PIP_FLAGS="--break-system-packages"
 #FROM fj0rd/scratch:goofys as goofys
 FROM ${BASEIMAGE}  as nu
 RUN set -eux \
@@ -31,6 +32,7 @@ RUN set -eux \
 
 
 FROM ${BASEIMAGE}
+ARG PIP_FLAGS
 COPY --from=nu /opt/assets /usr/local/bin
 #COPY --from=goofys / /
 
@@ -48,7 +50,7 @@ RUN set -eux \
   ; wasmtime_url="https://github.com/bytecodealliance/wasmtime/releases/latest/download/wasmtime-${wasmtime_ver}-x86_64-linux.tar.xz" \
   ; curl -sSL ${wasmtime_url} | tar Jxf - --strip-components=1 -C /usr/local/bin --wildcards '*/wasmtime' \
   \
-  ; pip3 install --no-cache-dir --prefix=/usr \
+  ; pip3 install --no-cache-dir ${PIP_FLAGS} \
         # aiofile fastapi uvicorn \
         debugpy pydantic pytest \
         httpx hydra-core typer pyyaml deepmerge \
@@ -108,6 +110,6 @@ RUN set -eux \
   ; nvim --headless "+Lazy! sync" +qa \
   \
   ; rm -rf $XDG_CONFIG_HOME/nvim/lazy/packages/*/.git \
-  ; pip3 install --no-cache-dir --prefix=/usr neovim \
+  ; pip3 install --no-cache-dir ${PIP_FLAGS} neovim \
   ;
 

@@ -65,6 +65,8 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:ubuntu
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: BASEIMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:base-ubuntu
+          build-args: |
+            BASEIMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:base-ubuntu
+            PIP_FLAGS=
 
 

@@ -18,7 +18,7 @@ RUN set -eux \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 RUN set -eux \
-  ; pip3 install --no-cache-dir --prefix=/usr \
+  ; pip3 install --no-cache-dir --break-system-packages \
         debugpy fastapi uvicorn aiofile pytest \
         httpx typer hydra-core pyyaml deepmerge structlog \
         pydantic PyParsing decorator more-itertools cachetools
