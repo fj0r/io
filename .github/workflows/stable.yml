@@ -1,8 +1,8 @@
-name: base-ubuntu
+name: base-stable
 
 on:
   push:
-    branches: [ main, base ]
+    branches: [ main, base, stable ]
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
 
@@ -53,7 +53,7 @@ jobs:
         with:
           context: base
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:base-ubuntu
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:base-stable
           labels: ${{ steps.meta.outputs.labels }}
           build-args: BASEIMAGE=ubuntu:jammy
 
@@ -63,10 +63,10 @@ jobs:
         with:
           context: box
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:ubuntu
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:stable
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            BASEIMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:base-ubuntu
+            BASEIMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:base-stable
             PIP_FLAGS=
 
 
