@@ -74,11 +74,11 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hs
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            STACK_FLAGS=--local-bin-path=/usr/local/bin --no-interleaved-output
+            STACK_RESOLVER=
             STACK_INFO_URL=https://www.stackage.org/lts
             GHC_OS=deb10
           #build-args: |
-          #  STACK_FLAGS=--local-bin-path=/usr/local/bin --no-interleaved-output --resolver nightly
+          #  STACK_RESOLVER=--resolver nightly
           #  STACK_INFO_URL=https://www.stackage.org/nightly
           #  GHC_OS=deb11
 
