@@ -1,6 +1,7 @@
 FROM fj0rd/io:rs
 
 ARG STACK_FLAGS="--local-bin-path=/usr/local/bin --no-interleaved-output"
+ARG STACK_INFO_URL="https://www.stackage.org/lts"
 ARG GHC_OS=deb10
 
 ENV STACK_ROOT=/opt/stack GHC_ROOT=/opt/ghc
@@ -15,7 +16,7 @@ RUN set -eux \
 
 RUN set -eux \
   ; mkdir -p ${GHC_ROOT} \
-  ; ghc_ver=$(curl -sSL https://www.stackage.org/lts -H 'Accept: application/json' | jq -r '.snapshot.ghc') \
+  ; ghc_ver=$(curl -sSL ${STACK_INFO_URL} -H 'Accept: application/json' | jq -r '.snapshot.ghc') \
   ; ghc_url=https://downloads.haskell.org/~ghc/${ghc_ver}/ghc-${ghc_ver}-x86_64-${GHC_OS}-linux.tar.xz \
   ; mkdir ghc_install && curl -sSL ${ghc_url} | tar Jxf - -C ghc_install --strip-components=1 \
   ; cd ghc_install && ./configure --prefix=${GHC_ROOT} && make install \
@@ -30,11 +31,11 @@ RUN set -eux \
   ;
 
 RUN set -eux \
-  ; stack install ${STACK_FLAGS}  \
+  ; stack install ${STACK_FLAGS} \
       ghcid implicit-hie haskell-dap ghci-dap haskell-debug-adapter \
       optparse-applicative shelly process unix \
       time clock hpc pretty filepath directory zlib \
-      array hashtables dlist binary text \
+      array hashtables dlist binary bytestring text \
       containers hashable vector unordered-containers \
       deepseq call-stack primitive ghc-prim \
       template-haskell aeson yaml taggy stache \

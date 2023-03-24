@@ -49,26 +49,12 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: hs
-          file: hs/nightly.Dockerfile
+          file: hs/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hs
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            STACK_FLAGS=--local-bin-path=/usr/local/bin --no-interleaved-output --resolver nightly
+            STACK_INFO_URL=https://www.stackage.org/nightly
+            GHC_OS=deb11
 
-      - name: Build x
-        uses: docker/build-push-action@v4
-        with:
-          context: js
-          file: js/Dockerfile
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:x
-          labels: ${{ steps.meta.outputs.labels }}
-          build-args: BASE_IMAGE=fj0rd/io:hs
-
-      - name: Build js
-        uses: docker/build-push-action@v4
-        with:
-          context: js
-          file: js/Dockerfile
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:js
-          labels: ${{ steps.meta.outputs.labels }}

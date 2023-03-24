@@ -1,7 +1,8 @@
 FROM fj0rd/io:rs
 
-ARG GHC_OS=deb11
 ARG STACK_FLAGS="--local-bin-path=/usr/local/bin --no-interleaved-output --resolver nightly"
+ARG STACK_INFO_URL="https://www.stackage.org/nightly"
+ARG GHC_OS=deb11
 
 ENV STACK_ROOT=/opt/stack GHC_ROOT=/opt/ghc
 ENV PATH=${GHC_ROOT}/bin:$PATH
@@ -15,7 +16,7 @@ RUN set -eux \
 
 RUN set -eux \
   ; mkdir -p ${GHC_ROOT} \
-  ; ghc_ver=$(curl -sSL https://www.stackage.org/nightly -H 'Accept: application/json' | jq -r '.snapshot.ghc') \
+  ; ghc_ver=$(curl -sSL ${STACK_INFO_URL} -H 'Accept: application/json' | jq -r '.snapshot.ghc') \
   ; ghc_url=https://downloads.haskell.org/~ghc/${ghc_ver}/ghc-${ghc_ver}-x86_64-${GHC_OS}-linux.tar.xz \
   ; mkdir ghc_install && curl -sSL ${ghc_url} | tar Jxf - -C ghc_install --strip-components=1 \
   ; cd ghc_install && ./configure --prefix=${GHC_ROOT} && make install \
