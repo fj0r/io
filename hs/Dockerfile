@@ -1,4 +1,5 @@
-FROM fj0rd/io:rs
+ARG BASEIMAGE=fj0rd/io:rs
+FROM ${BASEIMAGE}
 
 ARG STACK_FLAGS="--local-bin-path=/usr/local/bin --no-interleaved-output"
 ARG STACK_RESOLVER=""

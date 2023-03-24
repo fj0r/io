@@ -1,4 +1,7 @@
-FROM fj0rd/io:go
+ARG BASEIMAGE=fj0rd/io:go
+FROM ${BASEIMAGE}
+
+ARG RUST_CHANNEL=stable
 
 ENV CARGO_HOME=/opt/cargo RUSTUP_HOME=/opt/rustup
 ENV PATH=${CARGO_HOME}/bin:$PATH
@@ -12,7 +15,7 @@ RUN set -eux \
 
 RUN set -eux \
   ; curl -sSL https://sh.rustup.rs \
-    | sh -s -- --default-toolchain stable -y --no-modify-path \
+    | sh -s -- --default-toolchain ${RUST_CHANNEL} -y --no-modify-path \
   ; rustup component add rust-src clippy rustfmt \
   #; rustup component add rust-analyzer \
   ; rustup target add x86_64-unknown-linux-musl \
