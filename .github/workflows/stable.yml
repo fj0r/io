@@ -5,6 +5,7 @@ on:
     branches: [ main, base, stable ]
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
+  workflow_dispatch:
 
 env:
   REGISTRY: docker.io
@@ -69,4 +70,13 @@ jobs:
             BASEIMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:base-stable
             PIP_FLAGS=
 
+
+      - name: trigger io:latest
+        run: |
+          for a in php7 java11; do
+            curl -L -X POST https://api.github.com/repos/fj0r/0x/actions/workflows/${a}.yml/dispatches \
+              -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" \
+              -H "Authorization: Bearer ${{ secrets.ACTIONS_KEY }}" \
+              -d '{"ref":"main","inputs":{}}'
+          done
 
