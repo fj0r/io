@@ -29,11 +29,11 @@ RUN set -eux \
   ; curl -sSL ${dust_url} | tar zxf - -C /opt/assets --strip-components=1 --wildcards '*/dust' \
   \
   ; dasel_url="https://github.com/TomWright/dasel/releases/latest/download/dasel_linux_amd64.gz" \
-  ; curl -sSL ${dasel_url} | gzip -d > dasel && chmod +x dasel && mv dasel /usr/local/bin \
+  ; curl -sSL ${dasel_url} | gzip -d > dasel && chmod +x dasel && mv dasel /opt/assets \
   \
   ; pup_ver=$(curl -sSL https://api.github.com/repos/ericchiang/pup/releases/latest | jq -r '.tag_name') \
   ; pup_url=https://github.com/ericchiang/pup/releases/download/${pup_ver}/pup_${pup_ver}_linux_amd64.zip \
-  ; curl -sSL ${pup_url} -o pup.zip && unzip pup.zip && rm -f pup.zip && chmod +x pup && mv pup /usr/local/bin \
+  ; curl -sSL ${pup_url} -o pup.zip && unzip pup.zip && rm -f pup.zip && chmod +x pup && mv pup /opt/assets \
   \
   ; find /opt/assets -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s
 
