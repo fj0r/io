@@ -32,7 +32,7 @@ RUN set -eux \
   ; curl -sSL ${dasel_url} | gzip -d > dasel && chmod +x dasel && mv dasel /opt/assets \
   \
   ; pup_ver=$(curl -sSL https://api.github.com/repos/ericchiang/pup/releases/latest | jq -r '.tag_name') \
-  ; pup_url=https://github.com/ericchiang/pup/releases/download/${pup_ver}/pup_${pup_ver}_linux_amd64.zip \
+  ; pup_url="https://github.com/ericchiang/pup/releases/download/${pup_ver}/pup_${pup_ver}_linux_amd64.zip" \
   ; curl -sSL ${pup_url} -o pup.zip && unzip pup.zip && rm -f pup.zip && chmod +x pup && mv pup /opt/assets \
   \
   ; find /opt/assets -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s
@@ -108,7 +108,7 @@ RUN set -eux \
   \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
   \
-  ; nvim_url=https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz \
+  ; nvim_url="https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz" \
   ; curl -sSL ${nvim_url} | tar zxf - -C /usr/local --strip-components=1 \
   ; strip /usr/local/bin/nvim \
   ; git clone --depth=1 https://github.com/fj0r/nvim-lua.git $XDG_CONFIG_HOME/nvim \

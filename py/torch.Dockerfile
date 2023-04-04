@@ -65,7 +65,7 @@ RUN set -eux \
   ; mkdir -p ${JULIA_HOME} \
   ; julia_ver=$(curl -sSL https://julialang.org/downloads/ | rg 'Current stable release: v([.0-9]+)' -or '$1') \
   ; julia_ver_m=$(echo $julia_ver | cut -d'.' -f 1-2) \
-  ; julia_url=https://julialang-s3.julialang.org/bin/linux/x64/${julia_ver_m}/julia-${julia_ver}-linux-x86_64.tar.gz \
+  ; julia_url="https://julialang-s3.julialang.org/bin/linux/x64/${julia_ver_m}/julia-${julia_ver}-linux-x86_64.tar.gz" \
   ; curl -sSL ${julia_url} | tar xz -C ${JULIA_HOME} --strip-components 1 \
   ; julia -e 'using Pkg; Pkg.add("IJulia"); using IJulia'
 
