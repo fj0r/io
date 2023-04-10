@@ -27,6 +27,11 @@ RUN set -eux \
   ; fd_url="https://github.com/sharkdp/fd/releases/latest/download/fd-${fd_ver}-x86_64-unknown-linux-musl.tar.gz" \
   ; curl -sSL ${fd_url} | tar zxf - -C /usr/local/bin --strip-components=1 --wildcards '*/fd' \
   \
+  ; xh_ver=$(curl -sSL https://api.github.com/repos/ducaale/xh/releases/latest | jq -r '.tag_name') \
+  ; xh_url="https://github.com/ducaale/xh/releases/latest/download/xh-${xh_ver}-x86_64-unknown-linux-musl.tar.gz" \
+  ; curl -sSL ${xh_url} | tar zxf - -C /usr/local/bin --strip-components=1 --wildcards '*/xh' \
+  ; ln -sr /usr/local/bin/xh /usr/local/bin/xhs \
+  \
   ; rg_ver=$(curl -sSL https://api.github.com/repos/BurntSushi/ripgrep/releases/latest | jq -r '.tag_name') \
   ; rg_url="https://github.com/BurntSushi/ripgrep/releases/latest/download/ripgrep-${rg_ver}-x86_64-unknown-linux-musl.tar.gz" \
   ; curl -sSL ${rg_url} | tar zxf - -C /usr/local/bin --strip-components=1 --wildcards '*/rg' \
