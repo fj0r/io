@@ -35,7 +35,7 @@ set_s3 () {
     else
         _region="-o use_path_request_style"
     fi
-    cmd="sudo -u $_user -f $_opt -o bucket=$_bucket -o passwd_file=$_authfile -o url=$_endpoint $_region $_mount"
+    cmd="sudo -u $_user s3fs -f $_opt -o bucket=$_bucket -o passwd_file=$_authfile -o url=$_endpoint $_region $_mount"
     echo $cmd
     eval $cmd &> /var/log/s3fs-${_mount////-} &
     echo -n "$! " >> /var/run/services
