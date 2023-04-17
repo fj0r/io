@@ -39,8 +39,10 @@ RUN set -ex \
   ; conda clean --all -f -y \
   ; pip --no-cache-dir install \
         torch torchserve torchtext torchvision torchaudio pytorch-lightning \
-        plotly_express \
-        transitions Requests furl html5lib envelopes \
+        plotly_express pygwalker \
+        debugpy fastapi uvicorn aiofile pytest \
+        httpx typer hydra-core pyyaml deepmerge structlog \
+        pydantic PyParsing decorator more-itertools cachetools \
         bash_kernel ipython-sql pgspecial jieba sh \
   ; python -m bash_kernel.install \
   ; jupyter lab --generate-config \
