@@ -1,7 +1,7 @@
 # s3fs if s3_id=mount,user,endpoint,region,bucket,accesskey,secretkey,opts...
 # opts: nonempty,a=1,b=2
 
-set_s3 () {
+run_s3 () {
     IFS=',' read -ra ARR <<< "$2"
     _mount=${ARR[0]}
     _user=${ARR[1]}
@@ -21,8 +21,19 @@ set_s3 () {
         fi
     done
 
-    _authfile=/.passwd-s3fs-${_mount////-}
-    echo authfile  $_authfile
+    local name=${_mount////_}
+    local logfile
+    if [ -n "$stdlog" ]; then
+        logfile=/dev/stdout
+    else
+        logfile=/var/log/s3fs_${name}
+    fi
+
+    if [ ! -d /.s3fs-passwd ]; then
+        mkdir /.s3fs-passwd
+    fi
+    _authfile=/.s3fs-passwd/$name
+    echo authfile $_authfile
 
     echo "${_accesskey}:${_secretkey}" > $_authfile
     chmod go-rwx $_authfile
@@ -37,7 +48,7 @@ set_s3 () {
     fi
     cmd="sudo -u $_user s3fs -f $_opt -o bucket=$_bucket -o passwd_file=$_authfile -o url=$_endpoint $_region $_mount"
     echo $cmd
-    eval $cmd &> /var/log/s3fs-${_mount////-} &
+    eval $cmd &> $logfile  &
     echo -n "$! " >> /var/run/services
 }
 
@@ -47,6 +58,6 @@ if [ -n "$__s3" ]; then
         _ID=${i:3}
         echo "[$(date -Is)] starting s3fs $_ID"
         _ARGS=$(eval "echo \$$i")
-        set_s3 ${_ID} ${_ARGS}
+        run_s3 ${_ID} ${_ARGS}
     done
 fi

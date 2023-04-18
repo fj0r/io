@@ -41,17 +41,27 @@ init_ssh () {
     done
 }
 
+run_ssh () {
+    local logfile
+    if [ -n "$stdlog" ]; then
+        logfile=/dev/stdout
+    else
+        logfile=/var/log/sshd
+    fi
+
+    if [ -z "$SSH_TIMEOUT" ]; then
+        echo "[$(date -Is)] starting ssh"
+        /usr/bin/dropbear -REFems -p 22 &> $logfile &
+    else
+        echo "[$(date -Is)] starting ssh with a timeout of ${SSH_TIMEOUT} seconds"
+        /usr/bin/dropbear -REFems -p 22 -K ${SSH_TIMEOUT} -I ${SSH_TIMEOUT} &> $logfile &
+    fi
+    echo -n "$! " >> /var/run/services
+}
 
 __ssh=$(for i in "${!ed25519_@}"; do echo $i; done)
 if [ -n "$__ssh" ] || [ -f /root/.ssh/authorized_keys ]; then
     init_ssh
     mkdir -p /etc/dropbear
-    if [ -z "$SSH_TIMEOUT" ]; then
-        echo "[$(date -Is)] starting ssh"
-        /usr/bin/dropbear -REFems -p 22 &> /var/log/sshd &
-    else
-        echo "[$(date -Is)] starting ssh with a timeout of ${SSH_TIMEOUT} seconds"
-        /usr/bin/dropbear -REFems -p 22 -K ${SSH_TIMEOUT} -I ${SSH_TIMEOUT} &> /var/log/sshd &
-    fi
-    echo -n "$! " >> /var/run/services
+    run_ssh
 fi
