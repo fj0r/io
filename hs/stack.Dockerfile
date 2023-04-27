@@ -40,4 +40,4 @@ RUN set -eux \
           haskell-language-server-${hls_version}/bin/haskell-language-server-wrapper \
           haskell-language-server-${hls_version}/lib/${ghc_version} \
   ; find ${LS_ROOT}/haskell -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s \
-  ; find ${LS_ROOT}/haskell/bin -maxdepth 1 -type f | xargs -i ln -fs {} /usr/local/bin
+  ;
