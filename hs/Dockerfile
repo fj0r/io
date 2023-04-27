@@ -71,15 +71,15 @@ RUN set -eux \
 COPY ghci /root/.ghci
 
 RUN set -eux \
-  ; mkdir -p /opt/language-server/haskell \
+  ; mkdir -p ${LS_ROOT}/haskell \
   ; hls_version=$(curl -sSL https://api.github.com/repos/haskell/haskell-language-server/releases/latest | jq -r '.tag_name') \
   #; hls_version=$(curl https://downloads.haskell.org/~hls/ | rg '>haskell-language-server-(.+)/<' -or '$1' | tail -n 1) \
   ; ghc_version=$(stack ghc -- --numeric-version) \
   ; curl -sSL https://downloads.haskell.org/~hls/haskell-language-server-${hls_version}/haskell-language-server-${hls_version}-x86_64-linux-unknown.tar.xz \
-        | tar Jxvf - -C /opt/language-server/haskell --strip-components=1 \
+        | tar Jxvf - -C ${LS_ROOT}/haskell --strip-components=1 \
           haskell-language-server-${hls_version}/bin/haskell-language-server-${ghc_version} \
           haskell-language-server-${hls_version}/bin/haskell-language-server-wrapper \
           haskell-language-server-${hls_version}/lib/${ghc_version} \
-  ; find /opt/language-server/haskell -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s \
-  ; find /opt/language-server/haskell/bin -maxdepth 1 -type f | xargs -i ln -fs {} /usr/local/bin
+  ; find ${LS_ROOT}/haskell -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s \
+  ;
 

@@ -45,14 +45,13 @@ RUN set -eux \
   #; find ${CARGO_HOME}/bin -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s
 
 RUN set -eux \
-  ; mkdir -p /opt/language-server/rust \
+  ; mkdir -p ${LS_ROOT}/rust/bin \
   ; ra_url="https://github.com/rust-lang/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-unknown-linux-gnu.gz" \
-  ; curl -sSL ${ra_url} | gzip -d > /opt/language-server/rust/rust-analyzer \
-  ; chmod +x /opt/language-server/rust/rust-analyzer \
-  ; strip -s /opt/language-server/rust/rust-analyzer \
-  ; ln -fs /opt/language-server/rust/rust-analyzer /usr/local/bin \
+  ; curl -sSL ${ra_url} | gzip -d > ${LS_ROOT}/rust/bin/rust-analyzer \
+  ; chmod +x ${LS_ROOT}/rust/bin/rust-analyzer \
+  ; strip -s ${LS_ROOT}/rust/bin/rust-analyzer \
   \
-  ; export USER=root \
+  #; export USER=root \
   ; opwd=$PWD; cd /world \
   ; PROJ=hello-rust \
   ; cargo new $PROJ \

@@ -82,6 +82,7 @@ RUN set -eux \
 #######################
 #         dev         #
 #######################
+ENV LS_ROOT=/opt/language-server
 ENV NODE_ROOT=/opt/node
 ENV PATH=${NODE_ROOT}/bin:$PATH
 
@@ -95,7 +96,7 @@ RUN set -eux \
   ; curl -sSL https://nodejs.org/dist/v${node_version}/node-v${node_version}-linux-x64.tar.xz \
     | tar Jxf - --strip-components=1 -C ${NODE_ROOT} \
   \
-  ; mkdir -p /opt/language-server \
+  ; mkdir -p ${LS_ROOT} \
   ; npm install --location=global \
         quicktype \
         pyright \
@@ -106,9 +107,8 @@ RUN set -eux \
   \
   ; lslua_ver=$(curl -sSL https://api.github.com/repos/LuaLS/lua-language-server/releases/latest | jq -r '.tag_name') \
   ; lslua_url="https://github.com/LuaLS/lua-language-server/releases/latest/download/lua-language-server-${lslua_ver}-linux-x64.tar.gz" \
-  ; mkdir -p /opt/language-server/lua-language-server \
-  ; curl -sSL ${lslua_url} | tar zxf - -C /opt/language-server/lua-language-server \
-  ; ln -fs /opt/language-server/lua-language-server/bin/lua-language-server /usr/local/bin \
+  ; mkdir -p ${LS_ROOT}/lua \
+  ; curl -sSL ${lslua_url} | tar zxf - -C ${LS_ROOT}/lua \
   \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
   \
