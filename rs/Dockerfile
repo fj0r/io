@@ -23,7 +23,8 @@ RUN set -eux \
   ; cargo install \
       cargo-wasi wasm-pack wasm-bindgen-cli trunk \
       cargo-watch cargo-expand cargo-eval cargo-tree \
-      cargo-feature cargo-prefetch cargo-generate \
+      #cargo-generate
+      cargo-feature cargo-prefetch \
       lunatic-runtime \
   ; cargo prefetch \
       quicli structopt structopt-yaml \
