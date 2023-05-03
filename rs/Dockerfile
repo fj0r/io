@@ -35,8 +35,8 @@ RUN set -eux \
       warp async-graphql-warp \
       axum async-graphql-axum \
       wasm-bindgen wasm-bindgen-futures wasm-logger \
-      yew yew-router wasm-bindgen reqwasm \
-      # dioxus dioxus-web dioxus-html \
+      # yew yew-router wasm-bindgen \
+      dioxus dioxus-web dioxus-html reqwasm \
       serde serde_derive serde_yaml serde_json \
       serde_cbor apache-avro schemars \
       slog slog-async slog-json slog-term slog-logfmt \
