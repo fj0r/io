@@ -29,12 +29,9 @@ trap stop SIGINT SIGTERM
 
 BASEDIR=$(dirname "$0")
 
-source $BASEDIR/env.sh
-source $BASEDIR/git.sh
-source $BASEDIR/ssh.sh
-source $BASEDIR/s3fs.sh
-source $BASEDIR/socat.sh
-source $BASEDIR/cron.sh
+for x in $(find $BASEDIR -name '*.sh' -not -path '*/init.sh'); do
+    source $x
+done
 
 if [ -n "${POSTBOOT}" ]; then
   bash $POSTBOOT
