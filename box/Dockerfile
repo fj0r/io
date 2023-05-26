@@ -1,6 +1,7 @@
 ARG BASEIMAGE=fj0rd/io:base
-ARG PIP_FLAGS="--break-system-packages"
-#FROM fj0rd/scratch:goofys as goofys
+#--break-system-packages
+ARG PIP_FLAGS=""
+
 FROM ${BASEIMAGE}  as nu
 RUN set -eux \
   ; apt-get update \
@@ -45,7 +46,6 @@ RUN set -eux \
 FROM ${BASEIMAGE}
 ARG PIP_FLAGS
 COPY --from=nu /opt/assets /usr/local/bin
-#COPY --from=goofys / /
 
 ENV PYTHONUNBUFFERED=x
 
@@ -86,8 +86,6 @@ ENV LS_ROOT=/opt/language-server
 ENV NODE_ROOT=/opt/node
 ENV PATH=${NODE_ROOT}/bin:$PATH
 
-# '[.[]|select(.prerelease == false)][0].assets[].browser_download_url'
-# '.[0].assets[].browser_download_url'
 RUN set -eux \
   ; apt update \
   ; apt-get install -y --no-install-recommends gnupg2 build-essential xclip \

@@ -1,4 +1,4 @@
-ARG BASEIMAGE=debian:testing-slim
+ARG BASEIMAGE=ubuntu:latest
 FROM fj0rd/scratch:dropbear as dropbear
 
 FROM ${BASEIMAGE}
