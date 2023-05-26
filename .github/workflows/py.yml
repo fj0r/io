@@ -8,7 +8,7 @@ name: py
 on:
   workflow_run:
     workflows: ["base"]
-    branches: [ main ]
+    branches: [ main, py ]
     types:
       - completed
 
