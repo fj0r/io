@@ -25,7 +25,6 @@ RUN set -eux \
       cargo-watch cargo-expand cargo-eval cargo-tree \
       #cargo-generate
       cargo-feature cargo-prefetch \
-      lunatic-runtime \
   ; cargo prefetch \
       quicli structopt structopt-yaml \
       surf scraper handlebars \
