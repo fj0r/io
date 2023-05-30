@@ -19,12 +19,13 @@ RUN set -eux \
   ; rustup component add rust-src clippy rustfmt \
   #; rustup component add rust-analyzer \
   ; rustup target add x86_64-unknown-linux-musl \
-  ; rustup target add wasm32-wasi wasm32-unknown-unknown wasm32-unknown-emscripten \
+  ; rustup target add wasm32-wasi wasm32-unknown-unknown \
   ; cargo install \
-      cargo-wasi wasm-pack wasm-bindgen-cli trunk \
+      cargo-wasi \
       cargo-watch cargo-expand cargo-eval cargo-tree \
-      #cargo-generate
       cargo-feature cargo-prefetch \
+      #cargo-generate
+      dioxus-cli \
   ; cargo prefetch \
       quicli structopt structopt-yaml \
       surf scraper handlebars \
