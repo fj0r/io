@@ -25,7 +25,8 @@ RUN set -eux \
       cargo-watch cargo-expand cargo-eval cargo-tree \
       cargo-feature cargo-prefetch \
       #cargo-generate
-      dioxus-cli \
+      #dioxus-cli \
+      cargo-leptos \
   ; cargo prefetch \
       quicli structopt structopt-yaml \
       surf scraper handlebars \
@@ -36,7 +37,8 @@ RUN set -eux \
       axum async-graphql-axum \
       wasm-bindgen wasm-bindgen-futures wasm-logger \
       # yew yew-router wasm-bindgen \
-      dioxus dioxus-web dioxus-html reqwasm \
+      # dioxus dioxus-web dioxus-html reqwasm \
+      leptos reqwasm \
       serde serde_derive serde_yaml serde_json \
       serde_cbor apache-avro schemars \
       slog slog-async slog-json slog-term slog-logfmt \
