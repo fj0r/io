@@ -1,0 +1,102 @@
+name: ext
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+on:
+  push:
+    branches: [ ext ]
+    tags: [ 'v*.*.*' ]
+  workflow_dispatch:
+
+env:
+  REGISTRY: docker.io
+  # github.repository as <account>/<repo>
+  IMAGE_NAME: fj0rd/io
+
+
+jobs:
+  build:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Login against a Docker registry except on PR
+      # https://github.com/docker/login-action
+      - name: Log into registry ${{ env.REGISTRY }}
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: fj0rd
+          password: ${{ secrets.DOCKER }}
+
+      # Extract metadata (tags, labels) for Docker
+      # https://github.com/docker/metadata-action
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Build go
+        uses: docker/build-push-action@v4
+        with:
+          context: go
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:go
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Build rs
+        uses: docker/build-push-action@v4
+        with:
+          context: rs
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:rs
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Build hs
+        uses: docker/build-push-action@v4
+        with:
+          context: hs
+          file: hs/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hs
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            STACK_RESOLVER=
+            STACK_INFO_URL=https://www.stackage.org/lts
+            GHC_OS=deb10
+          #build-args: |
+          #  STACK_RESOLVER=--resolver nightly
+          #  STACK_INFO_URL=https://www.stackage.org/nightly
+          #  GHC_OS=deb11
+
+
+      - name: Build x
+        uses: docker/build-push-action@v4
+        with:
+          context: js
+          file: js/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:x
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: BASE_IMAGE=fj0rd/io:hs
+
+      - name: Build js
+        uses: docker/build-push-action@v4
+        with:
+          context: js
+          file: js/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:js
+          labels: ${{ steps.meta.outputs.labels }}
