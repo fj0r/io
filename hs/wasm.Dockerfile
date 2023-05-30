@@ -1,4 +1,4 @@
-ARG GHC_OS=deb10
+ARG GHC_OS=ubuntu20.04
 FROM fj0rd/io:latest
 
 ENV STACK_ROOT=/opt/stack GHC_ROOT=/opt/ghc

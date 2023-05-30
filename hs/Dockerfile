@@ -4,7 +4,7 @@ FROM ${BASEIMAGE}
 ARG STACK_FLAGS="--local-bin-path=/usr/local/bin --no-interleaved-output"
 ARG STACK_RESOLVER=""
 ARG STACK_INFO_URL="https://www.stackage.org/lts"
-ARG GHC_OS=deb10
+ARG GHC_OS=ubuntu20.04
 
 ENV STACK_ROOT=/opt/stack GHC_ROOT=/opt/ghc
 ENV PATH=${GHC_ROOT}/bin:$PATH
