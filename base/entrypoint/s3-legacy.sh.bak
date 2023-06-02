@@ -1,5 +1,5 @@
 if [ -n "$S3SECRET_KEY" ]; then
-    echo "[$(date -Is)] starting s3fs"
+    echo "starting s3fs"
 
     s3opt=""
     s3user=${S3USER:-root}
