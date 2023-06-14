@@ -1,5 +1,6 @@
 ARG BASEIMAGE=ubuntu:latest
 FROM fj0rd/scratch:dropbear as dropbear
+FROM fj0rd/scratch:tera-cli as tera
 
 FROM ${BASEIMAGE}
 
@@ -12,13 +13,14 @@ ENV XDG_CONFIG_HOME=/etc \
     TIMEZONE=Asia/Shanghai
 
 COPY --from=dropbear / /
+COPY --from=tera / /
 RUN set -eux \
   ; apt-get update \
   ; apt-get upgrade -y \
   ; DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends \
-      sudo procps htop cron tzdata openssl \
-      curl ca-certificates rsync tcpdump socat s3fs \
+      sudo procps htop cron tzdata openssl s3fs \
+      curl ca-certificates rsync tcpdump socat netcat \
       jq patch tree logrotate \
       fuse xz-utils zstd zip unzip \
       lsof inetutils-ping iproute2 iptables net-tools \
@@ -35,10 +37,6 @@ RUN set -eux \
   ; rg_ver=$(curl -sSL https://api.github.com/repos/BurntSushi/ripgrep/releases/latest | jq -r '.tag_name') \
   ; rg_url="https://github.com/BurntSushi/ripgrep/releases/latest/download/ripgrep-${rg_ver}-x86_64-unknown-linux-musl.tar.gz" \
   ; curl -sSL ${rg_url} | tar zxf - -C /usr/local/bin --strip-components=1 --wildcards '*/rg' \
-  \
-  ; templar_ver=$(curl -sSL https://api.github.com/repos/proctorlabs/templar/releases/latest | jq -r '.tag_name') \
-  ; templar_url="https://github.com/proctorlabs/templar/releases/download/${templar_ver}/templar-x86_64-unknown-linux-musl.tar.xz" \
-  ; curl -sSL ${templar_url} | tar Jxf - -C /usr/local/bin \
   \
   ; ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime \
   ; echo "$TIMEZONE" > /etc/timezone \
