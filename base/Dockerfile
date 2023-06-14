@@ -36,6 +36,10 @@ RUN set -eux \
   ; rg_url="https://github.com/BurntSushi/ripgrep/releases/latest/download/ripgrep-${rg_ver}-x86_64-unknown-linux-musl.tar.gz" \
   ; curl -sSL ${rg_url} | tar zxf - -C /usr/local/bin --strip-components=1 --wildcards '*/rg' \
   \
+  ; templar_ver=$(curl -sSL https://api.github.com/repos/proctorlabs/templar/releases/latest | jq -r '.tag_name') \
+  ; templar_url="https://github.com/proctorlabs/templar/releases/download/${templar_ver}/templar-x86_64-unknown-linux-musl.tar.xz" \
+  ; curl -sSL ${templar_url} | tar Jxf - -C /usr/local/bin \
+  \
   ; ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime \
   ; echo "$TIMEZONE" > /etc/timezone \
   #; sed -i /etc/locale.gen \
