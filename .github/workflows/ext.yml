@@ -76,7 +76,7 @@ jobs:
           build-args: |
             STACK_RESOLVER=
             STACK_INFO_URL=https://www.stackage.org/lts
-            GHC_OS=deb10
+            GHC_OS=ubuntu20.04
           #build-args: |
           #  STACK_RESOLVER=--resolver nightly
           #  STACK_INFO_URL=https://www.stackage.org/nightly

@@ -71,15 +71,19 @@ RUN set -eux \
 COPY ghci /root/.ghci
 
 RUN set -eux \
-  ; mkdir -p ${LS_ROOT}/haskell \
+  ; mkdir -p ${LS_ROOT}/haskell /tmp/hls \
   ; hls_version=$(curl -sSL https://api.github.com/repos/haskell/haskell-language-server/releases/latest | jq -r '.tag_name') \
   #; hls_version=$(curl https://downloads.haskell.org/~hls/ | rg '>haskell-language-server-(.+)/<' -or '$1' | tail -n 1) \
   ; ghc_version=$(stack ghc -- --numeric-version) \
   ; curl -sSL https://downloads.haskell.org/~hls/haskell-language-server-${hls_version}/haskell-language-server-${hls_version}-x86_64-linux-unknown.tar.xz \
-        | tar Jxvf - -C ${LS_ROOT}/haskell --strip-components=1 \
-          haskell-language-server-${hls_version}/bin/haskell-language-server-${ghc_version} \
-          haskell-language-server-${hls_version}/bin/haskell-language-server-wrapper \
-          haskell-language-server-${hls_version}/lib/${ghc_version} \
+        | tar Jxf - -C /tmp/hls --strip-components=1 \
+  ; opwd=$PWD \
+  ; mkdir -p ${LS_ROOT}/haskell/bin ${LS_ROOT}/haskell/lib \
+  ; cd /tmp/hls \
+  ; if [ -e "bin/haskell-language-server-${ghc_version}" ]; then cp bin/haskell-language-server-${ghc_version} ${LS_ROOT}/haskell/bin ; fi \
+  ; if [ -e "bin/haskell-language-server-wrapper" ]; then cp bin/haskell-language-server-wrapper ${LS_ROOT}/haskell/bin ; fi \
+  ; if [ -e "lib/${ghc_version}" ]; then cp -r lib/${ghc_version} ${LS_ROOT}/haskell/lib ; fi \
+  ; cd $opwd && rm -rf /tmp/hls \
   ; find ${LS_ROOT}/haskell -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s \
   ;
 
