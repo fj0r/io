@@ -90,7 +90,7 @@ RUN set -eux \
   ; apt update \
   ; apt-get install -y --no-install-recommends gnupg2 build-essential xclip \
   ; mkdir -p ${NODE_ROOT} \
-  ; node_version=$(curl -sSL https://nodejs.org/en/download/ | rg 'Latest LTS Version.*<strong>(.+)</strong>' -or '$1') \
+  ; node_version=$(curl -sSL https://nodejs.org/node-releases-data.json | jq -r '[.[] | select (has("ltsStart")) | .ltsStart |= (.| strptime("%Y-%m-%d") | mktime) | select (.ltsStart < now)][0].version') \
   ; curl -sSL https://nodejs.org/dist/v${node_version}/node-v${node_version}-linux-x64.tar.xz \
     | tar Jxf - --strip-components=1 -C ${NODE_ROOT} \
   \
