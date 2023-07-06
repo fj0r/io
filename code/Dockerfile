@@ -85,19 +85,6 @@ RUN set -eux \
   ; chown -R root:root ${NODE_ROOT}/lib \
   ; npm cache clean -f \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
-  \
-  ; lslua_ver=$(curl -sSL https://api.github.com/repos/LuaLS/lua-language-server/releases/latest | jq -r '.tag_name') \
-  ; lslua_url="https://github.com/LuaLS/lua-language-server/releases/latest/download/lua-language-server-${lslua_ver}-linux-x64.tar.gz" \
-  ; mkdir -p ${LS_ROOT}/lua \
-  ; curl -sSL ${lslua_url} | tar zxf - -C ${LS_ROOT}/lua \
-  \
-  ; nvim_url="https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz" \
-  ; curl -sSL ${nvim_url} | tar zxf - -C /usr/local --strip-components=1 \
-  ; strip /usr/local/bin/nvim \
-  ; git clone --depth=1 https://github.com/fj0r/nvim-lua.git $XDG_CONFIG_HOME/nvim \
-  ; opwd=$PWD; cd $XDG_CONFIG_HOME/nvim; git log -1 --date=iso; cd $opwd \
-  ; nvim --headless "+Lazy! sync" +qa \
-  ; rm -rf $XDG_CONFIG_HOME/nvim/lazy/packages/*/.git \
   ;
 
 #######################
@@ -111,7 +98,7 @@ RUN set -eux \
   ; curl -sSL ${code_url} | tar zxf - --strip-components=1 -C /opt/code-server \
   \
   ; for i in \
-        asvetliakov.vscode-neovim \
+        # asvetliakov.vscode-neovim \
         # vscodevim.vim \
         ms-python.python \
         ms-toolsai.jupyter \
