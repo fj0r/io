@@ -3,7 +3,7 @@
 docker run \
     -p 2222:22 \
     -e ed25519_<root>='pubkey' \
-    fj0rd/io sshd
+    fj0rd/io srv
 ```
 
 # Run as specify user:uid:gid
