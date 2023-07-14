@@ -5,9 +5,11 @@ if [ -n "$NVIM_WORKDIR" ]; then
         fi
     done
 
-    for l in $(find $(stack ghc -- --print-libdir) -maxdepth 1 -mindepth 1 -type d); do
-        export LD_LIBRARY_PATH=$l:$LD_LIBRARY_PATH
-    done
+    if command -v stack &> /dev/null; then
+        for l in $(find $(stack ghc -- --print-libdir) -maxdepth 1 -mindepth 1 -type d); do
+            export LD_LIBRARY_PATH=$l:$LD_LIBRARY_PATH
+        done
+    fi
 
     export NVIM_SERVER=1
 
