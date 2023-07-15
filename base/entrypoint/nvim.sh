@@ -13,6 +13,6 @@ if [ -n "$NVIM_WORKDIR" ]; then
 
     export NVIM_SERVER=1
 
-    nvim --listen 0.0.0.0:${NVIM_PORT:-1111} --headless ${NVIM_WORKDIR} 2>&1 &
+    nvim --listen 0.0.0.0:${NVIM_PORT:-9999} --headless ${NVIM_WORKDIR} 2>&1 &
     echo -n "$! " >> /var/run/services
 fi
