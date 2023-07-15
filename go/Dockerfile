@@ -5,8 +5,8 @@ ENV PATH=${GOPATH}/bin:${GOROOT}/bin:$PATH
 ENV GO111MODULE=on
 RUN set -eux \
   ; mkdir -p $GOROOT $GOPATH \
-  ; GO_VERSION=$(curl -sSL 'https://go.dev/VERSION?m=text') \
-  ; curl -sSL https://go.dev/dl/${GO_VERSION}.linux-amd64.tar.gz | tar xzf - -C ${GOROOT} --strip-components=1 \
+  ; GO_VERSION=$(curl --retry 3 -sSL 'https://go.dev/VERSION?m=text') \
+  ; curl --retry 3 -sSL https://go.dev/dl/${GO_VERSION}.linux-amd64.tar.gz | tar xzf - -C ${GOROOT} --strip-components=1 \
   #; go get -u -v \
   ; go mod download \
       github.com/sirupsen/logrus@latest \

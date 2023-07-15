@@ -15,7 +15,7 @@ ENV CONDA_HOME=/opt/conda
 ENV PATH=${CONDA_HOME}/bin:$PATH
 COPY jupyter-config.py /
 RUN set -ex \
-  ; curl -sSLo miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
+  ; curl --retry 3 -sSLo miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
   ; bash ./miniconda.sh -b -p ${CONDA_HOME} \
   ; rm ./miniconda.sh \
   #; conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/ \
@@ -65,10 +65,10 @@ ENV JULIA_HOME=/opt/julia
 ENV PATH=${JULIA_HOME}/bin:$PATH
 RUN set -eux \
   ; mkdir -p ${JULIA_HOME} \
-  ; julia_ver=$(curl -sSL https://julialang.org/downloads/ | rg 'Current stable release: v([.0-9]+)' -or '$1') \
+  ; julia_ver=$(curl --retry 3 -sSL https://julialang.org/downloads/ | rg 'Current stable release: v([.0-9]+)' -or '$1') \
   ; julia_ver_m=$(echo $julia_ver | cut -d'.' -f 1-2) \
   ; julia_url="https://julialang-s3.julialang.org/bin/linux/x64/${julia_ver_m}/julia-${julia_ver}-linux-x86_64.tar.gz" \
-  ; curl -sSL ${julia_url} | tar xz -C ${JULIA_HOME} --strip-components 1 \
+  ; curl --retry 3 -sSL ${julia_url} | tar xz -C ${JULIA_HOME} --strip-components 1 \
   ; julia -e 'using Pkg; Pkg.add("IJulia"); using IJulia'
 
 

@@ -16,8 +16,8 @@ RUN set -eux \
 RUN set -eux \
   ; mkdir -p ${GHCUP_ROOT}/bin \
   ; mkdir -p ${STACK_ROOT} \
-  #; curl -sSL https://get-ghcup.haskell.org | sh \
-  ; curl -sSLo ${GHCUP_ROOT}/bin/ghcup https://downloads.haskell.org/~ghcup/x86_64-linux-ghcup \
+  #; curl --retry 3 -sSL https://get-ghcup.haskell.org | sh \
+  ; curl --retry 3 -sSLo ${GHCUP_ROOT}/bin/ghcup https://downloads.haskell.org/~ghcup/x86_64-linux-ghcup \
   ; chmod +x ${GHCUP_ROOT}/bin/ghcup \
   ; ghcup install ghc \
   ; ghcup install stack \
@@ -35,10 +35,10 @@ COPY ghci /root/.ghci
 
 RUN set -eux \
   ; mkdir -p ${LS_ROOT}/haskell \
-  ; hls_version=$(curl -sSL https://api.github.com/repos/haskell/haskell-language-server/releases/latest | jq -r '.tag_name') \
-  #; hls_version=$(curl https://downloads.haskell.org/~hls/ | rg '>haskell-language-server-(.+)/<' -or '$1' | tail -n 1) \
+  ; hls_version=$(curl --retry 3 -sSL https://api.github.com/repos/haskell/haskell-language-server/releases/latest | jq -r '.tag_name') \
+  #; hls_version=$(curl --retry 3 -sSL https://downloads.haskell.org/~hls/ | rg '>haskell-language-server-(.+)/<' -or '$1' | tail -n 1) \
   ; ghc_version=$(stack ghc -- --numeric-version) \
-  ; curl -sSL https://downloads.haskell.org/~hls/haskell-language-server-${hls_version}/haskell-language-server-${hls_version}-x86_64-linux-${GHC_OS}.tar.xz \
+  ; curl --retry 3 -sSL https://downloads.haskell.org/~hls/haskell-language-server-${hls_version}/haskell-language-server-${hls_version}-x86_64-linux-${GHC_OS}.tar.xz \
         | tar Jxvf - -C ${LS_ROOT}/haskell --strip-components=1 \
           haskell-language-server-${hls_version}/bin/haskell-language-server-${ghc_version} \
           haskell-language-server-${hls_version}/bin/haskell-language-server-wrapper \

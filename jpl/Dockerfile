@@ -25,9 +25,9 @@ ENV RACKET_HOME=/opt/racket
 ENV PATH=${RACKET_HOME}/bin:$PATH
 
 RUN set -eux \
-  ; racket_ver=$(curl -sSL https://api.github.com/repos/racket/racket/releases/latest | jq -r '.tag_name' | cut -c 2-) \
+  ; racket_ver=$(curl --retry 3 -sSL https://api.github.com/repos/racket/racket/releases/latest | jq -r '.tag_name' | cut -c 2-) \
   ; racket_url="https://mirror.racket-lang.org/installers/${racket_ver}/racket-${racket_ver}-x86_64-linux-cs.sh" \
-  ; curl -sSLo racket.sh ${racket_url} \
+  ; curl --retry 3 -sSLo racket.sh ${racket_url} \
   ; sh ./racket.sh --in-place --dest ${RACKET_HOME} \
   ; rm ./racket.sh \
   ; raco pkg install --deps search-auto --batch iracket \
@@ -63,7 +63,7 @@ RUN set -eux \
 #ENV PATH=${OPAMROOT}/default/bin:$PATH
 #RUN set -ex \
 #  ; apt-get install -y --no-install-recommends m4 bubblewrap libcairo2-dev && apt-get clean \
-#  ; curl -sSLo /usr/local/bin/opam https://github.com/ocaml/opam/releases/download/${OPAMVERSION}/opam-${OPAMVERSION}-x86_64-linux \
+#  ; curl --retry 3 -sSLo /usr/local/bin/opam https://github.com/ocaml/opam/releases/download/${OPAMVERSION}/opam-${OPAMVERSION}-x86_64-linux \
 #  ; chmod +x /usr/local/bin/opam \
 #  #; sudo sysctl kernel.unprivileged_userns_clone=1 \
 #  ; opam init -a --disable-sandboxing \
@@ -83,9 +83,9 @@ RUN set -eux \
 #  ; mkdir -p ${SCALA_HOME} \
 #  ; apt-get install -y --no-install-recommends openjdk-${JAVA_VERSION}-jdk-headless \
 #  ; apt-get clean \
-#  ; curl -sSL https://downloads.lightbend.com/scala/$SCALA_VERSION/scala-$SCALA_VERSION.tgz \
+#  ; curl --retry 3 -sSL https://downloads.lightbend.com/scala/$SCALA_VERSION/scala-$SCALA_VERSION.tgz \
 #      | tar xzf - -C ${SCALA_HOME} --strip-components=1  \
-#  ; curl -sSLo coursier https://git.io/coursier-cli && chmod +x coursier \
+#  ; curl --retry 3 -sSLo coursier https://git.io/coursier-cli && chmod +x coursier \
 #  ; ./coursier bootstrap \
 #      -r jitpack \
 #      -i user -I user:sh.almond:scala-kernel-api_$SCALA_VERSION:$ALMOND_VERSION \

@@ -14,7 +14,7 @@ RUN set -eux \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 RUN set -eux \
-  ; curl -sSL https://sh.rustup.rs \
+  ; curl --retry 3 -sSL https://sh.rustup.rs \
     | sh -s -- --default-toolchain ${RUST_CHANNEL} -y --no-modify-path \
   ; rustup component add rust-src clippy rustfmt \
   #; rustup component add rust-analyzer \
@@ -50,7 +50,7 @@ RUN set -eux \
 RUN set -eux \
   ; mkdir -p ${LS_ROOT}/rust/bin \
   ; ra_url="https://github.com/rust-lang/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-unknown-linux-gnu.gz" \
-  ; curl -sSL ${ra_url} | gzip -d > ${LS_ROOT}/rust/bin/rust-analyzer \
+  ; curl --retry 3 -sSL ${ra_url} | gzip -d > ${LS_ROOT}/rust/bin/rust-analyzer \
   ; chmod +x ${LS_ROOT}/rust/bin/rust-analyzer \
   ; strip -s ${LS_ROOT}/rust/bin/rust-analyzer \
   \

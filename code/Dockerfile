@@ -9,21 +9,21 @@ RUN set -eux \
     apt-get install -y --no-install-recommends binutils \
   ; mkdir -p /opt/assets \
   \
-  ; nu_ver=$(curl -sSL https://api.github.com/repos/nushell/nushell/releases/latest | jq -r '.tag_name') \
+  ; nu_ver=$(curl --retry 3 -sSL https://api.github.com/repos/nushell/nushell/releases/latest | jq -r '.tag_name') \
   ; nu_url="https://github.com/nushell/nushell/releases/latest/download/nu-${nu_ver}-x86_64-unknown-linux-musl.tar.gz" \
-  ; curl -sSL ${nu_url} | tar zxf - -C /opt/assets --strip-components=1 \
+  ; curl --retry 3 -sSL ${nu_url} | tar zxf - -C /opt/assets --strip-components=1 \
   ; rm -f /opt/assets/nu_plugin_example /opt/assets/README.txt /opt/assets/LICENSE \
   \
-  ; zoxide_ver=$(curl -sSL https://api.github.com/repos/ajeetdsouza/zoxide/releases/latest | jq -r '.tag_name' | cut -c 2-) \
+  ; zoxide_ver=$(curl --retry 3 -sSL https://api.github.com/repos/ajeetdsouza/zoxide/releases/latest | jq -r '.tag_name' | cut -c 2-) \
   ; zoxide_url="https://github.com/ajeetdsouza/zoxide/releases/latest/download/zoxide-${zoxide_ver}-x86_64-unknown-linux-musl.tar.gz" \
-  ; curl -sSL ${zoxide_url} | tar zxf - -C /opt/assets zoxide \
+  ; curl --retry 3 -sSL ${zoxide_url} | tar zxf - -C /opt/assets zoxide \
   \
   ; btm_url="https://github.com/ClementTsang/bottom/releases/latest/download/bottom_x86_64-unknown-linux-musl.tar.gz" \
-  ; curl -sSL ${btm_url} | tar zxf - -C /opt/assets btm \
+  ; curl --retry 3 -sSL ${btm_url} | tar zxf - -C /opt/assets btm \
   \
-  ; pup_ver=$(curl -sSL https://api.github.com/repos/ericchiang/pup/releases/latest | jq -r '.tag_name') \
+  ; pup_ver=$(curl --retry 3 -sSL https://api.github.com/repos/ericchiang/pup/releases/latest | jq -r '.tag_name') \
   ; pup_url="https://github.com/ericchiang/pup/releases/download/${pup_ver}/pup_${pup_ver}_linux_amd64.zip" \
-  ; curl -sSL ${pup_url} -o pup.zip && unzip pup.zip && rm -f pup.zip && chmod +x pup && mv pup /opt/assets \
+  ; curl --retry 3 -sSL ${pup_url} -o pup.zip && unzip pup.zip && rm -f pup.zip && chmod +x pup && mv pup /opt/assets \
   \
   ; find /opt/assets -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s
 
@@ -42,9 +42,9 @@ RUN set -eux \
       git pwgen python3 python3-pip ipython3 \
       # python3-dev python3-setuptools \
   \
-  ; wasmtime_ver=$(curl -sSL https://api.github.com/repos/bytecodealliance/wasmtime/releases/latest | jq -r '.tag_name') \
+  ; wasmtime_ver=$(curl --retry 3 -sSL https://api.github.com/repos/bytecodealliance/wasmtime/releases/latest | jq -r '.tag_name') \
   ; wasmtime_url="https://github.com/bytecodealliance/wasmtime/releases/latest/download/wasmtime-${wasmtime_ver}-x86_64-linux.tar.xz" \
-  ; curl -sSL ${wasmtime_url} | tar Jxf - --strip-components=1 -C /usr/local/bin --wildcards '*/wasmtime' \
+  ; curl --retry 3 -sSL ${wasmtime_url} | tar Jxf - --strip-components=1 -C /usr/local/bin --wildcards '*/wasmtime' \
   \
   ; pip3 install --no-cache-dir ${PIP_FLAGS} \
         # aiofile fastapi uvicorn \
@@ -75,8 +75,8 @@ RUN set -eux \
   ; apt update \
   ; apt-get install -y --no-install-recommends gnupg2 build-essential xclip \
   ; mkdir -p ${NODE_ROOT} \
-  ; node_version=$(curl -sSL https://nodejs.org/node-releases-data.json | jq -r '[.[] | select (has("ltsStart")) | .ltsStart |= (.| strptime("%Y-%m-%d") | mktime) | select (.ltsStart < now)][0].version') \
-  ; curl -sSL https://nodejs.org/dist/v${node_version}/node-v${node_version}-linux-x64.tar.xz \
+  ; node_version=$(curl --retry 3 -sSL https://nodejs.org/node-releases-data.json | jq -r '[.[] | select (has("ltsStart")) | .ltsStart |= (.| strptime("%Y-%m-%d") | mktime) | select (.ltsStart < now)][0].version') \
+  ; curl --retry 3 -sSL https://nodejs.org/dist/v${node_version}/node-v${node_version}-linux-x64.tar.xz \
     | tar Jxf - --strip-components=1 -C ${NODE_ROOT} \
   \
   ; mkdir -p ${LS_ROOT} \
@@ -93,9 +93,9 @@ RUN set -eux \
 RUN set -eux \
   ; mkdir -p /opt/code-server/extensions \
   ; mkdir -p /opt/code-server/user-data \
-  ; code_ver=$(curl -sSL https://api.github.com/repos/coder/code-server/releases/latest | jq -r '.tag_name' | cut -c 2-) \
+  ; code_ver=$(curl --retry 3 -sSL https://api.github.com/repos/coder/code-server/releases/latest | jq -r '.tag_name' | cut -c 2-) \
   ; code_url="https://github.com/coder/code-server/releases/download/v${code_ver}/code-server-${code_ver}-linux-amd64.tar.gz" \
-  ; curl -sSL ${code_url} | tar zxf - --strip-components=1 -C /opt/code-server \
+  ; curl --retry 3 -sSL ${code_url} | tar zxf - --strip-components=1 -C /opt/code-server \
   \
   ; for i in \
         # asvetliakov.vscode-neovim \
