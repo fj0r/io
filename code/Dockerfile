@@ -2,7 +2,7 @@ ARG BASEIMAGE=fj0rd/io:base
 #--break-system-packages
 ARG PIP_FLAGS=""
 
-FROM ${BASEIMAGE}  as nu
+FROM ${BASEIMAGE} as nu
 RUN set -eux \
   ; apt-get update \
   ; DEBIAN_FRONTEND=noninteractive \
