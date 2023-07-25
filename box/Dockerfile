@@ -103,6 +103,5 @@ RUN set -eux \
   ; nvim --headless "+Lazy! sync" +qa \
   \
   ; rm -rf $XDG_CONFIG_HOME/nvim/lazy/packages/*/.git \
-  ; pip3 install --no-cache-dir ${PIP_FLAGS} neovim \
   ;
 
