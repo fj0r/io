@@ -12,7 +12,6 @@ RUN set -eux \
   ; pnpm config set store-dir ${PNPM_HOME} \
   ; npm cache clean -f \
   ; npm install --location=global \
-        rescript \
         typescript-language-server typescript \
         vite vite-plugin-solid solid-js \
         @volar/vue-language-server vue \
