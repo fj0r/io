@@ -11,10 +11,11 @@ RUN set -eux \
   ; mkdir -p ${PNPM_HOME} \
   ; pnpm config set store-dir ${PNPM_HOME} \
   ; npm cache clean -f \
+  \
   ; npm install --location=global \
-        typescript-language-server typescript \
-        vite vite-plugin-solid solid-js \
-        @volar/vue-language-server vue \
+        typescript typescript-language-server vite \
+        solid-js solid-start vite-plugin-solid \
+        vue @volar/vue-language-server \
   ; chown -R root:root ${NODE_ROOT}/lib \
   #; npx degit solidjs/templates/ts my-solid-project --yes \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
