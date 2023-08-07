@@ -14,7 +14,7 @@ if [ -n "$NVIM_WORKDIR" ]; then
     export TERM=screen-256color
     export SHELL=nu
 
-    nvim --listen 0.0.0.0:${NVIM_PORT:-9999} --headless +"set title titlestring=${NVIM_TITLE:-$NVIM_WORKDIR}" ${NVIM_WORKDIR} 2>&1 &
+    nvim --listen 0.0.0.0:${NVIM_PORT:-9999} --headless +"set title titlestring=🏕️${NVIM_TITLE:-$NVIM_WORKDIR}" ${NVIM_WORKDIR} 2>&1 &
     # nvim --remote-ui --server $addr
 
     echo -n "$! " >> /var/run/services
