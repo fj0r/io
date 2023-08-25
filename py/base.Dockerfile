@@ -9,7 +9,7 @@ RUN set -eux \
   ; DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends \
       locales tzdata \
-      python3 python3-pip ipython3 \
+      python3 python3-pip \
   ; ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime \
   ; echo "$TIMEZONE" > /etc/timezone \
   ; sed -i /etc/locale.gen \
@@ -20,7 +20,7 @@ RUN set -eux \
 
 RUN set -eux \
   ; pip3 install --no-cache-dir ${PIP_FLAGS} \
-        debugpy fastapi uvicorn aiofile pytest \
+        ipython debugpy fastapi uvicorn aiofile pytest \
         httpx typer hydra-core pyyaml deepmerge structlog \
         pydantic PyParsing decorator more-itertools cachetools
 
