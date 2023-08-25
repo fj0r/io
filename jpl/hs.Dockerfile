@@ -1,5 +1,6 @@
 FROM fj0rd/io:jpl
 ARG STACK_FLAGS="--local-bin-path=/usr/local/bin --no-interleaved-output"
+ARG PIP_FLAGS="--break-system-packages"
 
 ### Haskell
 ENV STACK_ROOT=/opt/stack
@@ -18,7 +19,7 @@ RUN set -eux \
   ; stack update && stack setup \
   # pip: 去掉版本号,使用已安装版本
   ; sed -i 's/==.*$//g' requirements.txt \
-  ; pip --no-cache-dir install -r requirements.txt \
+  ; pip install --no-cache-dir ${PIP_FLAGS} -r requirements.txt \
   ; stack install ${STACK_FLAGS} --fast \
   ; stack exec env | grep -v COLOR > ${IHASKELL_DATA_DIR}/env \
   ; export ihaskell_datadir=${IHASKELL_DATA_DIR} \

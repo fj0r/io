@@ -1,4 +1,5 @@
 FROM debian:testing-slim
+ARG PIP_FLAGS="--break-system-packages"
 
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8 TIMEZONE=Asia/Shanghai
 ENV PYTHONUNBUFFERED=x
@@ -18,7 +19,7 @@ RUN set -eux \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 RUN set -eux \
-  ; pip3 install --no-cache-dir \
+  ; pip3 install --no-cache-dir ${PIP_FLAGS} \
         debugpy fastapi uvicorn aiofile pytest \
         httpx typer hydra-core pyyaml deepmerge structlog \
         pydantic PyParsing decorator more-itertools cachetools

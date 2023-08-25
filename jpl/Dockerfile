@@ -115,7 +115,7 @@ RUN set -eux \
 #   ; cd ${HOME} \
 #   ; git clone --depth=1 https://github.com/guysv/ilua.git --recurse-submodules \
 #   ; cd ilua \
-#   ; pip --no-cache-dir install -e . --user \
+#   ; pip install --no-cache-dir -e . --user \
 #   ; python setup.py install_data -d ${HOME}/.local \
 #   ; rm -rf ${HOME}/ilua/.git
 

@@ -54,4 +54,6 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:bun
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            PIP_FLAGS=--break-system-packages
 

@@ -2,7 +2,7 @@ name: base-stable
 
 on:
   push:
-    branches: [ base, stable ]
+    branches: [ stable ]
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
   workflow_dispatch:

@@ -1,4 +1,5 @@
 FROM fj0rd/io
+ARG PIP_FLAGS="--break-system-packages"
 
 ENV LANG=zh_CN.UTF-8
 ENV HOME=/root
@@ -38,7 +39,7 @@ RUN set -ex \
         cffi zeromq libssh2 openssl pyzmq pcre \
   ; conda install pytorch torchserve torchtext torchvision torchaudio cudatoolkit -c pytorch -c nvidia \
   ; conda clean --all -f -y \
-  ; pip --no-cache-dir install \
+  ; pip install --no-cache-dir ${PIP_FLAGS} \
         torch torchserve torchtext torchvision torchaudio pytorch-lightning \
         plotly_express pygwalker \
         debugpy fastapi uvicorn aiofile pytest \
@@ -52,7 +53,7 @@ RUN set -ex \
 
 RUN set -ex \
   ; jupyter labextension install @axlair/jupyterlab_vim \
-  #; pip --no-cache-dir install --upgrade jupyterlab-git \
+  #; pip install --no-cache-dir ${PIP_FLAGS} --upgrade jupyterlab-git \
   #; jupyter lab build \
   #; jupyter serverextension enable --py jupyterlab_git \
   #; jupyter labextension install @jupyterlab/git \
