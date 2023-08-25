@@ -20,7 +20,7 @@ RUN set -eux \
   ; DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends \
       sudo procps htop cron tzdata openssl s3fs \
-      curl ca-certificates rsync tcpdump socat netcat \
+      curl ca-certificates rsync tcpdump socat \
       jq patch tree logrotate \
       fuse xz-utils zstd zip unzip \
       lsof inetutils-ping iproute2 iptables net-tools \

@@ -2,7 +2,7 @@ name: code
 
 on:
   push:
-    branches: [ main, code ]
+    branches: [ code ]
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
   workflow_dispatch:

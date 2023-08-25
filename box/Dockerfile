@@ -1,10 +1,7 @@
-ARG BASEIMAGE=fj0rd/io:common
-ARG PIP_FLAGS="--break-system-packages"
-
+ARG BASEIMAGE=fj0rd/io:nu
 FROM ${BASEIMAGE}
-ARG PIP_FLAGS
-COPY --from=nu /opt/assets /usr/local/bin
 
+ARG PIP_FLAGS="--break-system-packages"
 ENV PYTHONUNBUFFERED=x
 
 RUN set -eux \
@@ -19,6 +16,14 @@ RUN set -eux \
   ; wasmtime_url="https://github.com/bytecodealliance/wasmtime/releases/latest/download/wasmtime-${wasmtime_ver}-x86_64-linux.tar.xz" \
   ; curl --retry 3 -sSL ${wasmtime_url} | tar Jxf - --strip-components=1 -C /usr/local/bin --wildcards '*/wasmtime' \
   \
+  #; pydeb="" \
+  #; for pkg in \
+  #      debugpy pydantic pytest \
+  #      httpx typer yaml deepmerge \
+  #      pyparsing structlog \
+  #      decorator more-itertools cachetools \
+  #; do pydeb+="python3-${pkg} "; done \
+  #; apt-get install -y --no-install-recommends $pydeb \
   ; pip3 install --no-cache-dir ${PIP_FLAGS} \
         # aiofile fastapi uvicorn \
         debugpy pydantic pytest \
