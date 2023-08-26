@@ -51,7 +51,7 @@ RUN set -eux \
       mwc-random MonadRandom random \
       katip monad-logger monad-journal \
       regex-base regex-posix regex-compat \
-      flow pipes conduit machines \
+      pipes conduit machines \
       http-conduit wreq HTTP html websockets multipart \
       servant scotty wai network network-uri warp \
       QuickCheck smallcheck hspec \
@@ -68,7 +68,7 @@ RUN set -eux \
   ; do chmod 777 ${STACK_ROOT}/$x; done \
   ; chmod -R 777 ${STACK_ROOT}/global-project
 
-COPY ghci /root/.ghci
+COPY _ghci /root/.ghci
 
 RUN set -eux \
   ; mkdir -p ${LS_ROOT}/haskell /tmp/hls \

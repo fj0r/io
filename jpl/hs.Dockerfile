@@ -70,7 +70,7 @@ RUN set -eux \
   \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
-COPY .ghci ${HOME}/.ghci
+COPY _ghci ${HOME}/.ghci
 
 #RUN set -ex \
 #  ; jupyter labextension install jupyterlab-ihaskell \

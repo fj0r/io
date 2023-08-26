@@ -1,4 +1,4 @@
-:set prompt "H>>= "
+:set prompt "λ: "
 -- :set prompt "-- %s\n> "
 :set prompt-cont "   | "
 :set +t

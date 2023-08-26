@@ -27,7 +27,7 @@ RUN set -ex \
   ; echo ". ${CONDA_HOME}/etc/profile.d/conda.sh" >> ~/.bashrc \
   ; echo "conda activate base" >> ~/.bashrc \
   ; conda update --all -y \
-  ; conda install -c conda-forge -y IPython ipykernel ipyparallel jupyterlab=3 \
+  ; conda install -c conda-forge -y IPython ipykernel ipyparallel jupyterlab \
   ##################### RUN set -ex \
   ; conda install -y \
         SciPy Numpy numpydoc Scikit-learn scikit-image Pandas numba \
@@ -52,7 +52,7 @@ RUN set -ex \
 
 
 RUN set -ex \
-  ; jupyter labextension install @axlair/jupyterlab_vim \
+  #; jupyter labextension install @axlair/jupyterlab_vim \
   #; pip install --no-cache-dir ${PIP_FLAGS} --upgrade jupyterlab-git \
   #; jupyter lab build \
   #; jupyter serverextension enable --py jupyterlab_git \
