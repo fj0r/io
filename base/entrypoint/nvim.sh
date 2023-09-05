@@ -1,8 +1,6 @@
 if [ -n "$NVIM_WORKDIR" ]; then
-    for p in /opt/* $LS_ROOT/* ; do
-        if [ -d $p/bin ]; then
-            export PATH=$p/bin:$PATH
-        fi
+    for p in $(find /opt $LS_ROOT -maxdepth 2 -mindepth 2 -type d -name bin); do
+        export PATH=$p:$PATH
     done
 
     if command -v stack &> /dev/null; then
