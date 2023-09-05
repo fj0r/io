@@ -35,8 +35,8 @@ RUN set -eux \
       tokio async-std async-graphql \
       warp async-graphql-warp \
       axum async-graphql-axum \
-      wasm-bindgen wasm-bindgen-futures wasm-logger \
-      # yew yew-router wasm-bindgen \
+      trunk wasm-bindgen wasm-bindgen-futures wasm-logger \
+      # yew yew-router \
       # dioxus dioxus-web dioxus-html reqwasm \
       leptos reqwasm \
       serde serde_derive serde_yaml serde_json \
