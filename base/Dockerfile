@@ -19,10 +19,10 @@ RUN set -eux \
   ; apt-get upgrade -y \
   ; DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends \
-      sudo procps htop cron tzdata openssl s3fs \
+      sudo procps htop cron tzdata openssl \
       curl ca-certificates rsync tcpdump socat \
       jq patch tree logrotate \
-      fuse xz-utils zstd zip unzip \
+      xz-utils zstd zip unzip \
       lsof inetutils-ping iproute2 iptables net-tools \
   \
   ; rg_ver=$(curl --retry 3 -sSL https://api.github.com/repos/BurntSushi/ripgrep/releases/latest | jq -r '.tag_name') \

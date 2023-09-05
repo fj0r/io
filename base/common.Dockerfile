@@ -1,4 +1,4 @@
-ARG BASEIMAGE=fj0rd/io:base
+ARG BASEIMAGE=fj0rd/io:s3
 FROM ${BASEIMAGE}
 
 RUN set -eux \
