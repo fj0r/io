@@ -1,37 +1,7 @@
-ARG BASEIMAGE=fj0rd/io:base
-#--break-system-packages
-ARG PIP_FLAGS=""
-
-FROM ${BASEIMAGE} as nu
-RUN set -eux \
-  ; apt-get update \
-  ; DEBIAN_FRONTEND=noninteractive \
-    apt-get install -y --no-install-recommends binutils \
-  ; mkdir -p /opt/assets \
-  \
-  ; nu_ver=$(curl --retry 3 -sSL https://api.github.com/repos/nushell/nushell/releases/latest | jq -r '.tag_name') \
-  ; nu_url="https://github.com/nushell/nushell/releases/latest/download/nu-${nu_ver}-x86_64-unknown-linux-musl.tar.gz" \
-  ; curl --retry 3 -sSL ${nu_url} | tar zxf - -C /opt/assets --strip-components=1 \
-  ; rm -f /opt/assets/nu_plugin_example /opt/assets/README.txt /opt/assets/LICENSE \
-  \
-  ; zoxide_ver=$(curl --retry 3 -sSL https://api.github.com/repos/ajeetdsouza/zoxide/releases/latest | jq -r '.tag_name' | cut -c 2-) \
-  ; zoxide_url="https://github.com/ajeetdsouza/zoxide/releases/latest/download/zoxide-${zoxide_ver}-x86_64-unknown-linux-musl.tar.gz" \
-  ; curl --retry 3 -sSL ${zoxide_url} | tar zxf - -C /opt/assets zoxide \
-  \
-  ; btm_url="https://github.com/ClementTsang/bottom/releases/latest/download/bottom_x86_64-unknown-linux-musl.tar.gz" \
-  ; curl --retry 3 -sSL ${btm_url} | tar zxf - -C /opt/assets btm \
-  \
-  ; pup_ver=$(curl --retry 3 -sSL https://api.github.com/repos/ericchiang/pup/releases/latest | jq -r '.tag_name') \
-  ; pup_url="https://github.com/ericchiang/pup/releases/download/${pup_ver}/pup_${pup_ver}_linux_amd64.zip" \
-  ; curl --retry 3 -sSL ${pup_url} -o pup.zip && unzip pup.zip && rm -f pup.zip && chmod +x pup && mv pup /opt/assets \
-  \
-  ; find /opt/assets -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s
-
-
+ARG BASEIMAGE=fj0rd/io:nu
 FROM ${BASEIMAGE}
-ARG PIP_FLAGS
-COPY --from=nu /opt/assets /usr/local/bin
 
+ARG PIP_FLAGS="--break-system-packages"
 ENV PYTHONUNBUFFERED=x
 
 RUN set -eux \
@@ -76,7 +46,8 @@ COPY bunfig.toml /root/.bunfig.toml
 RUN set -eux \
   ; apt update \
   ; apt-get install -y --no-install-recommends gnupg2 build-essential xclip \
-  ; mkdir -p ${BUN_ROOT}/bin \
+  #; mkdir -p ${BUN_ROOT}/{bin,install/{global,cache}} \
+  ; mkdir -p ${BUN_ROOT}/bin ${BUN_ROOT}/install/global ${BUN_ROOT}/install/cache \
   ; mkdir /tmp/bun \
   ; opwd=$PWD \
   ; curl --retry 3 -sSL https://github.com/oven-sh/bun/releases/latest/download/bun-linux-x64.zip -o /tmp/bun/bun-linux-x64.zip \
