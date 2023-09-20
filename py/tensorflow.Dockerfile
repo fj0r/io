@@ -63,15 +63,15 @@ RUN set -ex \
 
 
 ### Julia
-ENV JULIA_HOME=/opt/julia
-ENV PATH=${JULIA_HOME}/bin:$PATH
-RUN set -eux \
-  ; mkdir -p ${JULIA_HOME} \
-  ; julia_ver=$(curl --retry 3 -sSL https://julialang.org/downloads/ | rg 'Current stable release: v([.0-9]+)' -or '$1') \
-  ; julia_ver_m=$(echo $julia_ver | cut -d'.' -f 1-2) \
-  ; julia_url="https://julialang-s3.julialang.org/bin/linux/x64/${julia_ver_m}/julia-${julia_ver}-linux-x86_64.tar.gz" \
-  ; curl --retry 3 -sSL ${julia_url} | tar xz -C ${JULIA_HOME} --strip-components 1 \
-  ; julia -e 'using Pkg; Pkg.add("IJulia"); using IJulia'
+# ENV JULIA_HOME=/opt/julia
+# ENV PATH=${JULIA_HOME}/bin:$PATH
+# RUN set -eux \
+#   ; mkdir -p ${JULIA_HOME} \
+#   ; julia_ver=$(curl --retry 3 -sSL https://julialang.org/downloads/ | rg 'Current stable release: v([.0-9]+)' -or '$1') \
+#   ; julia_ver_m=$(echo $julia_ver | cut -d'.' -f 1-2) \
+#   ; julia_url="https://julialang-s3.julialang.org/bin/linux/x64/${julia_ver_m}/julia-${julia_ver}-linux-x86_64.tar.gz" \
+#   ; curl --retry 3 -sSL ${julia_url} | tar xz -C ${JULIA_HOME} --strip-components 1 \
+#   ; julia -e 'using Pkg; Pkg.add("IJulia"); using IJulia'
 
 
 COPY entrypoint/jupyter.sh /entrypoint/
