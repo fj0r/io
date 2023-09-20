@@ -27,7 +27,7 @@ RUN set -eux \
   ; curl --retry 3 -sSL ${btm_url} | tar zxf - -C /usr/local/bin btm \
   \
   ; bdwh_ver=$(curl --retry 3 -sSL https://api.github.com/repos/imsnif/bandwhich/releases/latest | jq -r '.tag_name') \
-  ; bdwh_url="https://github.com/imsnif/bandwhich/releases/download/${bdwh_ver}/bandwhich-v${bdwh_ver}-x86_64-unknown-linux-musl.tar.gz" \
+  ; bdwh_url="https://github.com/imsnif/bandwhich/releases/download/${bdwh_ver}/bandwhich-${bdwh_ver}-x86_64-unknown-linux-musl.tar.gz" \
   ; curl --retry 3 -sSL ${bdwh_url} | tar zxf - -C /usr/local/bin \
   \
   ; pup_ver=$(curl --retry 3 -sSL https://api.github.com/repos/ericchiang/pup/releases/latest | jq -r '.tag_name') \
