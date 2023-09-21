@@ -25,9 +25,5 @@ RUN set -eux \
   ; bdwh_url="https://github.com/imsnif/bandwhich/releases/download/${bdwh_ver}/bandwhich-${bdwh_ver}-x86_64-unknown-linux-musl.tar.gz" \
   ; curl --retry 3 -sSL ${bdwh_url} | tar zxf - -C /usr/local/bin \
   \
-  ; pup_ver=$(curl --retry 3 -sSL https://api.github.com/repos/ericchiang/pup/releases/latest | jq -r '.tag_name') \
-  ; pup_url="https://github.com/ericchiang/pup/releases/download/${pup_ver}/pup_${pup_ver}_linux_amd64.zip" \
-  ; curl --retry 3 -sSL ${pup_url} -o pup.zip && unzip pup.zip && rm -f pup.zip && chmod +x pup && mv pup /usr/local/bin \
-  \
   ; find /usr/local/bin -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
