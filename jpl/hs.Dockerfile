@@ -33,10 +33,10 @@ RUN set -eux \
       array hashtables dlist binary text \
       containers hashable unordered-containers vector \
       deepseq call-stack primitive ghc-prim \
-      template-haskell aeson yaml taggy stache \
+      template-haskell aeson yaml taggy \
       lens recursion-schemes fixed mtl fgl \
       parsers megaparsec Earley boomerang \
-      free extensible-effects extensible-exceptions freer \
+      free extensible-effects extensible-exceptions \
       bound unbound-generics transformers transformers-compat \
       uniplate singletons dimensional \
       monad-par parallel async stm classy-prelude \

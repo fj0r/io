@@ -55,13 +55,21 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hs
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            BASEIMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
             STACK_RESOLVER=
             STACK_INFO_URL=https://www.stackage.org/lts
-            GHC_OS=deb10
+            GHC_OS=deb11
           #build-args: |
           #  BASEIMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
           #  STACK_RESOLVER=--resolver nightly
           #  STACK_INFO_URL=https://www.stackage.org/nightly
           #  GHC_OS=deb11
 
+      - name: Build x
+        uses: docker/build-push-action@v4
+        with:
+          context: js
+          file: js/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:x
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: BASE_IMAGE=fj0rd/io:hs
