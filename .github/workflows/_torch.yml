@@ -1,4 +1,4 @@
-name: py
+name: torch
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
@@ -7,7 +7,7 @@ name: py
 
 on:
   push:
-    branches: [ py ]
+    branches: [ torch ]
     tags: [ 'v*.*.*' ]
 
 env:
@@ -47,13 +47,23 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
+      # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
+      - name: Build torch
+        uses: docker/build-push-action@v4
+        with:
+          context: py
+          file: py/torch.Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:torch
+          labels: ${{ steps.meta.outputs.labels }}
+
       - name: Build torch-gpu
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: py
           file: py/torch-gpu.Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:torch-gpu
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:torch.gpu
           labels: ${{ steps.meta.outputs.labels }}
 

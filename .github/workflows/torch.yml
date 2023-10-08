@@ -8,7 +8,7 @@ name: torch
 on:
   workflow_run:
     workflows: ["base"]
-    branches: [ main ]
+    branches: [ main, torch ]
     types:
       - completed
 
@@ -59,3 +59,13 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:torch
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Build torch-gpu
+        uses: docker/build-push-action@v4
+        with:
+          context: py
+          file: py/torch-gpu.Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:torch.gpu
+          labels: ${{ steps.meta.outputs.labels }}
+
