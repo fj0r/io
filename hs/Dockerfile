@@ -75,7 +75,8 @@ RUN set -eux \
   ; hls_version=$(curl --retry 3 -sSL https://api.github.com/repos/haskell/haskell-language-server/releases/latest | jq -r '.tag_name') \
   #; hls_version=$(curl https://downloads.haskell.org/~hls/ | rg '>haskell-language-server-(.+)/<' -or '$1' | tail -n 1) \
   ; ghc_version=$(stack ghc -- --numeric-version) \
-  ; curl --retry 3 -sSL https://downloads.haskell.org/~hls/haskell-language-server-${hls_version}/haskell-language-server-${hls_version}-x86_64-linux-unknown.tar.xz \
+  #; curl --retry 3 -sSL https://downloads.haskell.org/~hls/haskell-language-server-${hls_version}/haskell-language-server-${hls_version}-x86_64-linux-unknown.tar.xz \
+  ; curl --retry 3 -sSL https://github.com/haskell/haskell-language-server/releases/download/${hls_version}/haskell-language-server-${hls_version}-x86_64-linux-unknown.tar.xz \
         | tar Jxf - -C /tmp/hls --strip-components=1 \
   ; opwd=$PWD \
   ; mkdir -p ${LS_ROOT}/haskell/bin ${LS_ROOT}/haskell/lib \
