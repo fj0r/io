@@ -63,7 +63,7 @@ ENV PATH=${NODE_ROOT}/bin:$PATH
 
 RUN set -eux \
   ; apt update \
-  ; apt-get install -y --no-install-recommends gnupg2 build-essential xclip \
+  ; apt-get install -y --no-install-recommends gnupg2 build-essential \
   ; mkdir -p ${NODE_ROOT} \
   ; node_version=$(curl --retry 3 -sSL https://nodejs.org/en/download/ | rg 'Latest LTS Version.*<strong>(.+)</strong>' -or '$1') \
   ; curl --retry 3 -sSL https://nodejs.org/dist/v${node_version}/node-v${node_version}-linux-x64.tar.xz \

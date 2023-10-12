@@ -57,7 +57,7 @@ COPY bunfig.toml /root/.bunfig.toml
 
 RUN set -eux \
   ; apt update \
-  ; apt-get install -y --no-install-recommends gnupg2 build-essential xclip \
+  ; apt-get install -y --no-install-recommends gnupg2 build-essential \
   #; mkdir -p ${BUN_ROOT}/{bin,install/{global,cache}} \
   ; mkdir -p ${BUN_ROOT}/bin ${BUN_ROOT}/install/global ${BUN_ROOT}/install/cache \
   ; mkdir /tmp/bun \
