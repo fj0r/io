@@ -14,9 +14,9 @@ RUN set -eux \
   ; just_url="https://github.com/casey/just/releases/latest/download/just-${just_ver}-x86_64-unknown-linux-musl.tar.gz" \
   ; curl --retry 3 -sSL ${just_url} | tar zxf - -C /usr/local/bin just \
   \
-  ; mask_ver=$(curl --retry 3 -sSL https://api.github.com/repos/jacobdeichert/mask/releases/latest | jq -r '.tag_name') \
+  ; mask_ver=$(curl --retry 3 -sSL https://api.github.com/repos/jacobdeichert/mask/releases/latest | jq -r '.tag_name' | awk -F '/' '{print $2}') \
   ; mask_dir="mask-${mask_ver}-x86_64-unknown-linux-musl" \
-  ; mask_url="https://github.com/jacobdeichert/mask/releases/download/${mask_ver}/${mask_dir}.zip" \
+  ; mask_url="https://github.com/jacobdeichert/mask/releases/latest/download/${mask_dir}.zip" \
   ; curl --retry 3 -sSLO ${mask_url} \
   ; unzip ${mask_dir}.zip; mv ${mask_dir}/mask /usr/local/bin; rm -rf ${mask_dir}.zip ${mask_dir}/ \
   \
