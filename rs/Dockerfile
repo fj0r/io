@@ -32,10 +32,12 @@ RUN set -eux \
       surf scraper tera \
       anyhow thiserror snafu lazy_static \
       proc-macro2 syn quote nom regex \
+      # crossbeam-channel \
       tokio async-std async-graphql \
       warp async-graphql-warp \
       axum async-graphql-axum \
-      trunk wasm-bindgen wasm-bindgen-futures wasm-logger \
+      trunk wasm-pack wee_alloc \
+      wasm-bindgen wasm-bindgen-futures wasm-logger \
       # yew yew-router \
       # dioxus dioxus-web dioxus-html reqwasm \
       leptos reqwasm \
