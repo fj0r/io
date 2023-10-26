@@ -32,8 +32,7 @@ RUN set -eux \
       surf scraper tera \
       anyhow thiserror snafu lazy_static \
       proc-macro2 syn quote nom regex \
-      # crossbeam-channel \
-      tokio async-std async-graphql \
+      crossbeam tokio async-std async-graphql \
       warp async-graphql-warp \
       axum async-graphql-axum \
       trunk wasm-pack wee_alloc \
