@@ -30,22 +30,23 @@ RUN set -ex \
   ; conda install -c conda-forge -y IPython ipykernel ipyparallel jupyterlab \
   ##################### RUN set -ex \
   ; conda install -y \
-        SciPy Numpy numpydoc Scikit-learn scikit-image Pandas numba \
-        matplotlib-base seaborn Bokeh pyarrow \
-        Statsmodels SymPy numexpr NLTK networkx \
-        # Keras TensorFlow <PyMC>
-        sqlite cloudpickle datashape \
-        xz zlib zstd cryptography \
-        cffi zeromq libssh2 openssl pyzmq pcre \
-  ; conda install pytorch torchserve torchtext torchvision torchaudio cudatoolkit -c pytorch -c nvidia \
+      SciPy Numpy numpydoc Scikit-learn scikit-image Pandas numba \
+      matplotlib-base seaborn Bokeh pyarrow \
+      Statsmodels SymPy numexpr NLTK networkx \
+      # Keras TensorFlow <PyMC>
+      sqlite cloudpickle datashape \
+      xz zlib zstd cryptography \
+      cffi zeromq libssh2 openssl pyzmq pcre \
+  ; conda install pytorch torchserve \
+      torchtext torchvision torchaudio pytorch-lightning \
+      cudatoolkit -c pytorch -c nvidia \
   ; conda clean --all -f -y \
   ; pip install --no-cache-dir ${PIP_FLAGS} \
-        torch torchserve torchtext torchvision torchaudio pytorch-lightning \
-        plotly_express pygwalker \
-        debugpy fastapi uvicorn aiofile pytest \
-        httpx typer hydra-core pyyaml deepmerge structlog \
-        pydantic PyParsing decorator more-itertools cachetools \
-        bash_kernel ipython-sql pgspecial jieba sh \
+      plotly_express pygwalker \
+      debugpy fastapi uvicorn aiofile pytest \
+      httpx typer hydra-core pyyaml deepmerge structlog \
+      pydantic PyParsing decorator more-itertools cachetools \
+      bash_kernel ipython-sql pgspecial jieba sh \
   ; python -m bash_kernel.install \
   ; jupyter lab --generate-config \
   ; cat /jupyter-config.py >> $HOME/.jupyter/jupyter_lab_config.py
