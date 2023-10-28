@@ -37,9 +37,9 @@ RUN set -ex \
       sqlite cloudpickle datashape \
       xz zlib zstd cryptography \
       cffi zeromq libssh2 openssl pyzmq pcre \
-  ; conda install pytorch torchserve \
+  ; conda install -c pytorch -c nvidia \
+      pytorch torchserve cudatoolkit \
       torchtext torchvision torchaudio pytorch-lightning \
-      cudatoolkit -c pytorch -c nvidia \
   ; conda clean --all -f -y \
   ; pip install --no-cache-dir ${PIP_FLAGS} \
       plotly_express pygwalker \
