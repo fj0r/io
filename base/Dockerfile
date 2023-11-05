@@ -21,7 +21,7 @@ RUN set -eux \
     apt-get install -y --no-install-recommends \
       sudo procps htop cron tzdata openssl \
       curl ca-certificates rsync tcpdump socat \
-      jq patch tree logrotate \
+      sqlite3 jq patch tree logrotate \
       xz-utils zstd zip unzip \
       lsof inetutils-ping iproute2 iptables net-tools \
   \
