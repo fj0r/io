@@ -49,7 +49,7 @@ RUN set -eux \
       monad-par parallel async stm classy-prelude \
       persistent memory cryptonite \
       mwc-random MonadRandom random \
-      katip monad-logger monad-journal \
+      katip monad-logger \
       regex-base regex-posix regex-compat \
       pipes conduit machines \
       http-conduit wreq HTTP html websockets multipart \

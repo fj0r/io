@@ -42,7 +42,7 @@ RUN set -eux \
       monad-par parallel async stm classy-prelude \
       persistent memory \
       MonadRandom random \
-      katip monad-logger monad-journal \
+      katip monad-logger \
       pipes conduit machines \
       http-conduit wreq HTTP html websockets multipart \
       QuickCheck smallcheck hspec \
