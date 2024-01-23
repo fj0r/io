@@ -31,7 +31,7 @@ RUN set -eux \
       quicli structopt structopt-yaml \
       reqwest surf scraper tera \
       anyhow thiserror snafu lazy_static \
-      proc-macro2 syn quote nom regex \
+      proc-macro2 syn quote nom linkme regex \
       crossbeam wasmtime mlua \
       tokio async-std async-graphql \
       warp async-graphql-warp \
