@@ -43,7 +43,7 @@ RUN set -ex \
       torchtext torchvision torchaudio pytorch-lightning \
   ; conda clean --all -f -y \
   ; pip install --no-cache-dir ${PIP_FLAGS} \
-      plotly_express pygwalker \
+      # plotly_express pygwalker \
       debugpy fastapi uvicorn aiofile pytest \
       httpx typer hydra-core pyyaml deepmerge structlog \
       pydantic PyParsing decorator more-itertools cachetools \

@@ -45,7 +45,7 @@ RUN set -ex \
         debugpy fastapi uvicorn aiofile pytest \
         httpx typer hydra-core pyyaml deepmerge structlog \
         pydantic PyParsing decorator more-itertools cachetools \
-        bash_kernel ipython-sql pgspecial jieba sh \
+        bash_kernel ipython-sql pgspecial sh \
   ; python -m bash_kernel.install \
   ; jupyter lab --generate-config \
   ; cat /jupyter-config.py >> $HOME/.jupyter/jupyter_lab_config.py
