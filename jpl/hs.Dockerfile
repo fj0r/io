@@ -18,7 +18,7 @@ RUN set -eux \
   ; stack config set install-ghc --global true \
   ; stack update && stack setup \
   # pip: 去掉版本号,使用已安装版本
-  ; sed -i 's/==.*$//g' requirements.txt \
+  #; sed -i 's/==.*$//g' requirements.txt \
   ; pip install --no-cache-dir ${PIP_FLAGS} -r requirements.txt \
   ; stack install ${STACK_FLAGS} --fast \
   ; stack exec env | grep -v COLOR > ${IHASKELL_DATA_DIR}/env \
