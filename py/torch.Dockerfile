@@ -40,7 +40,7 @@ RUN set -ex \
         cffi zeromq libssh2 openssl pyzmq pcre \
   ; conda clean --all -f -y \
   ; pip install --no-cache-dir ${PIP_FLAGS} \
-        torch torchserve torchtext torchvision torchaudio pytorch-lightning \
+        torch torchserve torchtext torchvision torchaudio \
         plotly_express pygwalker \
         debugpy fastapi uvicorn aiofile pytest \
         httpx typer hydra-core pyyaml deepmerge structlog \

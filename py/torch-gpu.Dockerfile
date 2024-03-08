@@ -40,7 +40,7 @@ RUN set -ex \
       cffi zeromq libssh2 openssl pyzmq pcre \
   ; conda install -c pytorch -c nvidia \
       pytorch torchserve cudatoolkit \
-      torchtext torchvision torchaudio pytorch-lightning \
+      torchtext torchvision torchaudio \
   ; conda clean --all -f -y \
   ; pip install --no-cache-dir ${PIP_FLAGS} \
       # plotly_express pygwalker \
