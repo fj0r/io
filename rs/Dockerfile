@@ -45,7 +45,8 @@ RUN set -eux \
       serde_cbor apache-avro schemars \
       slog slog-async slog-json slog-term slog-logfmt \
       config time lru-cache itertools \
-      redis kafka polars linfa rayon \
+      polars dfdx linfa rayon \
+      redis kafka \
   ; rm -rf ${CARGO_HOME}/registry/src/*
   #; find ${CARGO_HOME}/bin -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s
 
