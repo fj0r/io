@@ -9,13 +9,26 @@ RUN set -eux \
   ; apt-get upgrade -y \
   ; DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends \
-      git pwgen python3 python3-pip \
+      git openssh-client pwgen python3 python3-pip \
       # python3-dev python3-setuptools \
   \
+  ; ln -sf /usr/bin/python3 /usr/bin/python \
   ; wasmtime_ver=$(curl --retry 3 -sSL https://api.github.com/repos/bytecodealliance/wasmtime/releases/latest | jq -r '.tag_name') \
   ; wasmtime_url="https://github.com/bytecodealliance/wasmtime/releases/latest/download/wasmtime-${wasmtime_ver}-x86_64-linux.tar.xz" \
   ; curl --retry 3 -sSL ${wasmtime_url} | tar Jxf - --strip-components=1 -C /usr/local/bin --wildcards '*/wasmtime' \
   \
+  #; spin_ver=$(curl --retry 3 -sSL https://api.github.com/repos/fermyon/spin/releases/latest | jq -r '.tag_name') \
+  #; spin_url="https://github.com/fermyon/spin/releases/download/${spin_ver}/spin-${spin_ver}-linux-amd64.tar.gz" \
+  #; curl --retry 3 -sSL ${spin_url} | tar zxf - -C /usr/local/bin spin \
+  \
+  #; pydeb="" \
+  #; for pkg in \
+  #      debugpy pydantic pytest \
+  #      httpx typer yaml deepmerge \
+  #      pyparsing structlog \
+  #      decorator more-itertools cachetools \
+  #; do pydeb+="python3-${pkg} "; done \
+  #; apt-get install -y --no-install-recommends $pydeb \
   ; pip3 install --no-cache-dir ${PIP_FLAGS} \
         # aiofile fastapi uvicorn \
         ipython debugpy pydantic pytest \
@@ -68,7 +81,7 @@ RUN set -eux \
   ; rm -rf /tmp/bun \
   \
   ; mkdir -p ${LS_ROOT} \
-  ; bun install --global --no-cache \
+  ; bun install --config=/root/.bunfig.toml --global --no-cache \
         quicktype \
         pyright \
         vscode-langservers-extracted \
@@ -83,7 +96,7 @@ RUN set -eux \
   \
   ; nvim_url="https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz" \
   ; curl --retry 3 -sSL ${nvim_url} | tar zxf - -C /usr/local --strip-components=1 \
-  ; strip /usr/local/bin/nvim \
+  ; strip -s /usr/local/bin/nvim \
   ; git clone --depth=3 https://github.com/fj0r/nvim-lua.git $XDG_CONFIG_HOME/nvim \
   ; opwd=$PWD; cd $XDG_CONFIG_HOME/nvim; git log -1 --date=iso; cd $opwd \
   ; nvim --headless "+Lazy! sync" +qa \
