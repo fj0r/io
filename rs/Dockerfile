@@ -57,6 +57,10 @@ RUN set -eux \
   #; strip -s ${LS_ROOT}/rust/bin/rust-analyzer \
 RUN set -eux \
   #; export USER=root \
+  ; { \
+      echo '[build]' ;\
+      echo 'target-dir = "/tmp/cargo/target"' ;\
+    } > /opt/cargo/config \
   ; opwd=$PWD; cd /world \
   ; PROJ=hello-rust \
   ; cargo new $PROJ \
