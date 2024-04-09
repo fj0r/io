@@ -36,7 +36,6 @@ COPY ghci /root/.ghci
 RUN set -eux \
   ; mkdir -p ${LS_ROOT}/haskell \
   ; hls_version=$(curl --retry 3 -sSL https://api.github.com/repos/haskell/haskell-language-server/releases/latest | jq -r '.tag_name') \
-  #; hls_version=$(curl --retry 3 -sSL https://downloads.haskell.org/~hls/ | rg '>haskell-language-server-(.+)/<' -or '$1' | tail -n 1) \
   ; ghc_version=$(stack ghc -- --numeric-version) \
   ; curl --retry 3 -sSL https://downloads.haskell.org/~hls/haskell-language-server-${hls_version}/haskell-language-server-${hls_version}-x86_64-linux-${GHC_OS}.tar.xz \
         | tar Jxvf - -C ${LS_ROOT}/haskell --strip-components=1 \
