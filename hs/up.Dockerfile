@@ -34,7 +34,31 @@ RUN set -eux \
       rm -rf "${GHCUP_ROOT}/${i}/*" ;\
     done \
   \
+  ; rm -rf ${GHCUP_ROOT}/ghc/${ghc_ver}/share \
+  ; hls_ver=$(haskell-language-server-wrapper --numeric-version) \
+  ; for i in \
+    $(ls ${GHCUP_ROOT}/hls/${hls_ver}/lib/haskell-language-server-${hls_ver}/lib/) \
+  ; do \
+      if [ "$i" != "$ghc_ver" ]; then \
+        rm -rf ${GHCUP_ROOT}/hls/${hls_ver}/lib/haskell-language-server-${hls_ver}/lib/$i; \
+      fi ;\
+    done \
   ; nu -c "open ${STACK_ROOT}/config.yaml | upsert allow-different-user true | upsert allow-newer true | save -f ${STACK_ROOT}/config.yaml" \
   ;
+
+RUN set -eux \
+  ; stack install \
+      ghcid implicit-hie haskell-dap ghci-dap haskell-debug-adapter \
+  ; rm -rf ${STACK_ROOT}/pantry/hackage/* \
+  ; opwd=$PWD \
+  ; cd /world && stack new ${STACK_FLAGS} ${STACK_RESOLVER} hello-rio rio && cd hello-rio && gen-hie > hie.yaml \
+  ; cd /world && stack new ${STACK_FLAGS} ${STACK_RESOLVER} hello-haskell && cd hello-haskell && gen-hie > hie.yaml \
+  ; cd $opwd \
+  ; for x in config.yaml \
+             templates \
+             stack.sqlite3.pantry-write-lock \
+             pantry/pantry.sqlite3.pantry-write-lock \
+  ; do chmod 777 ${STACK_ROOT}/$x; done \
+  ; chmod -R 777 ${STACK_ROOT}/global-project
 
 COPY _ghci /root/.ghci
