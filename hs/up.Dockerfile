@@ -16,31 +16,25 @@ RUN set -eux \
 RUN set -eux \
   ; mkdir -p ${GHCUP_ROOT}/bin \
   ; mkdir -p ${STACK_ROOT} \
-  #; curl --retry 3 -sSL https://get-ghcup.haskell.org | sh \
   ; curl --retry 3 -sSLo ${GHCUP_ROOT}/bin/ghcup https://downloads.haskell.org/~ghcup/x86_64-linux-ghcup \
   ; chmod +x ${GHCUP_ROOT}/bin/ghcup \
-  ; ghcup install ghc \
   ; ghcup install stack \
   ; ghcup install cabal \
-  #; ghcup install hls \
-  #; rm -rf ${GHCUP_ROOT}/cache \
-  #; rm -rf ${GHCUP_ROOT}/share/doc \
-  \
   ; stack config set system-ghc --global true \
   ; stack config set install-ghc --global false \
+  \
+  ; ghc_ver=$(curl --retry 3 -sSL https://www.stackage.org/lts -H 'Accept: application/json' | jq -r '.snapshot.ghc') \
+  ; ghcup -s '["GHCupURL", "StackSetupURL"]' install ghc $ghc_ver \
+  ; ghcup install hls \
+  \
+  ; for i in \
+      tmp cache trash logs \
+  ; do \
+      du -hd 1 "${GHCUP_ROOT}/${i}" ;\
+      rm -rf "${GHCUP_ROOT}/${i}/*" ;\
+    done \
+  \
   ; nu -c "open ${STACK_ROOT}/config.yaml | upsert allow-different-user true | upsert allow-newer true | save -f ${STACK_ROOT}/config.yaml" \
   ;
 
-COPY ghci /root/.ghci
-
-RUN set -eux \
-  ; mkdir -p ${LS_ROOT}/haskell \
-  ; hls_version=$(curl --retry 3 -sSL https://api.github.com/repos/haskell/haskell-language-server/releases/latest | jq -r '.tag_name') \
-  ; ghc_version=$(stack ghc -- --numeric-version) \
-  ; curl --retry 3 -sSL https://downloads.haskell.org/~hls/haskell-language-server-${hls_version}/haskell-language-server-${hls_version}-x86_64-linux-${GHC_OS}.tar.xz \
-        | tar Jxvf - -C ${LS_ROOT}/haskell --strip-components=1 \
-          haskell-language-server-${hls_version}/bin/haskell-language-server-${ghc_version} \
-          haskell-language-server-${hls_version}/bin/haskell-language-server-wrapper \
-          haskell-language-server-${hls_version}/lib/${ghc_version} \
-  ; find ${LS_ROOT}/haskell -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s \
-  ;
+COPY _ghci /root/.ghci
