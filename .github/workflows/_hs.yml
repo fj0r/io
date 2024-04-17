@@ -50,19 +50,10 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: hs
-          file: hs/Dockerfile
+          file: hs/up.Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hs
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:ghcup
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            STACK_RESOLVER=
-            STACK_INFO_URL=https://www.stackage.org/lts
-            GHC_OS=deb11
-          #build-args: |
-          #  BASEIMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-          #  STACK_RESOLVER=--resolver nightly
-          #  STACK_INFO_URL=https://www.stackage.org/nightly
-          #  GHC_OS=deb11
 
       - name: Build x
         uses: docker/build-push-action@v4
@@ -70,6 +61,6 @@ jobs:
           context: js
           file: js/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:x
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:xup
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: BASE_IMAGE=fj0rd/io:hs
+          build-args: BASE_IMAGE=fj0rd/io:ghcup

@@ -83,8 +83,8 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hs
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            STACK_RESOLVER=
             STACK_INFO_URL=https://www.stackage.org/lts
+            STACK_RESOLVER=
             GHC_OS=deb11
           #  GHC_OS=ubuntu20.04
           #build-args: |

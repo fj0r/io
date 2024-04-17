@@ -3,7 +3,8 @@ FROM ${BASEIMAGE}
 
 ARG RUST_CHANNEL=stable
 
-ENV CARGO_HOME=/opt/cargo RUSTUP_HOME=/opt/rustup
+ENV RUSTUP_HOME=/opt/rustup
+ENV CARGO_HOME=/opt/cargo
 ENV PATH=${CARGO_HOME}/bin:$PATH
 
 RUN set -eux \
