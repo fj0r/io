@@ -1,10 +1,13 @@
-ARG GHC_OS=ubuntu20.04
 FROM fj0rd/io
 
+ARG STACK_FLAGS="--local-bin-path=/usr/local/bin --no-interleaved-output"
+ARG STACK_INFO_URL="https://www.stackage.org/lts"
+ARG GHC_OS=deb11
 ENV BOOTSTRAP_HASKELL_NONINTERACTIVE=1
-ENV STACK_ROOT=/opt/stack GHCUP_ROOT=/opt/.ghcup
-ENV PATH=${GHCUP_ROOT}/bin:$PATH \
-    GHCUP_INSTALL_BASE_PREFIX=/opt
+
+ENV GHCUP_INSTALL_BASE_PREFIX=/opt GHCUP_ROOT=/opt/.ghcup
+ENV STACK_ROOT=/opt/stack
+ENV PATH=${GHCUP_ROOT}/bin:$PATH
 
 RUN set -eux \
   ; apt-get update \
@@ -23,7 +26,7 @@ RUN set -eux \
   ; stack config set system-ghc --global true \
   ; stack config set install-ghc --global false \
   \
-  ; ghc_ver=$(curl --retry 3 -sSL https://www.stackage.org/lts -H 'Accept: application/json' | jq -r '.snapshot.ghc') \
+  ; ghc_ver=$(curl --retry 3 -sSL ${STACK_INFO_URL} -H 'Accept: application/json' | jq -r '.snapshot.ghc') \
   ; ghcup -s '["GHCupURL", "StackSetupURL"]' install ghc $ghc_ver \
   ; ghcup install hls \
   \
@@ -47,12 +50,33 @@ RUN set -eux \
   ;
 
 RUN set -eux \
-  ; stack install \
+  ; stack install ${STACK_FLAGS} \
       ghcid implicit-hie haskell-dap ghci-dap haskell-debug-adapter \
+      optparse-applicative shelly process unix \
+      time clock hpc pretty filepath directory zlib \
+      array hashtables dlist binary bytestring text \
+      containers hashable vector unordered-containers \
+      deepseq call-stack primitive ghc-prim \
+      template-haskell aeson yaml taggy \
+      lens recursion-schemes fixed mtl fgl \
+      parsers megaparsec Earley boomerang \
+      free extensible-effects extensible-exceptions \
+      bound unbound-generics transformers transformers-compat \
+      syb uniplate singletons dimensional \
+      monad-par parallel async stm classy-prelude \
+      persistent memory cryptonite \
+      mwc-random MonadRandom random \
+      katip monad-logger \
+      regex-base regex-posix regex-compat \
+      pipes conduit machines \
+      http-conduit wreq HTTP html websockets multipart \
+      servant scotty wai network network-uri warp \
+      QuickCheck smallcheck hspec \
+      hmatrix linear statistics ad integration \
   ; rm -rf ${STACK_ROOT}/pantry/hackage/* \
   ; opwd=$PWD \
-  ; cd /world && stack new ${STACK_FLAGS} ${STACK_RESOLVER} hello-rio rio && cd hello-rio && gen-hie > hie.yaml \
-  ; cd /world && stack new ${STACK_FLAGS} ${STACK_RESOLVER} hello-haskell && cd hello-haskell && gen-hie > hie.yaml \
+  ; cd /world && stack new ${STACK_FLAGS} hello-rio rio && cd hello-rio && gen-hie > hie.yaml \
+  ; cd /world && stack new ${STACK_FLAGS} hello-haskell && cd hello-haskell && gen-hie > hie.yaml \
   ; cd $opwd \
   ; for x in config.yaml \
              templates \
