@@ -29,7 +29,7 @@ RUN set -eux \
       dioxus-cli \
       #cargo-leptos \
   ; cargo prefetch \
-      quicli structopt structopt-yaml \
+      clap config \
       reqwest surf scraper tera \
       anyhow thiserror snafu lazy_static \
       proc-macro2 syn quote nom linkme regex \
@@ -45,9 +45,8 @@ RUN set -eux \
       serde serde_derive serde_yaml serde_json \
       serde_cbor apache-avro schemars \
       slog slog-async slog-json slog-term slog-logfmt \
-      config time lru-cache itertools \
+      time lru-cache itertools \
       polars dfdx linfa rayon \
-      redis kafka \
   ; rm -rf ${CARGO_HOME}/registry/src/*
   #; find ${CARGO_HOME}/bin -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s
 
