@@ -46,7 +46,7 @@ RUN set -eux \
         rm -rf ${GHCUP_ROOT}/hls/${hls_ver}/lib/haskell-language-server-${hls_ver}/lib/$i; \
       fi ;\
     done \
-  ; nu -c "open ${STACK_ROOT}/config.yaml | upsert allow-different-user true | upsert allow-newer true | save -f ${STACK_ROOT}/config.yaml" \
+  ; nu -c "open ${STACK_ROOT}/config.yaml | upsert allow-different-user true | upsert allow-newer true | collect { \$in | save -f ${STACK_ROOT}/config.yaml }" \
   ;
 
 RUN set -eux \
