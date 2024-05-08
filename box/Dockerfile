@@ -51,7 +51,6 @@ RUN set -eux \
   ; echo '/usr/local/bin/nu' >> /etc/shells \
   ; git clone --depth=3 https://github.com/fj0r/nushell.git $XDG_CONFIG_HOME/nushell \
   ; opwd=$PWD; cd $XDG_CONFIG_HOME/nushell; git log -1 --date=iso; cd $opwd \
-  ; nu -c 'register /usr/local/bin/nu_plugin_query' \
   \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
@@ -61,10 +60,13 @@ RUN set -eux \
 ENV LS_ROOT=/opt/language-server
 ENV NODE_ROOT=/opt/node
 ENV PATH=${NODE_ROOT}/bin:$PATH
+ENV BUILD_DEPS="\
+    cmake \
+    "
 
 RUN set -eux \
   ; apt update \
-  ; apt-get install -y --no-install-recommends gnupg2 build-essential \
+  ; apt-get install -y --no-install-recommends gnupg2 build-essential ${BUILD_DEPS:-} \
   ; mkdir -p ${NODE_ROOT} \
   ; node_version=$(curl --retry 3 -sSL https://nodejs.org/dist/index.json | jq -r '[.[]|select(.lts != false)][0].version') \
   ; curl --retry 3 -sSL https://nodejs.org/dist/${node_version}/node-${node_version}-linux-x64.tar.xz \
@@ -85,15 +87,17 @@ RUN set -eux \
   ; mkdir -p ${LS_ROOT}/lua \
   ; curl --retry 3 -sSL ${lslua_url} | tar zxf - -C ${LS_ROOT}/lua \
   \
-  ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
-  \
   ; nvim_url="https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz" \
   ; curl --retry 3 -sSL ${nvim_url} | tar zxf - -C /usr/local --strip-components=1 \
   ; strip -s /usr/local/bin/nvim \
   ; git clone --depth=3 https://github.com/fj0r/nvim-lua.git $XDG_CONFIG_HOME/nvim \
   ; opwd=$PWD; cd $XDG_CONFIG_HOME/nvim; git log -1 --date=iso; cd $opwd \
   ; nvim --headless "+Lazy! sync" +qa \
+  #; nvim --headless "+Lazy! build telescope-fzf-native.nvim" +qa \
   \
   ; rm -rf $XDG_CONFIG_HOME/nvim/lazy/packages/*/.git \
+  \
+  ; apt-get purge -y --auto-remove ${BUILD_DEPS:-} \
+  ; apt-get clean -y && rm -rf /var/lib/apt/lists/* \
   ;
 
