@@ -15,6 +15,15 @@ RUN set -eux \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 RUN set -eux \
+  ; sccache_ver=$(curl --retry 3 -sSL https://api.github.com/repos/mozilla/sccache/releases/latest | jq -r '.tag_name') \
+  ; curl -sSL "https://github.com/mozilla/sccache/releases/download/${sccache_ver}/sccache-dist-${sccache_ver}-x86_64-unknown-linux-musl.tar.gz" \
+    | tar zxf - --strip-components=1 -C /usr/local/bin --wildcards '*/sccache-dist' \
+  ; curl -sSL "https://github.com/mozilla/sccache/releases/download/${sccache_ver}/sccache-${sccache_ver}-x86_64-unknown-linux-musl.tar.gz" \
+    | tar zxf - --strip-components=1 -C /usr/local/bin --wildcards '*/sccache'
+
+ENV RUSTC_WRAPPER=/usr/local/bin/sccache
+
+RUN set -eux \
   ; curl --retry 3 -sSL https://sh.rustup.rs \
     | sh -s -- --default-toolchain ${RUST_CHANNEL} -y --no-modify-path \
   ; rustup component add rust-src clippy rustfmt \
@@ -58,7 +67,7 @@ RUN set -eux \
   ; { \
       echo '[build]' ;\
       echo 'target-dir = "/tmp/cargo/target"' ;\
-    } > /opt/cargo/config \
+    } > /opt/cargo/config.toml \
   ; opwd=$PWD; cd /world \
   ; PROJ=hello-rust \
   ; cargo new $PROJ \
