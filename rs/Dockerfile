@@ -17,9 +17,9 @@ RUN set -eux \
 RUN set -eux \
   ; sccache_ver=$(curl --retry 3 -sSL https://api.github.com/repos/mozilla/sccache/releases/latest | jq -r '.tag_name') \
   ; curl -sSL "https://github.com/mozilla/sccache/releases/download/${sccache_ver}/sccache-dist-${sccache_ver}-x86_64-unknown-linux-musl.tar.gz" \
-    | tar zxf - --strip-components=1 -C /usr/local/bin --wildcards '*/sccache-dist' \
+  | tar zxf - --strip-components=1 -C /usr/local/bin --wildcards '*/sccache-dist' \
   ; curl -sSL "https://github.com/mozilla/sccache/releases/download/${sccache_ver}/sccache-${sccache_ver}-x86_64-unknown-linux-musl.tar.gz" \
-    | tar zxf - --strip-components=1 -C /usr/local/bin --wildcards '*/sccache'
+  | tar zxf - --strip-components=1 -C /usr/local/bin --wildcards '*/sccache'
 
 ENV RUSTC_WRAPPER=/usr/local/bin/sccache
 

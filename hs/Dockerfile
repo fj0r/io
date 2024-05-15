@@ -28,7 +28,6 @@ RUN set -eux \
   \
   ; ghc_ver=$(curl --retry 3 -sSL ${STACK_INFO_URL} -H 'Accept: application/json' | jq -r '.snapshot.ghc') \
   ; ghcup -s '["GHCupURL", "StackSetupURL"]' install ghc $ghc_ver \
-  ; ghcup install hls \
   \
   ; for i in \
       tmp cache trash logs \
@@ -38,15 +37,29 @@ RUN set -eux \
     done \
   \
   ; rm -rf ${GHCUP_ROOT}/ghc/${ghc_ver}/share \
-  ; hls_ver=$(haskell-language-server-wrapper --numeric-version) \
-  ; for i in \
-    $(ls ${GHCUP_ROOT}/hls/${hls_ver}/lib/haskell-language-server-${hls_ver}/lib/) \
-  ; do \
-      if [ "$i" != "$ghc_ver" ]; then \
-        rm -rf ${GHCUP_ROOT}/hls/${hls_ver}/lib/haskell-language-server-${hls_ver}/lib/$i; \
-      fi ;\
-    done \
   ; nu -c "open ${STACK_ROOT}/config.yaml | upsert allow-different-user true | upsert allow-newer true | collect { \$in | save -f ${STACK_ROOT}/config.yaml }" \
+  \
+  #; ghcup install hls \
+  #; hls_ver=$(haskell-language-server-wrapper --numeric-version) \
+  #; for i in \
+  #  $(ls ${GHCUP_ROOT}/hls/${hls_ver}/lib/haskell-language-server-${hls_ver}/lib/) \
+  #; do \
+  #    if [ "$i" != "$ghc_ver" ]; then \
+  #      rm -rf ${GHCUP_ROOT}/hls/${hls_ver}/lib/haskell-language-server-${hls_ver}/lib/$i; \
+  #    fi ;\
+  #  done \
+  ;
+
+RUN set -eux \
+  ; mkdir -p ${LS_ROOT}/haskell \
+  ; hls_version=$(curl --retry 3 -sSL https://api.github.com/repos/haskell/haskell-language-server/releases/latest | jq -r '.tag_name') \
+  ; ghc_version=$(stack ghc -- --numeric-version) \
+  ; curl --retry 3 -sSL https://downloads.haskell.org/~hls/haskell-language-server-${hls_version}/haskell-language-server-${hls_version}-x86_64-linux-unknown.tar.xz \
+  | tar Jxvf - -C ${LS_ROOT}/haskell --strip-components=1 \
+      haskell-language-server-${hls_version}/bin/haskell-language-server-${ghc_version} \
+      haskell-language-server-${hls_version}/bin/haskell-language-server-wrapper \
+      haskell-language-server-${hls_version}/lib/${ghc_version} \
+  ; find ${LS_ROOT}/haskell -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s \
   ;
 
 RUN set -eux \

@@ -84,7 +84,7 @@ RUN set -eux \
 #  ; apt-get install -y --no-install-recommends openjdk-${JAVA_VERSION}-jdk-headless \
 #  ; apt-get clean \
 #  ; curl --retry 3 -sSL https://downloads.lightbend.com/scala/$SCALA_VERSION/scala-$SCALA_VERSION.tgz \
-#      | tar xzf - -C ${SCALA_HOME} --strip-components=1  \
+#  | tar xzf - -C ${SCALA_HOME} --strip-components=1  \
 #  ; curl --retry 3 -sSLo coursier https://git.io/coursier-cli && chmod +x coursier \
 #  ; ./coursier bootstrap \
 #      -r jitpack \

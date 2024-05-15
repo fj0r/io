@@ -20,7 +20,8 @@ RUN set -eux \
   ; mkdir -p ${GHC_ROOT} \
   ; ghc_ver=$(curl --retry 3 -sSL ${STACK_INFO_URL} -H 'Accept: application/json' | jq -r '.snapshot.ghc') \
   ; ghc_url="https://downloads.haskell.org/~ghc/${ghc_ver}/ghc-${ghc_ver}-x86_64-${GHC_OS}-linux.tar.xz" \
-  ; mkdir ghc_install && curl --retry 3 -sSL ${ghc_url} | tar Jxf - -C ghc_install --strip-components=1 \
+  ; mkdir ghc_install && curl --retry 3 -sSL ${ghc_url} \
+  | tar Jxf - -C ghc_install --strip-components=1 \
   ; cd ghc_install && ./configure --prefix=${GHC_ROOT} && make install \
   ; cd .. && rm -rf ghc_install \
   \
@@ -29,7 +30,7 @@ RUN set -eux \
   #; stack update \
   ; stack config set system-ghc --global true \
   ; stack config set install-ghc --global false \
-  ; nu -c "open ${STACK_ROOT}/config.yaml | upsert allow-different-user true | upsert allow-newer true | save -f ${STACK_ROOT}/config.yaml" \
+  ; nu -c "open ${STACK_ROOT}/config.yaml | upsert allow-different-user true | upsert allow-newer true | collect { \$in | save -f ${STACK_ROOT}/config.yaml }" \
   ;
 
 RUN set -eux \
@@ -75,7 +76,7 @@ RUN set -eux \
   ; hls_version=$(curl --retry 3 -sSL https://api.github.com/repos/haskell/haskell-language-server/releases/latest | jq -r '.tag_name') \
   ; ghc_version=$(stack ghc -- --numeric-version) \
   ; curl --retry 3 -sSL https://github.com/haskell/haskell-language-server/releases/download/${hls_version}/haskell-language-server-${hls_version}-x86_64-linux-unknown.tar.xz \
-        | tar Jxf - -C /tmp/hls --strip-components=1 \
+  | tar Jxf - -C /tmp/hls --strip-components=1 \
   ; opwd=$PWD \
   ; mkdir -p ${LS_ROOT}/haskell/bin ${LS_ROOT}/haskell/lib \
   ; cd /tmp/hls \

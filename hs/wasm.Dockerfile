@@ -15,7 +15,8 @@ RUN set -eux \
   ; mkdir -p ${GHC_ROOT} \
   ; ghc_ver=$(curl --retry 3 -sSL https://www.stackage.org/lts -H 'Accept: application/json' | jq -r '.snapshot.ghc') \
   ; ghc_url="https://downloads.haskell.org/~ghc/${ghc_ver}/ghc-${ghc_ver}-x86_64-${GHC_OS}-linux.tar.xz" \
-  ; mkdir ghc_install && curl --retry 3 -sSL ${ghc_url} | tar Jxf - -C ghc_install --strip-components=1 \
+  ; mkdir ghc_install && curl --retry 3 -sSL ${ghc_url} \
+  | tar Jxf - -C ghc_install --strip-components=1 \
   ; cd ghc_install && ./configure --prefix=${GHC_ROOT} && make install \
   ; cd .. && rm -rf ghc_install \
   \
