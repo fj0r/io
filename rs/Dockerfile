@@ -37,8 +37,8 @@ RUN set -eux \
       #dioxus-cli \
       cargo-leptos \
   ; cargo prefetch \
-      clap config \
-      reqwest surf scraper tera \
+      clap config libc tempdir \
+      url reqwest surf scraper tera \
       anyhow thiserror snafu lazy_static \
       proc-macro2 syn quote nom linkme regex \
       crossbeam wasmtime mlua \
@@ -53,7 +53,8 @@ RUN set -eux \
       serde_cbor apache-avro schemars \
       slog slog-async slog-json slog-term slog-logfmt \
       time lru-cache itertools \
-      polars dfdx linfa rayon \
+      bitflags num fnv \
+      ndarray polars rayon dfdx linfa \
   ; rm -rf ${CARGO_HOME}/registry/src/*
   #; find ${CARGO_HOME}/bin -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s
 
