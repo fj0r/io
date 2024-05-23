@@ -1,3 +1,7 @@
+# base -> gateway vpn mihomo lego
+# s3
+# common -> sidecar, ci
+# box -> php java pg16 typst flink
 ARG BASEIMAGE=fj0rd/io:common
 FROM ${BASEIMAGE}
 

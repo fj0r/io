@@ -33,6 +33,11 @@ RUN set -eux \
   ; fd_url="https://github.com/sharkdp/fd/releases/latest/download/fd-${fd_ver}-x86_64-unknown-linux-musl.tar.gz" \
   ; curl --retry 3 -sSL ${fd_url} | tar zxf - -C /usr/local/bin --strip-components=1 --wildcards '*/fd' \
   \
+  ; wstun_ver=$(curl --retry 3 -sSL https://api.github.com/repos/erebe/wstunnel/releases/latest | jq -r '.tag_name' | cut -c 2-) \
+  ; wstun_url="https://github.com/erebe/wstunnel/releases/download/v${wstun_ver}/wstunnel_${wstun_ver}_linux_amd64.tar.gz" \
+  ; curl --retry 3 -sSL ${wstun_url} | tar zxf - -C /usr/local/bin wstunnel \
+  ; chmod +x /usr/local/bin/wstunnel \
+  \
   ; dust_ver=$(curl --retry 3 -sSL https://api.github.com/repos/bootandy/dust/releases/latest | jq -r '.tag_name') \
   ; dust_url="https://github.com/bootandy/dust/releases/latest/download/dust-${dust_ver}-x86_64-unknown-linux-musl.tar.gz" \
   ; curl --retry 3 -sSL ${dust_url} | tar zxf - -C /usr/local/bin --strip-components=1 --wildcards '*/dust' \
