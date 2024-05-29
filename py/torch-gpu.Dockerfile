@@ -44,9 +44,11 @@ RUN set -ex \
   ; conda clean --all -f -y \
   ; pip install --no-cache-dir ${PIP_FLAGS} \
       # plotly_express pygwalker \
-      debugpy fastapi uvicorn aiofile pytest \
-      httpx typer hydra-core pyyaml deepmerge structlog \
-      pydantic PyParsing decorator more-itertools cachetools \
+      aiofile fastapi uvicorn \
+      debugpy pytest pydantic PyParsing \
+      boltons decorator deepmerge \
+      httpx hydra-core typer pyyaml \
+      structlog python-json-logger \
       bash_kernel ipython-sql pgspecial jieba sh \
   ; python -m bash_kernel.install \
   ; jupyter lab --generate-config \

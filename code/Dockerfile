@@ -38,10 +38,11 @@ RUN set -eux \
   \
   ; pip3 install --no-cache-dir ${PIP_FLAGS} \
         # aiofile fastapi uvicorn \
-        ipython debugpy pydantic pytest \
-        httpx hydra-core typer pyyaml deepmerge \
-        PyParsing structlog python-json-logger \
-        decorator more-itertools cachetools \
+        ipython \
+        debugpy pytest pydantic PyParsing \
+        boltons decorator deepmerge \
+        httpx hydra-core typer pyyaml \
+        structlog python-json-logger \
   \
   ; git config --global pull.rebase false \
   ; git config --global init.defaultBranch main \

@@ -20,9 +20,12 @@ RUN set -eux \
 
 RUN set -eux \
   ; pip3 install --no-cache-dir ${PIP_FLAGS} \
-        ipython debugpy fastapi uvicorn aiofile pytest \
-        httpx typer hydra-core pyyaml deepmerge structlog \
-        pydantic PyParsing decorator more-itertools cachetools
+        aiofile fastapi uvicorn \
+        ipython \
+        debugpy pytest pydantic PyParsing \
+        boltons decorator deepmerge \
+        httpx hydra-core typer pyyaml \
+        structlog python-json-logger
 
 WORKDIR /app
 CMD  ["python", "--host", "0.0.0.0", "--port", "3000", "/app/server.py" ]
