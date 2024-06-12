@@ -1,4 +1,4 @@
-FROM fj0rd/io:torch
+FROM ghcr.io/fj0r/io:torch
 ARG STACK_FLAGS="--local-bin-path=/usr/local/bin --no-interleaved-output"
 
 RUN set -ex \

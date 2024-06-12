@@ -1,4 +1,4 @@
-ARG BASEIMAGE=fj0rd/io:base
+ARG BASEIMAGE=ghcr.io/fj0r/io:base
 FROM ${BASEIMAGE}
 
 RUN set -eux \

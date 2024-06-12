@@ -1,4 +1,4 @@
-FROM fj0rd/io:jpl
+FROM ghcr.io/fj0r/io:jpl
 
 ### GO
 ENV GOROOT=/opt/golang GOPATH=/opt/go

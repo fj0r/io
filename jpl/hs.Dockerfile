@@ -1,4 +1,4 @@
-FROM fj0rd/io:jpl
+FROM ghcr.io/fj0r/io:jpl
 ARG STACK_FLAGS="--local-bin-path=/usr/local/bin --no-interleaved-output"
 ARG PIP_FLAGS="--break-system-packages"
 

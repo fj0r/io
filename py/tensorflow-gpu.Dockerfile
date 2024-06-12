@@ -1,4 +1,4 @@
-FROM fj0rd/io
+FROM ghcr.io/fj0r/io
 
 ENV LANG=zh_CN.UTF-8
 ENV HOME=/root

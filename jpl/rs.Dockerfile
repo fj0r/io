@@ -1,4 +1,4 @@
-FROM fj0rd/io:jpl
+FROM ghcr.io/fj0r/io:jpl
 
 ### Rust
 ENV CARGO_HOME=/opt/cargo RUSTUP_HOME=/opt/rustup

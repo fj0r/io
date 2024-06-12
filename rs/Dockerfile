@@ -1,4 +1,4 @@
-ARG BASEIMAGE=fj0rd/io:go
+ARG BASEIMAGE=ghcr.io/fj0r/io:go
 FROM ${BASEIMAGE}
 
 ARG RUST_CHANNEL=stable

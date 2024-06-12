@@ -1,4 +1,4 @@
-FROM fj0rd/io
+FROM ghcr.io/fj0r/io
 ARG PIP_FLAGS="--break-system-packages"
 
 ENV LANG=zh_CN.UTF-8

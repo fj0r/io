@@ -2,7 +2,7 @@
 # s3
 # common -> sidecar, ci
 # box -> php java pg16 typst flink
-ARG BASEIMAGE=fj0rd/io:common
+ARG BASEIMAGE=ghcr.io/fj0r/io:common
 FROM ${BASEIMAGE}
 
 ARG PIP_FLAGS="--break-system-packages"

@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=fj0rd/io:latest
+ARG BASE_IMAGE=ghcr.io/fj0r/io:latest
 FROM ${BASE_IMAGE}
 
 ENV PNPM_HOME=/opt/pnpm
