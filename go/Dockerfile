@@ -1,4 +1,4 @@
-FROM ghcr.io/fj0r/io:latest
+FROM ghcr.io/fj0r/io:rs
 
 ENV GOROOT=/opt/golang GOPATH=/opt/go
 ENV PATH=${GOPATH}/bin:${GOROOT}/bin:$PATH

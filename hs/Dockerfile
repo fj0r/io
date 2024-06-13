@@ -1,4 +1,4 @@
-ARG BASEIMAGE=ghcr.io/fj0r/io:rs
+ARG BASEIMAGE=ghcr.io/fj0r/io:go
 FROM ${BASEIMAGE}
 
 ARG STACK_FLAGS="--local-bin-path=/usr/local/bin --no-interleaved-output"

@@ -48,13 +48,12 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Build js
+      - name: Build rs
         uses: docker/build-push-action@v4
         with:
-          context: js
-          file: js/Dockerfile
+          context: rs
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:js
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:rs
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build go
@@ -63,14 +62,6 @@ jobs:
           context: go
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:go
-          labels: ${{ steps.meta.outputs.labels }}
-
-      - name: Build rs
-        uses: docker/build-push-action@v4
-        with:
-          context: rs
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:rs
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build hs
