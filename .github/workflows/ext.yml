@@ -90,4 +90,4 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:x
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: BASE_IMAGE=fj0rd/io:hs
+          build-args: BASE_IMAGE=ghcr.io/fj0r/io:hs

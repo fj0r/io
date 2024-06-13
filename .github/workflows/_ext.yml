@@ -12,15 +12,12 @@ on:
   workflow_dispatch:
 
 env:
-  REGISTRY: docker.io
-  # github.repository as <account>/<repo>
-  IMAGE_NAME: fj0rd/io
+  REGISTRY: ghcr.io
+  IMAGE_NAME: fj0r/io
 
 
 jobs:
   build:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -37,8 +34,8 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: ${{ env.REGISTRY }}
-          username: fj0rd
-          password: ${{ secrets.DOCKER }}
+          username: fj0r
+          password: ${{ secrets.GHCR_TOKEN }}
 
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
@@ -48,20 +45,20 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Build go
-        uses: docker/build-push-action@v4
-        with:
-          context: go
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:go
-          labels: ${{ steps.meta.outputs.labels }}
-
       - name: Build rs
         uses: docker/build-push-action@v4
         with:
           context: rs
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:rs
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Build go
+        uses: docker/build-push-action@v4
+        with:
+          context: go
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:go
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build hs
@@ -73,14 +70,14 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hs
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            STACK_RESOLVER=
             STACK_INFO_URL=https://www.stackage.org/lts
-            GHC_OS=deb10
+            STACK_RESOLVER=
+            GHC_OS=deb11
+          #  GHC_OS=ubuntu20.04
           #build-args: |
           #  STACK_RESOLVER=--resolver nightly
           #  STACK_INFO_URL=https://www.stackage.org/nightly
           #  GHC_OS=deb11
-
 
       - name: Build x
         uses: docker/build-push-action@v4
@@ -90,13 +87,4 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:x
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: BASE_IMAGE=fj0rd/io:hs
-
-      - name: Build js
-        uses: docker/build-push-action@v4
-        with:
-          context: js
-          file: js/Dockerfile
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:js
-          labels: ${{ steps.meta.outputs.labels }}
+          build-args: BASE_IMAGE=ghcr.io/fj0r/io:hs
