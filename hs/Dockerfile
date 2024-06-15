@@ -37,7 +37,7 @@ RUN set -eux \
     done \
   \
   ; rm -rf ${GHCUP_ROOT}/ghc/${ghc_ver}/share \
-  ; nu -c "open ${STACK_ROOT}/config.yaml | upsert allow-different-user true | upsert allow-newer true | collect { \$in | save -f ${STACK_ROOT}/config.yaml }" \
+  ; nu -c "open ${STACK_ROOT}/config.yaml | merge {allow-different-user: true, allow-newer: true, recommend-stack-upgrade: false} | collect { \$in | save -f ${STACK_ROOT}/config.yaml }" \
   \
   #; ghcup install hls \
   #; hls_ver=$(haskell-language-server-wrapper --numeric-version) \
