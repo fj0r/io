@@ -45,39 +45,39 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Build rs
-        uses: docker/build-push-action@v4
-        with:
-          context: rs
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:rs
-          labels: ${{ steps.meta.outputs.labels }}
+      #- name: Build rs
+      #  uses: docker/build-push-action@v4
+      #  with:
+      #    context: rs
+      #    push: ${{ github.event_name != 'pull_request' }}
+      #    tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:rs
+      #    labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Build go
-        uses: docker/build-push-action@v4
-        with:
-          context: go
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:go
-          labels: ${{ steps.meta.outputs.labels }}
+      #- name: Build go
+      #  uses: docker/build-push-action@v4
+      #  with:
+      #    context: go
+      #    push: ${{ github.event_name != 'pull_request' }}
+      #    tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:go
+      #    labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Build hs
-        uses: docker/build-push-action@v4
-        with:
-          context: hs
-          file: hs/Dockerfile
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hs
-          labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            STACK_INFO_URL=https://www.stackage.org/lts
-            STACK_RESOLVER=
-            GHC_OS=deb11
-          #  GHC_OS=ubuntu20.04
-          #build-args: |
-          #  STACK_RESOLVER=--resolver nightly
-          #  STACK_INFO_URL=https://www.stackage.org/nightly
-          #  GHC_OS=deb11
+      #- name: Build hs
+      #  uses: docker/build-push-action@v4
+      #  with:
+      #    context: hs
+      #    file: hs/Dockerfile
+      #    push: ${{ github.event_name != 'pull_request' }}
+      #    tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hs
+      #    labels: ${{ steps.meta.outputs.labels }}
+      #    build-args: |
+      #      STACK_INFO_URL=https://www.stackage.org/lts
+      #      STACK_RESOLVER=
+      #      GHC_OS=deb11
+      #    #  GHC_OS=ubuntu20.04
+      #    #build-args: |
+      #    #  STACK_RESOLVER=--resolver nightly
+      #    #  STACK_INFO_URL=https://www.stackage.org/nightly
+      #    #  GHC_OS=deb11
 
       - name: Build x
         uses: docker/build-push-action@v4
