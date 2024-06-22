@@ -42,11 +42,12 @@ RUN set -ex \
   ; pip install --no-cache-dir ${PIP_FLAGS} \
         torch torchserve torchtext torchvision torchaudio \
         plotly_express pygwalker \
-        aiofile fastapi uvicorn \
+        httpx aiofile aiostream fastapi uvicorn \
         debugpy pytest pydantic PyParsing \
+        ipython typer pydantic-settings pyyaml \
         boltons decorator deepmerge \
-        httpx hydra-core typer pyyaml \
         structlog python-json-logger \
+        pyiceberg[s3fs,hive,pyarrow,pandas] \
         bash_kernel ipython-sql pgspecial sh \
   ; python -m bash_kernel.install \
   ; jupyter lab --generate-config \

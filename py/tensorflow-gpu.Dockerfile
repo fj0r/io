@@ -40,9 +40,12 @@ RUN set -ex \
   #; pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple \
   ; pip --no-cache-dir install \
         plotly_express pygwalker \
-        debugpy fastapi uvicorn aiofile pytest \
-        httpx typer hydra-core pyyaml deepmerge structlog \
-        pydantic PyParsing decorator more-itertools cachetools \
+        httpx aiofile aiostream fastapi uvicorn \
+        debugpy pytest pydantic PyParsing \
+        ipython typer pydantic-settings pyyaml \
+        boltons decorator deepmerge \
+        structlog python-json-logger \
+        pyiceberg[s3fs,hive,pyarrow,pandas] \
         bash_kernel ipython-sql pgspecial jieba sh \
   ; python -m bash_kernel.install \
   ; jupyter lab --generate-config \

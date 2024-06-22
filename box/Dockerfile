@@ -34,12 +34,12 @@ RUN set -eux \
   #; do pydeb+="python3-${pkg} "; done \
   #; apt-get install -y --no-install-recommends $pydeb \
   ; pip3 install --no-cache-dir ${PIP_FLAGS} \
-        # aiofile fastapi uvicorn \
-        ipython \
+        httpx aiofile aiostream fastapi uvicorn \
         debugpy pytest pydantic PyParsing \
+        ipython typer pydantic-settings pyyaml \
         boltons decorator deepmerge \
-        httpx hydra-core typer pyyaml \
         structlog python-json-logger \
+        #pyiceberg[s3fs,hive,pyarrow,pandas] \
   \
   ; git config --global pull.rebase false \
   ; git config --global init.defaultBranch main \
