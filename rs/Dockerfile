@@ -40,7 +40,8 @@ RUN set -eux \
       clap config libc tempdir \
       url reqwest surf scraper tera \
       anyhow thiserror snafu lazy_static \
-      proc-macro2 syn quote nom linkme regex \
+      proc-macro2 syn quote macro_rules_attribute \
+      nom linkme regex \
       crossbeam wasmtime mlua \
       tokio async-std async-graphql \
       warp async-graphql-warp \
