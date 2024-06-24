@@ -48,6 +48,14 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
+      - name: Build go
+        uses: docker/build-push-action@v4
+        with:
+          context: go
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:go
+          labels: ${{ steps.meta.outputs.labels }}
+
       - name: Build rs
         uses: docker/build-push-action@v4
         with:
@@ -56,13 +64,15 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:rs
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Build go
+      - name: Build x
         uses: docker/build-push-action@v4
         with:
-          context: go
+          context: js
+          file: js/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:go
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:x
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: BASE_IMAGE=ghcr.io/fj0r/io:rs
 
       - name: Build hs
         uses: docker/build-push-action@v4
@@ -73,6 +83,7 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hs
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
+            BASE_IMAGE=ghcr.io/fj0r/io:x
             STACK_INFO_URL=https://www.stackage.org/lts
             STACK_RESOLVER=
             GHC_OS=deb11
@@ -82,12 +93,3 @@ jobs:
           #  STACK_INFO_URL=https://www.stackage.org/nightly
           #  GHC_OS=deb11
 
-      - name: Build x
-        uses: docker/build-push-action@v4
-        with:
-          context: js
-          file: js/Dockerfile
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:x
-          labels: ${{ steps.meta.outputs.labels }}
-          build-args: BASE_IMAGE=ghcr.io/fj0r/io:hs

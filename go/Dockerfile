@@ -1,4 +1,5 @@
-FROM ghcr.io/fj0r/io:rs
+ARG BASEIMAGE=ghcr.io/fj0r/io:latest
+FROM ${BASEIMAGE}
 
 ENV GOROOT=/opt/golang GOPATH=/opt/go
 ENV PATH=${GOPATH}/bin:${GOROOT}/bin:$PATH
