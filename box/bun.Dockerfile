@@ -35,7 +35,7 @@ RUN set -eux \
         ipython typer pydantic-settings pyyaml \
         boltons decorator deepmerge \
         structlog python-json-logger \
-        #pyiceberg[s3fs,hive,pyarrow,pandas] \
+        #pyiceberg[s3fs,pyarrow,pandas] \
   \
   ; git config --global pull.rebase false \
   ; git config --global init.defaultBranch main \
