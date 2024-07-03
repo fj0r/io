@@ -9,7 +9,6 @@ RUN set -eux \
   ; npm install --location=global \
         typescript typescript-language-server vite \
         solid-js solid-start vite-plugin-solid \
-        vue @volar/vue-language-server \
   ; chown -R root:root ${NODE_ROOT}/lib \
   ; npm cache clean -f \
   #; npx degit solidjs/templates/ts my-solid-project --yes \
