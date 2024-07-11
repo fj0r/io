@@ -31,7 +31,7 @@ RUN set -eux \
   ; rustup target add x86_64-unknown-linux-musl \
   ; rustup target add wasm32-wasi wasm32-unknown-unknown \
   ; cargo install \
-      cargo-wasi \
+      rust-script cargo-wasi \
       cargo-watch cargo-expand cargo-eval cargo-tree \
       cargo-feature cargo-prefetch cargo-generate \
       #dioxus-cli \
