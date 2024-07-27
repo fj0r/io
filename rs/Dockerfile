@@ -39,7 +39,7 @@ RUN set -eux \
   ; cargo prefetch \
       clap config libc tempdir \
       url reqwest surf scraper tera \
-      anyhow thiserror snafu lazy_static \
+      anyhow thiserror snafu \
       proc-macro2 syn quote macro_rules_attribute \
       nom linkme regex \
       crossbeam wasmtime mlua \
