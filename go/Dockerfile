@@ -10,6 +10,7 @@ RUN set -eux \
   ; curl --retry 3 -sSL https://go.dev/dl/${GO_VERSION}.linux-amd64.tar.gz | tar xzf - -C ${GOROOT} --strip-components=1 \
   #; go get -u -v \
   ; go mod download \
+      github.com/duke-git/lancet/v2@latest \
       github.com/sirupsen/logrus@latest \
       github.com/spf13/viper@latest \
       github.com/spf13/cobra@latest \
