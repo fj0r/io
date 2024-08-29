@@ -1,6 +1,5 @@
 ARG BASEIMAGE=debian:bookworm-slim
 FROM ghcr.io/fj0r/scratch:dropbear as dropbear
-FROM ghcr.io/fj0r/scratch:tera-cli as tera
 
 FROM ${BASEIMAGE}
 
@@ -13,7 +12,6 @@ ENV XDG_CONFIG_HOME=/etc \
     TIMEZONE=Asia/Shanghai
 
 COPY --from=dropbear / /
-COPY --from=tera / /
 RUN set -eux \
   ; apt-get update \
   ; apt-get upgrade -y \
