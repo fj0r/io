@@ -11,9 +11,9 @@ on:
     tags: [ 'v*.*.*' ]
 
 env:
-  REGISTRY: docker.io
+  REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
-  IMAGE_NAME: fj0rd/io
+  IMAGE_NAME: fj0r/io
 
 
 jobs:
@@ -37,7 +37,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: fj0rd
-          password: ${{ secrets.DOCKER }}
+          password: ${{ secrets.GHCR_TOKEN }}
 
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action

@@ -16,6 +16,15 @@ ENV CONDA_HOME=/opt/conda
 ENV PATH=${CONDA_HOME}/bin:$PATH
 COPY jupyter-config.py /
 RUN set -ex \
+  ; apt-get update \
+  ; apt-get upgrade -y \
+  ; DEBIAN_FRONTEND=noninteractive \
+    apt-get install -y --no-install-recommends \
+      fontconfig fonts-noto-cjk fonts-noto-cjk-extra \
+      fonts-arphic-ukai fonts-arphic-uming \
+  ; fc-cache -fv \
+  ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
+  \
   ; curl --retry 3 -sSLo miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
   ; bash ./miniconda.sh -b -p ${CONDA_HOME} \
   ; rm ./miniconda.sh \
