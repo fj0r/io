@@ -24,7 +24,9 @@ RUN set -ex \
       fonts-arphic-ukai fonts-arphic-uming \
   ; fc-cache -fv \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
-  \
+  ;
+
+RUN set -ex \
   ; curl --retry 3 -sSLo miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
   ; bash ./miniconda.sh -b -p ${CONDA_HOME} \
   ; rm ./miniconda.sh \
