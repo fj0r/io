@@ -1,5 +1,5 @@
 ARG BASEIMAGE=debian:bookworm-slim
-FROM ghcr.io/fj0r/scratch:dropbear as dropbear
+FROM ghcr.io/fj0r/io:__dropbear__ as dropbear
 
 FROM ${BASEIMAGE}
 
