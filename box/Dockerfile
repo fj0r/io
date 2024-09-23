@@ -2,7 +2,7 @@
 # s3
 # common -> sidecar, ci
 # box -> php java pg16 typst flink
-ARG BASEIMAGE=ghcr.io/fj0r/io:common
+ARG BASEIMAGE=ghcr.io/fj0r/io:nu
 FROM ${BASEIMAGE}
 
 ARG PIP_FLAGS="--break-system-packages"
@@ -13,7 +13,7 @@ RUN set -eux \
   ; apt-get upgrade -y \
   ; DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends \
-      git openssh-client pwgen python3 python3-pip \
+      pwgen python3 python3-pip \
       # python3-dev python3-setuptools \
   \
   ; ln -sf /usr/bin/python3 /usr/bin/python \
@@ -40,22 +40,6 @@ RUN set -eux \
         boltons decorator deepmerge \
         structlog python-json-logger \
         #pyiceberg[s3fs,pyarrow,pandas] \
-  \
-  ; git config --global pull.rebase false \
-  ; git config --global init.defaultBranch main \
-  ; git config --global user.name "unnamed" \
-  ; git config --global user.email "unnamed@container" \
-  \
-  ; nu_ver=$(curl --retry 3 -sSL https://api.github.com/repos/nushell/nushell/releases/latest | jq -r '.tag_name') \
-  ; nu_url="https://github.com/nushell/nushell/releases/download/${nu_ver}/nu-${nu_ver}-x86_64-unknown-linux-musl.tar.gz" \
-  ; curl --retry 3 -sSL ${nu_url} | tar zxf - -C /usr/local/bin --strip-components=1 --wildcards '*/nu' '*/nu_plugin_query' \
-  \
-  ; for x in nu nu_plugin_query \
-  ; do strip -s /usr/local/bin/$x; done \
-  \
-  ; echo '/usr/local/bin/nu' >> /etc/shells \
-  ; git clone --depth=3 https://github.com/fj0r/nushell.git $XDG_CONFIG_HOME/nushell \
-  ; opwd=$PWD; cd $XDG_CONFIG_HOME/nushell; git log -1 --date=iso; cd $opwd \
   \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
   ;
@@ -93,17 +77,8 @@ RUN set -eux \
   ; mkdir -p ${LS_ROOT}/lua \
   ; curl --retry 3 -sSL ${lslua_url} | tar zxf - -C ${LS_ROOT}/lua \
   \
-  ; nvim_url="https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz" \
-  ; curl --retry 3 -sSL ${nvim_url} | tar zxf - -C /usr/local --strip-components=1 \
-  ; strip -s /usr/local/bin/nvim \
-  ; git clone --depth=3 https://github.com/fj0r/nvim-lua.git $XDG_CONFIG_HOME/nvim \
-  ; opwd=$PWD; cd $XDG_CONFIG_HOME/nvim; git log -1 --date=iso; cd $opwd \
-  ; nvim --headless "+Lazy! sync" +qa \
-  #; nvim --headless "+Lazy! build telescope-fzf-native.nvim" +qa \
-  \
-  ; rm -rf $XDG_CONFIG_HOME/nvim/lazy/packages/*/.git \
-  \
   ; apt-get purge -y --auto-remove ${BUILD_DEPS:-} \
-  ; apt-get clean -y && rm -rf /var/lib/apt/lists/* \
+  ; apt-get clean -y \
+  ; rm -rf /var/lib/apt/lists/* \
   ;
 
