@@ -82,6 +82,15 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:s3
           labels: ${{ steps.meta.outputs.labels }}
 
+      - name: Build nu
+        uses: docker/build-push-action@v4
+        with:
+          context: base
+          file: base/nu.Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:nu
+          labels: ${{ steps.meta.outputs.labels }}
+
       - name: Build common
         uses: docker/build-push-action@v4
         with:
