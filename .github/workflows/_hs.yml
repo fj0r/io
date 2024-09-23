@@ -46,21 +46,35 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
+      #- name: Build hs
+      #  uses: docker/build-push-action@v4
+      #  with:
+      #    context: hs
+      #    file: hs/up.Dockerfile
+      #    push: ${{ github.event_name != 'pull_request' }}
+      #    tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:ghcup
+      #    labels: ${{ steps.meta.outputs.labels }}
+
+      #- name: Build x
+      #  uses: docker/build-push-action@v4
+      #  with:
+      #    context: js
+      #    file: js/Dockerfile
+      #    push: ${{ github.event_name != 'pull_request' }}
+      #    tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:xup
+      #    labels: ${{ steps.meta.outputs.labels }}
+      #    build-args: BASE_IMAGE=fj0rd/io:ghcup
+
       - name: Build hs
         uses: docker/build-push-action@v4
         with:
           context: hs
-          file: hs/up.Dockerfile
+          file: hs/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:ghcup
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hs
           labels: ${{ steps.meta.outputs.labels }}
-
-      - name: Build x
-        uses: docker/build-push-action@v4
-        with:
-          context: js
-          file: js/Dockerfile
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:xup
-          labels: ${{ steps.meta.outputs.labels }}
-          build-args: BASE_IMAGE=fj0rd/io:ghcup
+          build-args: |
+            BASE_IMAGE=ghcr.io/fj0r/io:x
+            STACK_INFO_URL=https://www.stackage.org/lts
+            STACK_RESOLVER=
+            GHC_OS=deb11
