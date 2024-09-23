@@ -65,27 +65,33 @@ RUN set -eux \
 RUN set -eux \
   ; stack install ${STACK_FLAGS} \
       ghcid implicit-hie haskell-dap ghci-dap haskell-debug-adapter \
-      optparse-applicative shelly process unix \
-      time clock hpc pretty filepath directory zlib \
-      array hashtables dlist binary bytestring text \
-      containers hashable vector unordered-containers \
       deepseq call-stack primitive ghc-prim \
       template-haskell aeson yaml taggy \
-      lens recursion-schemes fixed mtl fgl \
-      parsers megaparsec Earley boomerang \
-      free extensible-effects extensible-exceptions \
-      bound unbound-generics transformers transformers-compat \
-      syb uniplate singletons dimensional \
+      base binary bytestring text \
+      containers unordered-containers vector transformers \
+      time directory filepath \
+      servant scotty wai network network-uri warp \
+      shelly process unix \
+      lens recursion-schemes free extensible-effects extensible-exceptions \
+      parsers megaparsec \
+      singletons dimensional \
       monad-par parallel async stm classy-prelude \
-      persistent memory cryptonite \
-      mwc-random MonadRandom random \
-      katip monad-logger \
       regex-base regex-posix regex-compat \
       pipes conduit machines \
       http-conduit wreq HTTP html websockets multipart \
-      servant scotty wai network network-uri warp \
       QuickCheck smallcheck hspec \
       hmatrix linear statistics ad integration \
+      # optparse-applicative \
+      # clock hpc pretty \
+      # array hashtables dlist \
+      # hashable  \
+      # fixed mtl fgl \
+      # Earley boomerang \
+      # bound unbound-generics transformers-compat \
+      # syb uniplate \
+      # persistent memory cryptonite \
+      # mwc-random MonadRandom random \
+      # katip monad-logger \
   ; rm -rf ${STACK_ROOT}/pantry/hackage/* \
   ; opwd=$PWD \
   ; cd /world && stack new ${STACK_FLAGS} hello-rio rio && cd hello-rio && gen-hie > hie.yaml \
