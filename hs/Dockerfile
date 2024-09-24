@@ -66,22 +66,24 @@ RUN set -eux \
   ; stack install ${STACK_FLAGS} \
       ghcid implicit-hie haskell-dap ghci-dap haskell-debug-adapter \
       deepseq call-stack primitive ghc-prim \
-      template-haskell aeson yaml taggy \
-      base binary bytestring text \
+      template-haskell aeson yaml  \
+      classy-prelude base binary bytestring text \
       containers unordered-containers vector transformers \
       time directory filepath \
-      servant scotty wai network network-uri warp \
       shelly process unix \
+      req websockets network servant wai warp network-uri \
       lens recursion-schemes free extensible-effects extensible-exceptions \
-      parsers megaparsec Earley \
-      singletons dimensional \
-      monad-par parallel async stm classy-prelude \
+      megaparsec Earley \
+      singletons \
+      monad-par parallel async stm \
       regex-base regex-posix regex-compat \
       pipes conduit machines \
-      wreq websockets \
-      QuickCheck smallcheck hspec \
-      hmatrix linear statistics ad integration \
-      # http-conduit HTTP html multipart \
+      QuickCheck falsify hspec \
+      hmatrix linear \
+      # statistics ad integration
+      # parsers dimensional
+      # scotty
+      # http-conduit HTTP html taggy multipart \
       # optparse-applicative \
       # clock hpc pretty \
       # array hashtables dlist \
