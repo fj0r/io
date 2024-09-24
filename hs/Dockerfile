@@ -73,7 +73,7 @@ RUN set -eux \
       servant scotty wai network network-uri warp \
       shelly process unix \
       lens recursion-schemes free extensible-effects extensible-exceptions \
-      parsers megaparsec \
+      parsers megaparsec Earley \
       singletons dimensional \
       monad-par parallel async stm classy-prelude \
       regex-base regex-posix regex-compat \
@@ -87,7 +87,7 @@ RUN set -eux \
       # array hashtables dlist \
       # hashable  \
       # fixed mtl fgl \
-      # Earley boomerang \
+      # boomerang \
       # bound unbound-generics transformers-compat \
       # syb uniplate \
       # persistent memory cryptonite \
