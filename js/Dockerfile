@@ -1,5 +1,5 @@
-ARG BASE_IMAGE=ghcr.io/fj0r/io:latest
-FROM ${BASE_IMAGE}
+ARG BASEIMAGE=ghcr.io/fj0r/io:latest
+FROM ${BASEIMAGE}
 
 RUN set -eux \
   ; apt-get update \
