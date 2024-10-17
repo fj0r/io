@@ -42,15 +42,16 @@ RUN set -ex \
       jupyterlab jupyterlab-lsp \
   ##################### RUN set -ex \
   ; conda install -y \
-        SciPy Numpy numpydoc Scikit-learn scikit-image Pandas numba \
-        matplotlib-base bokeh streamlit pyarrow \
-        Statsmodels SymPy numexpr NLTK networkx \
-        # Keras TensorFlow <PyMC>
         sqlite cloudpickle datashape \
         xz zlib zstd cryptography \
         cffi zeromq libssh2 openssl pyzmq pcre \
   ; conda clean --all -f -y \
+  ;
+
+RUN set -ex \
   ; pip install --no-cache-dir ${PIP_FLAGS} \
+        numpy scikit-learn polars \
+        matplotlib-base bokeh streamlit \
         torch torchserve torchtext torchvision torchaudio \
         plotly_express pygwalker \
         httpx aiofile aiostream fastapi uvicorn \
@@ -62,7 +63,8 @@ RUN set -ex \
         bash_kernel ipython-sql pgspecial sh \
   ; python -m bash_kernel.install \
   ; jupyter lab --generate-config \
-  ; cat /jupyter-config.py >> $HOME/.jupyter/jupyter_lab_config.py
+  ; cat /jupyter-config.py >> $HOME/.jupyter/jupyter_lab_config.py \
+  ;
 
 
 RUN set -ex \
