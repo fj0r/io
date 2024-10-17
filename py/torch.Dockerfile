@@ -58,7 +58,7 @@ RUN set -ex \
         ipython typer pydantic-settings pyyaml \
         boltons decorator deepmerge \
         structlog python-json-logger \
-        pyiceberg[s3fs,pyarrow,pandas] \
+        #pyiceberg[s3fs,pyarrow,pandas] \
         bash_kernel ipython-sql pgspecial sh \
   ; python -m bash_kernel.install \
   ; jupyter lab --generate-config \
