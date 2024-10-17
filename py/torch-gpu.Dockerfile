@@ -54,7 +54,7 @@ RUN set -ex \
 RUN set -ex \
   ; pip install --no-cache-dir ${PIP_FLAGS} \
       numpy scikit-learn polars \
-      matplotlib-base bokeh streamlit \
+      bokeh streamlit \
       # plotly_express pygwalker \
       httpx aiofile aiostream fastapi uvicorn \
       debugpy pytest pydantic PyParsing \
