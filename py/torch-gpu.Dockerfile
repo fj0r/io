@@ -42,10 +42,6 @@ RUN set -ex \
       jupyterlab jupyterlab-lsp \
   ##################### RUN set -ex \
   ; conda install -y \
-      SciPy Numpy numpydoc Scikit-learn scikit-image Pandas numba \
-      matplotlib-base bokeh streamlit pyarrow \
-      Statsmodels SymPy numexpr NLTK networkx \
-      # Keras TensorFlow <PyMC>
       sqlite cloudpickle datashape \
       xz zlib zstd cryptography \
       cffi zeromq libssh2 openssl pyzmq pcre \
@@ -53,18 +49,24 @@ RUN set -ex \
       pytorch torchserve cudatoolkit \
       torchtext torchvision torchaudio \
   ; conda clean --all -f -y \
+  ;
+
+RUN set -ex \
   ; pip install --no-cache-dir ${PIP_FLAGS} \
+      numpy scikit-learn polars \
+      bokeh streamlit \
       # plotly_express pygwalker \
       httpx aiofile aiostream fastapi uvicorn \
       debugpy pytest pydantic PyParsing \
       ipython typer pydantic-settings pyyaml \
       boltons decorator deepmerge \
       structlog python-json-logger \
-      pyiceberg[s3fs,pyarrow,pandas] \
+      #pyiceberg[s3fs,pyarrow,pandas] \
       bash_kernel ipython-sql pgspecial jieba sh \
   ; python -m bash_kernel.install \
   ; jupyter lab --generate-config \
-  ; cat /jupyter-config.py >> $HOME/.jupyter/jupyter_lab_config.py
+  ; cat /jupyter-config.py >> $HOME/.jupyter/jupyter_lab_config.py \
+  ;
 
 
 RUN set -ex \
@@ -76,18 +78,6 @@ RUN set -ex \
   #; jupyter labextension install jupyterlab-drawio \
   ; rm -rf /usr/local/share/.cache/yarn \
   ; npm cache clean -f
-
-
-### Julia
-ENV JULIA_HOME=/opt/julia
-ENV PATH=${JULIA_HOME}/bin:$PATH
-RUN set -eux \
-  ; mkdir -p ${JULIA_HOME} \
-  ; julia_ver=$(curl --retry 3 -sSL https://julialang.org/downloads/ | rg 'Current stable release: v([.0-9]+)' -or '$1') \
-  ; julia_ver_m=$(echo $julia_ver | cut -d'.' -f 1-2) \
-  ; julia_url="https://julialang-s3.julialang.org/bin/linux/x64/${julia_ver_m}/julia-${julia_ver}-linux-x86_64.tar.gz" \
-  ; curl --retry 3 -sSL ${julia_url} | tar xz -C ${JULIA_HOME} --strip-components 1 \
-  ; julia -e 'using Pkg; Pkg.add("IJulia"); using IJulia'
 
 
 COPY entrypoint/jupyter.sh /entrypoint/
