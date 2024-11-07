@@ -41,7 +41,7 @@ RUN set -eux \
       url reqwest surf scraper tera \
       anyhow thiserror snafu \
       proc-macro2 syn quote macro_rules_attribute \
-      nom linkme regex \
+      nom linkme regex refined_type \
       crossbeam wasmtime mlua \
       tokio async-std async-graphql \
       warp async-graphql-warp \
