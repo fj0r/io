@@ -1,7 +1,7 @@
 # Add users if $1=user:uid:gid set
-if [ -e /bin/zsh ]; then
+if [[ -e /bin/zsh ]]; then
     __shell=/bin/zsh
-elif [ -e /bin/bash ]; then
+elif [[ -e /bin/bash ]]; then
     __shell=/bin/bash
 else
     __shell=/bin/sh
@@ -10,7 +10,7 @@ fi
 set_user () {
     IFS=':' read -ra ARR <<< "$1"
     _NAME=${ARR[0]}
-    if [ ${_NAME} == "root" ]; then
+    if [[ ${_NAME} == "root" ]]; then
         _UID=0
         _GID=0
     else
@@ -36,7 +36,7 @@ set_user () {
 }
 
 init_ssh () {
-    if [ -n "$SSH_HOSTKEY_ED25519" ]; then
+    if [[ -n "$SSH_HOSTKEY_ED25519" ]]; then
         echo "$SSH_HOSTKEY_ED25519" | base64 -d > /etc/dropbear/dropbear_ed25519_host_key
     fi
 
@@ -49,13 +49,13 @@ init_ssh () {
 
 run_ssh () {
     local logfile
-    if [ -n "$stdlog" ]; then
+    if [[ -n "$stdlog" ]]; then
         logfile=/dev/stdout
     else
         logfile=/var/log/sshd
     fi
 
-    if [ -z "$SSH_TIMEOUT" ]; then
+    if [[ -z "$SSH_TIMEOUT" ]]; then
         echo "starting dropbear"
         /usr/bin/dropbear -REFems -p 22 &> $logfile &
     else
@@ -66,7 +66,7 @@ run_ssh () {
 }
 
 __ssh=$(for i in "${!ed25519_@}"; do echo $i; done)
-if [ -n "$__ssh" ] || [ -f /root/.ssh/authorized_keys ]; then
+if [[ -n "$__ssh" ]] || [[ -f /root/.ssh/authorized_keys ]]; then
     mkdir -p /etc/dropbear
     init_ssh
     run_ssh

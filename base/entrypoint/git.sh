@@ -1,4 +1,4 @@
-if [ -n "$git_pull" ]; then
+if [[ -n "$git_pull" ]]; then
 bash <<- EOF &
     mkdir -p /var/log/git_pull/
     for dir in \$(echo \$git_pull| tr "," "\n"); do

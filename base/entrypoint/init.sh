@@ -6,7 +6,7 @@ if [[ "$DEBUG" == 'true' ]]; then
     set -x
 fi
 
-if [ -n "${PREBOOT}" ]; then
+if [[ -n "${PREBOOT}" ]]; then
     echo "[$(date -Is)] preboot ${PREBOOT}"
     bash $PREBOOT
 fi
@@ -36,7 +36,7 @@ for x in $(find $BASEDIR -name '*.sh' -not -path '*/init.sh'); do
     source $x
 done
 
-if [ -n "${POSTBOOT}" ]; then
+if [[ -n "${POSTBOOT}" ]]; then
     echo "[$(date -Is)] postboot ${POSTBOOT}"
     bash $POSTBOOT
 fi
@@ -44,10 +44,10 @@ fi
 
 echo "[$(date -Is)] boot completed"
 
-if [ -z $1 ]; then
+if [[ -z $1 ]]; then
     echo "[$(date -Is)] enter interactive mode"
     for sh in /usr/local/bin/nu /bin/nu /bin/bash /bin/sh; do
-        if [ -e $sh ]; then exec $sh; fi
+        if [[ -e $sh ]]; then exec $sh; fi
     done
 elif [[ $1 == "srv" ]]; then
     echo "[$(date -Is)] enter srv mode"

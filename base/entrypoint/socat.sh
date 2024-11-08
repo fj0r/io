@@ -1,6 +1,6 @@
 run_socat () {
     local logfile
-    if [ -n "$stdlog" ]; then
+    if [[ -n "$stdlog" ]]; then
         logfile=/dev/stdout
     else
         logfile=/var/log/socat_$1_$2
@@ -14,7 +14,7 @@ run_socat () {
 
 for i in "${!tcp_@}"; do
     port=${i:4}
-    if [ -n "$port" ]; then
+    if [[ -n "$port" ]]; then
         url=$(eval "echo \"\$$i\"")
         run_socat tcp $port $url
     fi
@@ -22,7 +22,7 @@ done
 
 for i in "${!udp_@}"; do
     port=${i:4}
-    if [ -n "$port" ]; then
+    if [[ -n "$port" ]]; then
         url=$(eval "echo \"\$$i\"")
         run_socat udp $port $url
     fi

@@ -1,4 +1,4 @@
-if [ -n "$NVIM_WORKDIR" ]; then
+if [[ -n "$NVIM_WORKDIR" ]]; then
     for p in $(find /opt $LS_ROOT -maxdepth 2 -mindepth 2 -type d -name bin); do
         export PATH=$p:$PATH
     done

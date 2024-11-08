@@ -44,7 +44,7 @@ RUN set -eux \
   #; for i in \
   #  $(ls ${GHCUP_ROOT}/hls/${hls_ver}/lib/haskell-language-server-${hls_ver}/lib/) \
   #; do \
-  #    if [ "$i" != "$ghc_ver" ]; then \
+  #    if [[ "$i" != "$ghc_ver" ]]; then \
   #      rm -rf ${GHCUP_ROOT}/hls/${hls_ver}/lib/haskell-language-server-${hls_ver}/lib/$i; \
   #    fi ;\
   #  done \

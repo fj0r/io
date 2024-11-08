@@ -14,7 +14,7 @@ run_s3 () {
     _opt=""
     for i in ${ARR[@]:7}; do
         IFS='=' read -ra KV <<< $i
-        if [ -z "${KV[1]}" ]; then
+        if [[ -z "${KV[1]}" ]]; then
             _opt+="-o ${KV[0]} "
         else
             _opt+="-o $i "
@@ -23,13 +23,13 @@ run_s3 () {
 
     local name=${_mount////_}
     local logfile
-    if [ -n "$stdlog" ]; then
+    if [[ -n "$stdlog" ]]; then
         logfile=/dev/stdout
     else
         logfile=/var/log/s3fs_${name}
     fi
 
-    if [ ! -d /.s3fs-passwd ]; then
+    if [[ ! -d /.s3fs-passwd ]]; then
         mkdir /.s3fs-passwd
     fi
     _authfile=/.s3fs-passwd/$name
@@ -41,7 +41,7 @@ run_s3 () {
     mkdir -p $_mount
     chown $_user $_mount
 
-    if [ -n "${_region}" ]; then
+    if [[ -n "${_region}" ]]; then
         _region="-o endpoint=$_region"
     else
         _region="-o use_path_request_style"
@@ -53,7 +53,7 @@ run_s3 () {
 }
 
 __s3=$(for i in "${!s3_@}"; do echo $i; done)
-if [ -n "$__s3" ]; then
+if [[ -n "$__s3" ]]; then
     for i in "${!s3_@}"; do
         _ID=${i:3}
         echo "starting s3fs $_ID"
