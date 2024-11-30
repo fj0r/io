@@ -17,7 +17,6 @@ RUN set -eux \
         # vscodevim.vim \
         ms-python.python \
         ms-toolsai.jupyter \
-        LouisWT.regexp-preview \
         redhat.vscode-yaml \
         rust-lang.rust \
         bungcip.better-toml \
@@ -25,7 +24,6 @@ RUN set -eux \
         Swellaby.vscode-rust-test-adapter \
         haskell.haskell \
         golang.Go \
-        julialang.language-julia \
         Vue.volar \
         devsense.phptools-vscode \
   ; do \
