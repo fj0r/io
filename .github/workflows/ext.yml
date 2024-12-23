@@ -83,6 +83,7 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hs
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
+            MESSAGE=${{ github.event.head_commit.message }}
             BASEIMAGE=ghcr.io/fj0r/io:x
             STACK_INFO_URL=https://www.stackage.org/lts
             STACK_RESOLVER=

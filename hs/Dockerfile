@@ -3,6 +3,7 @@ FROM ${BASEIMAGE}
 
 ARG STACK_FLAGS="--local-bin-path=/usr/local/bin --no-interleaved-output"
 ARG STACK_INFO_URL="https://www.stackage.org/lts"
+ARG MESSAGE=''
 ENV BOOTSTRAP_HASKELL_NONINTERACTIVE=1
 
 ENV GHCUP_INSTALL_BASE_PREFIX=/opt GHCUP_ROOT=/opt/.ghcup
@@ -26,7 +27,12 @@ RUN set -eux \
   ; stack config set system-ghc --global true \
   ; stack config set install-ghc --global false \
   \
-  ; ghc_ver=$(curl --retry 3 -sSL ${STACK_INFO_URL} -H 'Accept: application/json' | jq -r '.snapshot.ghc') \
+  #; ghc_ver=$(curl --retry 3 -sSL ${STACK_INFO_URL} -H 'Accept: application/json' | jq -r '.snapshot.ghc') \
+  ; ghc_ver=$(nu -c "'${MESSAGE}' \
+            | parse -r '\\+ghc_ver=(?<v>[0-9\\.]+)' | get -i v.0 \
+            | default (http get -H [Accept application/json] ${STACK_INFO_URL} \
+            | get snapshot.ghc \
+            )") \
   ; ghcup -s '["GHCupURL", "StackSetupURL"]' install ghc $ghc_ver \
   \
   ; for i in \
