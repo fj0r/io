@@ -57,14 +57,23 @@ RUN set -eux \
   ;
 
 RUN set -eux \
-  ; mkdir -p ${LS_ROOT}/haskell \
+  ; mkdir -p ${LS_ROOT}/haskell/tmp \
   ; hls_version=$(curl --retry 3 -sSL https://api.github.com/repos/haskell/haskell-language-server/releases/latest | jq -r '.tag_name') \
   ; ghc_version=$(stack ghc -- --numeric-version) \
   ; curl --retry 3 -sSL https://downloads.haskell.org/~hls/haskell-language-server-${hls_version}/haskell-language-server-${hls_version}-x86_64-linux-unknown.tar.xz \
-  | tar Jxvf - -C ${LS_ROOT}/haskell --strip-components=1 \
-      haskell-language-server-${hls_version}/bin/haskell-language-server-${ghc_version} \
-      haskell-language-server-${hls_version}/bin/haskell-language-server-wrapper \
-      haskell-language-server-${hls_version}/lib/${ghc_version} \
+  | tar Jxvf - -C ${LS_ROOT}/haskell/tmp --strip-components=1 \
+  ; cd ${LS_ROOT}/haskell/tmp \
+  ; files="bin/haskell-language-server-${ghc_version} \
+           bin/haskell-language-server-wrapper \
+           lib/${ghc_version}" \
+  ; nu -c "'$files' | split row -r '\\s+' \
+    | each {|x| if (\$x | path exists) { \
+            let tg = ([.., (\$x | path dirname)] | path join); \
+            mkdir \$tg; \
+            cp -r \$x \$tg \
+        } \
+    }" \
+  ; cd .. && rm -rf tmp \
   ; find ${LS_ROOT}/haskell -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s \
   ;
 
