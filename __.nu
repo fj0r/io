@@ -12,3 +12,7 @@ def git-last-commit [] {
         }
     }
 }
+
+def git-commit-changes [commit:string] {
+    git diff-tree --no-commit-id --name-only -r $commit | lines
+}
