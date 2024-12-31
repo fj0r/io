@@ -42,7 +42,7 @@ RUN set -ex \
       jupyterlab jupyterlab-lsp \
   ##################### RUN set -ex \
   ; conda install -y \
-      sqlite cloudpickle datashape \
+      sqlite cloudpickle \
       xz zlib zstd cryptography \
       cffi zeromq libssh2 openssl pyzmq pcre \
   ; conda install -c pytorch -c nvidia \
