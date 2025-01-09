@@ -29,7 +29,7 @@ RUN set -eux \
   ; rustup component add rust-src clippy rustfmt \
   ; rustup component add rust-analyzer \
   ; rustup target add x86_64-unknown-linux-musl \
-  ; rustup target add wasm32-wasi wasm32-unknown-unknown \
+  ; rustup target add wasm32-wasip1 wasm32-unknown-unknown \
   ; cargo install \
       rust-script cargo-wasi \
       cargo-watch cargo-expand cargo-eval cargo-tree \
