@@ -74,6 +74,6 @@ RUN set -eux \
   ; PROJ=hello-rust \
   ; cargo new $PROJ \
   ; cd $PROJ \
-  ; cargo wasi build --release \
+  #; cargo wasi build --release \
   ; rm -rf target \
   ; cd $opwd
