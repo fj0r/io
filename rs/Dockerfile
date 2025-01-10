@@ -29,7 +29,7 @@ RUN set -eux \
   ; rustup component add rust-src clippy rustfmt \
   ; rustup component add rust-analyzer \
   ; rustup target add x86_64-unknown-linux-musl \
-  ; rustup target add wasm32-wasip1 wasm32-unknown-unknown \
+  ; rustup target add wasm32-wasip1 wasm32-wasip2 wasm32-unknown-unknown \
   ; cargo install \
       rust-script cargo-wasi \
       cargo-watch cargo-expand cargo-eval cargo-tree \
@@ -74,6 +74,7 @@ RUN set -eux \
   ; PROJ=hello-rust \
   ; cargo new $PROJ \
   ; cd $PROJ \
-  ; cargo wasi build --release \
+  #; cargo wasi build --release \
+  ; cargo build --target=wasm32-wasip1 --release \
   ; rm -rf target \
   ; cd $opwd
