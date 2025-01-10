@@ -42,7 +42,7 @@ RUN set -eux \
       anyhow thiserror snafu \
       proc-macro2 syn quote macro_rules_attribute \
       nom linkme regex refined_type \
-      crossbeam wasmtime mlua \
+      crossbeam wasmtime crb \
       tokio async-std async-graphql \
       warp async-graphql-warp \
       axum async-graphql-axum \
@@ -51,7 +51,7 @@ RUN set -eux \
       # dioxus dioxus-web dioxus-liveview reqwasm \
       sycamore leptos reqwasm \
       serde serde_derive serde_yaml serde_json \
-      serde_cbor apache-avro schemars \
+      serde_cbor schemars \
       slog slog-async slog-json slog-term slog-logfmt \
       time lru-cache itertools \
       bitflags num fnv \
