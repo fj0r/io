@@ -35,7 +35,7 @@ RUN set -eux \
       cargo-watch cargo-expand cargo-eval cargo-tree \
       cargo-feature cargo-prefetch cargo-generate \
       #dioxus-cli \
-      cargo-leptos \
+      #cargo-leptos \
   ; cargo prefetch \
       clap config libc tempdir \
       url reqwest surf scraper tera \
