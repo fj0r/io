@@ -31,11 +31,11 @@ RUN set -eux \
   ; rustup target add x86_64-unknown-linux-musl \
   ; rustup target add wasm32-wasip1 wasm32-wasip2 wasm32-unknown-unknown \
   ; cargo install \
-      rust-script cargo-wasi \
-      cargo-watch cargo-expand cargo-eval cargo-tree \
+      bacon cargo-wasi \
+      cargo-expand cargo-eval cargo-tree \
       cargo-feature cargo-prefetch cargo-generate \
       #dioxus-cli \
-      cargo-leptos \
+      #cargo-leptos \
   ; cargo prefetch \
       clap config libc tempdir \
       url reqwest surf scraper tera \
