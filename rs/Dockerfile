@@ -69,7 +69,7 @@ RUN set -eux \
   ; { \
       echo '[build]' ;\
       echo 'target-dir = "/tmp/cargo/target"' ;\
-    } > /opt/cargo/config.toml \
+    } > ${CARGO_HOME}/config.toml \
   ; opwd=$PWD; cd /world \
   ; PROJ=hello-rust \
   ; cargo new $PROJ \
