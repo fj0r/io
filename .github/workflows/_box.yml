@@ -46,24 +46,24 @@ jobs:
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
-      #- name: Build base
-      #  uses: docker/build-push-action@v4
-      #  with:
-      #    context: base
-      #    push: ${{ github.event_name != 'pull_request' }}
-      #    tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:base
-      #    labels: ${{ steps.meta.outputs.labels }}
-      #    build-args: |
-      #      BASEIMAGE=debian:bookworm-slim
+      - name: Build base
+        uses: docker/build-push-action@v4
+        with:
+          context: base
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:base
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            BASEIMAGE=debian:bookworm-slim
 
-      #- name: Build s3
-      #  uses: docker/build-push-action@v4
-      #  with:
-      #    context: base
-      #    file: base/s3.Dockerfile
-      #    push: ${{ github.event_name != 'pull_request' }}
-      #    tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:s3
-      #    labels: ${{ steps.meta.outputs.labels }}
+      - name: Build s3
+        uses: docker/build-push-action@v4
+        with:
+          context: base
+          file: base/s3.Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:s3
+          labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build nu
         uses: docker/build-push-action@v4
@@ -74,22 +74,22 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:nu
           labels: ${{ steps.meta.outputs.labels }}
 
-      #- name: Build common
-      #  uses: docker/build-push-action@v4
-      #  with:
-      #    context: base
-      #    file: base/common.Dockerfile
-      #    push: ${{ github.event_name != 'pull_request' }}
-      #    tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:common
-      #    labels: ${{ steps.meta.outputs.labels }}
+      - name: Build common
+        uses: docker/build-push-action@v4
+        with:
+          context: base
+          file: base/common.Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:common
+          labels: ${{ steps.meta.outputs.labels }}
 
-      #- name: Build
-      #  uses: docker/build-push-action@v4
-      #  with:
-      #    context: box
-      #    push: ${{ github.event_name != 'pull_request' }}
-      #    tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-      #    labels: ${{ steps.meta.outputs.labels }}
-      #    build-args: |
-      #      PIP_FLAGS=--break-system-packages
+      - name: Build
+        uses: docker/build-push-action@v4
+        with:
+          context: box
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            PIP_FLAGS=--break-system-packages
 
