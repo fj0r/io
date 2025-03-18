@@ -26,6 +26,7 @@ ENV RUSTC_WRAPPER=/usr/local/bin/sccache
 RUN set -eux \
   ; curl --retry 3 -sSL https://sh.rustup.rs \
     | sh -s -- --default-toolchain ${RUST_CHANNEL} -y --no-modify-path \
+  ; rustup show active-toolchain || rustup toolchain install \
   ; rustup component add rust-src clippy rustfmt \
   ; rustup component add rust-analyzer \
   ; rustup target add x86_64-unknown-linux-musl \
