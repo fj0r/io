@@ -35,7 +35,7 @@ RUN set -eux \
   #; apt-get install -y --no-install-recommends $pydeb \
   ; pip3 install --no-cache-dir ${PIP_FLAGS} \
         httpx aiofile aiostream fastapi uvicorn \
-        debugpy pytest pydantic PyParsing \
+        debugpy pytest pydantic pydantic-graph PyParsing \
         ipython typer pydantic-settings pyyaml \
         boltons decorator deepmerge \
         structlog python-json-logger \
