@@ -34,7 +34,7 @@ RUN set -eux \
   ; cargo install \
       bacon cargo-wasi \
       cargo-expand cargo-eval cargo-tree \
-      cargo-feature cargo-prefetch cargo-generate \
+      cargo-feature cargo-prefetch \
       #dioxus-cli \
       #cargo-leptos \
   ; cargo prefetch \
