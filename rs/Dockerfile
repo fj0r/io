@@ -35,6 +35,7 @@ RUN set -eux \
       bacon cargo-wasi \
       cargo-expand cargo-eval cargo-tree \
       cargo-feature cargo-prefetch \
+      trunk \
       #dioxus-cli \
       #cargo-leptos \
   ; cargo prefetch \
@@ -44,13 +45,13 @@ RUN set -eux \
       proc-macro2 syn quote macro_rules_attribute \
       nom linkme regex refined_type \
       crossbeam wasmtime crb \
-      tokio smol async-compat async-graphql \
-      warp async-graphql-warp \
+      tokio tokio-tungstenite smol async-compat async-graphql \
+      # warp async-graphql-warp \
       axum async-graphql-axum \
-      trunk wasm-pack wee_alloc \
+      # wasm-pack wee_alloc \
       wasm-bindgen wasm-bindgen-futures wasm-logger \
       # dioxus dioxus-web dioxus-liveview reqwasm \
-      sycamore leptos reqwasm \
+      sycamore leptos gloo-net \
       serde serde_derive serde_yaml serde_json \
       serde_cbor schemars \
       slog slog-async slog-json slog-term slog-logfmt \
