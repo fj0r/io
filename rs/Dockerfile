@@ -35,7 +35,7 @@ RUN set -eux \
       bacon cargo-wasi \
       cargo-expand cargo-eval cargo-tree \
       cargo-feature cargo-prefetch \
-      trunk \
+      rust-script trunk \
       #dioxus-cli \
       #cargo-leptos \
   ; cargo prefetch \
