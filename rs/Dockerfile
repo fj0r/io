@@ -36,7 +36,7 @@ RUN set -eux \
       cargo-expand cargo-eval cargo-tree \
       cargo-feature cargo-prefetch \
       rust-script trunk \
-      #dioxus-cli \
+      dioxus-cli \
       #cargo-leptos \
   ; cargo prefetch \
       clap config libc tempdir \
@@ -48,10 +48,10 @@ RUN set -eux \
       tokio tokio-tungstenite smol async-compat async-graphql \
       # warp async-graphql-warp \
       axum async-graphql-axum \
-      # wasm-pack wee_alloc \
+      # wasm-pack wee_alloc leptos \
       wasm-bindgen wasm-bindgen-futures wasm-logger \
-      # dioxus dioxus-web dioxus-liveview reqwasm \
-      sycamore leptos gloo-net \
+      dioxus dioxus-web \
+      sycamore gloo-net \
       serde serde_derive serde_yaml serde_json \
       serde_cbor schemars \
       slog slog-async slog-json slog-term slog-logfmt \
