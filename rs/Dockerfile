@@ -54,7 +54,7 @@ RUN set -eux \
       sycamore gloo-net \
       serde serde_derive serde_yaml serde_json \
       serde_cbor schemars \
-      slog slog-async slog-json slog-term slog-logfmt \
+      tracing tracing-subscriber tracing-serde \
       time lru-cache itertools \
       bitflags num fnv \
       ndarray polars rayon dfdx linfa \
