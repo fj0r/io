@@ -52,7 +52,7 @@ RUN set -eux \
       wasm-bindgen wasm-bindgen-futures wasm-logger \
       dioxus dioxus-web \
       sycamore gloo-net \
-      serde serde_derive serde_yaml serde_json \
+      serde serde_derive serde_json serde_json_path \
       serde_cbor schemars \
       tracing tracing-subscriber tracing-serde \
       time lru-cache itertools \
