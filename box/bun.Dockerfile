@@ -24,7 +24,7 @@ RUN set -eux \
   #; pydeb="" \
   #; for pkg in \
   #      debugpy pydantic pytest \
-  #      httpx typer yaml deepmerge \
+  #      httpx typer yaml \
   #      pyparsing structlog \
   #      decorator more-itertools cachetools \
   #; do pydeb+="python3-${pkg} "; done \
@@ -33,8 +33,7 @@ RUN set -eux \
         httpx aiofile aiostream fastapi uvicorn \
         debugpy pytest pydantic PyParsing \
         ipython typer pydantic-settings pyyaml \
-        boltons decorator deepmerge \
-        structlog python-json-logger \
+        boltons decorator \
         #pyiceberg[s3fs,pyarrow,pandas] \
   \
   ; git config --global pull.rebase false \

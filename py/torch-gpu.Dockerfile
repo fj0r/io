@@ -59,8 +59,7 @@ RUN set -ex \
       httpx aiofile aiostream fastapi uvicorn \
       debugpy pytest pydantic PyParsing \
       ipython typer pydantic-settings pyyaml \
-      boltons decorator deepmerge \
-      structlog python-json-logger \
+      boltons decorator \
       #pyiceberg[s3fs,pyarrow,pandas] \
       bash_kernel ipython-sql pgspecial jieba sh \
   ; python -m bash_kernel.install \

@@ -28,7 +28,7 @@ RUN set -eux \
   #; pydeb="" \
   #; for pkg in \
   #      debugpy pydantic pytest \
-  #      httpx typer yaml deepmerge \
+  #      httpx typer yaml \
   #      pyparsing structlog \
   #      decorator more-itertools cachetools \
   #; do pydeb+="python3-${pkg} "; done \
@@ -37,8 +37,7 @@ RUN set -eux \
         httpx aiofile aiostream fastapi uvicorn \
         debugpy pytest pydantic pydantic-graph PyParsing \
         ipython typer pydantic-settings pyyaml \
-        boltons decorator deepmerge \
-        structlog python-json-logger \
+        boltons decorator \
         #pyiceberg[s3fs,pyarrow,pandas] \
   \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \

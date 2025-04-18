@@ -16,7 +16,7 @@ RUN set -eux \
   \
   ; pip3 install --no-cache-dir \
         debugpy fastapi uvicorn aiofile pytest \
-        httpx typer pydantic-settings pyyaml deepmerge structlog \
+        httpx typer pydantic-settings pyyaml \
         pydantic PyParsing decorator more-itertools fn.py cachetools \
   \
   ; apk del .build-deps \
