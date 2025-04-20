@@ -39,7 +39,8 @@ RUN set -eux \
       dioxus-cli \
       #cargo-leptos \
   ; cargo prefetch \
-      clap config libc tempdir \
+      clap figment tempdir \
+      notify listenfd libc \
       url reqwest surf scraper tera \
       anyhow thiserror snafu \
       proc-macro2 syn quote macro_rules_attribute \
