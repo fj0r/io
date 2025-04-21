@@ -1,4 +1,4 @@
-name: torch
+name: marimo
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
@@ -7,7 +7,7 @@ name: torch
 
 on:
   push:
-    branches: [ torch ]
+    branches: [ marimo ]
     tags: [ 'v*.*.*' ]
 
 env:
@@ -36,7 +36,7 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: ${{ env.REGISTRY }}
-          username: fj0rd
+          username: fj0r
           password: ${{ secrets.GHCR_TOKEN }}
 
       # Extract metadata (tags, labels) for Docker
@@ -49,13 +49,21 @@ jobs:
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
+      #- name: Build torch
+      #  uses: docker/build-push-action@v4
+      #  with:
+      #    context: py
+      #    file: py/torch.Dockerfile
+      #    push: ${{ github.event_name != 'pull_request' }}
+      #    tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:torch
+      #    labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Build torch-gpu
+      - name: Build marimo
         uses: docker/build-push-action@v4
         with:
           context: py
-          file: py/torch-gpu.Dockerfile
+          file: py/marimo.Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:torch
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:marimo
           labels: ${{ steps.meta.outputs.labels }}
 

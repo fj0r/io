@@ -42,25 +42,21 @@ RUN set -ex \
       jupyterlab jupyterlab-lsp \
   ##################### RUN set -ex \
   ; conda install -y \
-        sqlite cloudpickle datashape \
-        xz zlib zstd cryptography \
-        cffi zeromq libssh2 openssl pyzmq pcre \
+      sqlite cloudpickle datashape \
+      xz zlib zstd cryptography \
+      cffi zeromq libssh2 openssl pyzmq pcre \
   ; conda clean --all -f -y \
   ;
 
 RUN set -ex \
   ; pip install --no-cache-dir ${PIP_FLAGS} \
-        numpy scikit-learn polars \
-        matplotlib-base bokeh streamlit \
-        torch torchserve torchtext torchvision torchaudio \
-        plotly_express pygwalker \
-        httpx aiofile aiostream fastapi uvicorn \
-        debugpy pytest pydantic PyParsing \
-        ipython typer pydantic-settings pyyaml \
-        boltons decorator \
-        #pyiceberg[s3fs,pyarrow,pandas] \
-        bash_kernel ipython-sql pgspecial sh \
-  ; python -m bash_kernel.install \
+      numpy scikit-learn polars \
+      torch torchserve torchtext torchvision torchaudio \
+      httpx aiofile aiostream fastapi uvicorn \
+      debugpy pytest pydantic PyParsing \
+      ipython typer pydantic-settings pyyaml \
+      boltons decorator \
+      #pyiceberg[s3fs,pyarrow,pandas] \
   ; jupyter lab --generate-config \
   ; cat /jupyter-config.py >> $HOME/.jupyter/jupyter_lab_config.py \
   ;

@@ -1,4 +1,4 @@
-name: torch
+name: marimo
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
@@ -8,7 +8,7 @@ name: torch
 on:
   workflow_run:
     workflows: ["base"]
-    branches: [ torch ]
+    branches: [ main ]
     types:
       - completed
 
@@ -59,12 +59,12 @@ jobs:
       #    tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:torch
       #    labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Build torch-gpu
+      - name: Build marimo
         uses: docker/build-push-action@v4
         with:
           context: py
-          file: py/torch-gpu.Dockerfile
+          file: py/marimo.Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:torch
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:marimo
           labels: ${{ steps.meta.outputs.labels }}
 
