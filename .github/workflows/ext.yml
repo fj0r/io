@@ -72,7 +72,7 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:x
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: BASEIMAGE=ghcr.io/fj0r/io:rs
+          build-args: BASEIMAGE=ghcr.io/fj0r/io:latest
 
       - name: Build hs
         uses: docker/build-push-action@v4
@@ -84,7 +84,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             MESSAGE=${{ github.event.head_commit.message }}
-            BASEIMAGE=ghcr.io/fj0r/io:x
+            BASEIMAGE=ghcr.io/fj0r/io:rs
             STACK_INFO_URL=https://www.stackage.org/lts
             STACK_RESOLVER=
             GHC_OS=deb11
