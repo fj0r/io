@@ -64,13 +64,13 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:rs
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Build x
+      - name: Build js
         uses: docker/build-push-action@v4
         with:
           context: js
           file: js/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:x
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:js
           labels: ${{ steps.meta.outputs.labels }}
           build-args: BASEIMAGE=ghcr.io/fj0r/io:latest
 
