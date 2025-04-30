@@ -81,7 +81,6 @@ RUN set -eux \
   \
   ; mkdir -p ${LS_ROOT} \
   ; bun install --config=/root/.bunfig.toml --global --no-cache \
-        quicktype \
         pyright \
         vscode-langservers-extracted \
         yaml-language-server \

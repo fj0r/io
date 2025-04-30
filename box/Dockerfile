@@ -64,7 +64,6 @@ RUN set -eux \
   ; mkdir -p ${LS_ROOT} \
   ; npm install --location=global \
         @typespec/compiler @typespec/json-schema \
-        quicktype \
         pyright \
         vscode-langservers-extracted \
         yaml-language-server \
