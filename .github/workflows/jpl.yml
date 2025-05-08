@@ -7,7 +7,7 @@ name: jpl
 
 on:
   workflow_run:
-    workflows: ["torch"]
+    workflows: [ torch ]
     branches: [ _main_ ]
     types:
       - completed

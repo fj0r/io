@@ -7,7 +7,7 @@ name: torch.gpu
 
 on:
   workflow_run:
-    workflows: ["base"]
+    workflows: [ base ]
     branches: [ py ]
     types:
       - completed

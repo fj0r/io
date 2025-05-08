@@ -7,7 +7,7 @@ name: go
 
 on:
   workflow_run:
-    workflows: ["base"]
+    workflows: [ base ]
     branches: [ master ]
     types:
       - completed

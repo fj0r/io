@@ -1,11 +1,11 @@
-name: base
+name: bun
 
 on:
-  push:
-    branches: [ bun ]
-    # Publish semver tags as releases.
-    tags: [ 'v*.*.*' ]
-  workflow_dispatch:
+  workflow_run:
+    workflows: [ base ]
+    branches: [ main ]
+    types:
+      - completed
 
 env:
   REGISTRY: ghcr.io

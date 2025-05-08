@@ -7,7 +7,7 @@ name: torch
 
 on:
   workflow_run:
-    workflows: ["base"]
+    workflows: [ base ]
     branches: [ torch ]
     types:
       - completed

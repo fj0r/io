@@ -7,7 +7,7 @@ name: marimo
 
 on:
   workflow_run:
-    workflows: ["base"]
+    workflows: [ base ]
     branches: [ main ]
     types:
       - completed
