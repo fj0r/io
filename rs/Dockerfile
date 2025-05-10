@@ -32,7 +32,7 @@ RUN set -eux \
   ; rustup target add x86_64-unknown-linux-musl \
   ; rustup target add wasm32-wasip1 wasm32-wasip2 wasm32-unknown-unknown \
   ; cargo install \
-      bacon cargo-wasi \
+      cargo-wasi \
       cargo-expand cargo-eval cargo-tree \
       cargo-feature cargo-prefetch \
       rust-script trunk \
