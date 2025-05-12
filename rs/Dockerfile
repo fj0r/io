@@ -41,7 +41,7 @@ RUN set -eux \
   ; cargo prefetch \
       clap figment tempdir \
       notify listenfd libc \
-      url reqwest scraper tera \
+      url reqwest scraper minijinja markdown \
       anyhow thiserror snafu \
       proc-macro2 syn quote macro_rules_attribute \
       nom linkme regex refined_type \
