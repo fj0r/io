@@ -21,5 +21,5 @@ export def 'build code-server' [] {
     "
     | from yaml | get _
     | $"($dockerfile)\n\n($in)"
-    | ^$env.CONTCTL build ...$args -f - -t temp .
+    | ^$env.CNTRCTL build ...$args -f - -t temp .
 }
