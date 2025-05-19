@@ -46,7 +46,8 @@ RUN set -eux \
       proc-macro2 syn quote macro_rules_attribute \
       nom linkme regex refined_type \
       crossbeam wasmtime crb \
-      tokio tokio-tungstenite smol async-compat async-graphql \
+      tokio tokio-tungstenite smol async-compat \
+      async-fs async-graphql \
       # warp async-graphql-warp \
       axum async-graphql-axum \
       # wasm-pack wee_alloc leptos \
