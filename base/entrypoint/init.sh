@@ -8,7 +8,7 @@ fi
 
 if [[ -n "${PREBOOT}" ]]; then
     echo "[$(date -Is)] preboot ${PREBOOT}"
-    bash $PREBOOT
+    source $PREBOOT
 fi
 
 
@@ -38,7 +38,7 @@ done
 
 if [[ -n "${POSTBOOT}" ]]; then
     echo "[$(date -Is)] postboot ${POSTBOOT}"
-    bash $POSTBOOT
+    source $POSTBOOT
 fi
 
 
