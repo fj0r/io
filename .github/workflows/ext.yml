@@ -56,6 +56,14 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:go
           labels: ${{ steps.meta.outputs.labels }}
 
+      - name: Build moon
+        uses: docker/build-push-action@v4
+        with:
+          context: moon
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:moon
+          labels: ${{ steps.meta.outputs.labels }}
+
       - name: Build rs
         uses: docker/build-push-action@v4
         with:
