@@ -10,6 +10,7 @@ ENV PATH=${CARGO_HOME}/bin:$PATH
 RUN set -eux \
   ; apt-get update \
   ; apt-get install -y --no-install-recommends \
+    valgrind \
     pkg-config libssl-dev lldb libxml2 \
     musl musl-dev musl-tools \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
@@ -32,10 +33,10 @@ RUN set -eux \
   ; rustup target add x86_64-unknown-linux-musl \
   ; rustup target add wasm32-wasip1 wasm32-wasip2 wasm32-unknown-unknown \
   ; cargo install \
-      cargo-wasi \
+      cargo-pgo cargo-profiler \
       cargo-expand cargo-eval cargo-tree \
       cargo-feature cargo-prefetch \
-      rust-script trunk \
+      cargo-wasi rust-script trunk \
       dioxus-cli \
       #cargo-leptos \
   ; cargo prefetch \
