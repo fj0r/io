@@ -31,6 +31,8 @@ RUN set -eux \
   \
   ; git clone --depth=3 https://github.com/fj0r/nushell.git $XDG_CONFIG_HOME/nushell \
   ; opwd=$PWD; cd $XDG_CONFIG_HOME/nushell; git log -1 --date=iso; cd $opwd \
+  ; chown -R $MASTER:$MASTER $XDG_CONFIG_HOME/nushell \
+  ; echo '$env.NU_POWER_CONFIG.theme.color.normal = "xterm_olive"' >> /home/${MASTER}/.nu \
   \
   ; nvim_ver=$(curl --retry 3 -sSL https://api.github.com/repos/neovim/neovim/releases/latest | jq -r '.tag_name') \
   ; nvim_url="https://github.com/neovim/neovim/releases/download/${nvim_ver}/nvim-linux-x86_64.tar.gz" \
@@ -38,11 +40,9 @@ RUN set -eux \
   ; strip -s /usr/local/bin/nvim \
   ; git clone --depth=3 https://github.com/fj0r/nvim-lua.git $XDG_CONFIG_HOME/nvim \
   ; opwd=$PWD; cd $XDG_CONFIG_HOME/nvim; git log -1 --date=iso; cd $opwd \
-  ; nvim --headless "+Lazy! sync" +qa \
-  #; nvim --headless "+Lazy! build telescope-fzf-native.nvim" +qa \
-  \
+  ; chown -R $MASTER:$MASTER $XDG_CONFIG_HOME/nvim \
+  ; sudo -u $MASTER nvim --headless "+Lazy! sync" +qa \
   ; rm -rf $XDG_CONFIG_HOME/nvim/lazy/packages/*/.git \
-  ; chown -R $MASTER:$MASTER $XDG_CONFIG_HOME \
   \
   ; apt-get purge -y --auto-remove ${BUILD_DEPS:-} \
   ; apt-get clean -y \

@@ -49,8 +49,6 @@ RUN set -eux \
 #         dev         #
 #######################
 ENV LS_ROOT=/opt/language-server
-ENV NODE_ROOT=/opt/node
-ENV PATH=${NODE_ROOT}/bin:$PATH
 ENV BUILD_DEPS="\
     cmake \
     "
@@ -58,10 +56,9 @@ ENV BUILD_DEPS="\
 RUN set -eux \
   ; sudo apt update \
   ; sudo apt-get install -y --no-install-recommends gnupg2 build-essential ${BUILD_DEPS:-} \
-  ; sudo mkdir -p ${NODE_ROOT} \
   ; node_version=$(curl --retry 3 -sSL https://nodejs.org/dist/index.json | jq -r '[.[]|select(.lts != false)][0].version') \
   ; curl --retry 3 -sSL https://nodejs.org/dist/${node_version}/node-${node_version}-linux-x64.tar.xz \
-    | sudo tar Jxf - --strip-components=1 -C ${NODE_ROOT} \
+    | sudo tar Jxf - --strip-components=1 -C /usr/local \
   \
   ; sudo mkdir -p ${LS_ROOT} \
   ; sudo npm install --location=global \
@@ -69,7 +66,7 @@ RUN set -eux \
         pyright \
         vscode-langservers-extracted \
         yaml-language-server \
-  ; sudo chown -R root:root ${NODE_ROOT}/lib \
+  #; sudo chown -R root:root ${NODE_ROOT}/lib \
   ; sudo npm cache clean -f \
   \
   ; lslua_ver=$(curl --retry 3 -sSL https://api.github.com/repos/LuaLS/lua-language-server/releases/latest | jq -r '.tag_name') \
