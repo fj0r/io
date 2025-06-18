@@ -20,14 +20,14 @@ ENV CONDA_HOME=/opt/conda
 ENV PATH=${CONDA_HOME}/bin:$PATH
 COPY jupyter-config.py /
 RUN set -ex \
-  ; apt-get update \
-  ; apt-get upgrade -y \
+  ; sudo apt-get update \
+  ; sudo apt-get upgrade -y \
   ; DEBIAN_FRONTEND=noninteractive \
-    apt-get install -y --no-install-recommends \
+    sudo apt-get install -y --no-install-recommends \
       fontconfig fonts-noto-cjk fonts-noto-cjk-extra \
       fonts-arphic-ukai fonts-arphic-uming \
-  ; fc-cache -fv \
-  ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
+  ; sudo fc-cache -fv \
+  ; sudo apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
   ;
 
 # RUN set -ex \
@@ -51,7 +51,7 @@ RUN set -ex \
 #   ;
 
 RUN set -ex \
-  ; pip install --no-cache-dir ${PIP_FLAGS} \
+  ; sudo pip install --no-cache-dir ${PIP_FLAGS} \
       polars[all] numpy scikit-learn \
       httpx aiofile aiostream fastapi uvicorn \
       debugpy pytest pydantic pydantic-graph PyParsing \
@@ -62,7 +62,7 @@ RUN set -ex \
   ;
 
 RUN set -ex \
-  ; pip install --no-cache-dir ${PIP_FLAGS} ${PIP_INDEX_PYTORCH} \
+  ; sudo pip install --no-cache-dir ${PIP_FLAGS} ${PIP_INDEX_PYTORCH} \
       torch torchtext torchvision torchaudio \
   ;
 

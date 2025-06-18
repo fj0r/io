@@ -8,38 +8,38 @@ ENV CARGO_HOME=/opt/cargo
 ENV PATH=${CARGO_HOME}/bin:$PATH
 
 RUN set -eux \
-  ; apt-get update \
-  ; apt-get install -y --no-install-recommends \
+  ; sudo apt-get update \
+  ; sudo apt-get install -y --no-install-recommends \
     valgrind \
     pkg-config libssl-dev lldb libxml2 \
     musl musl-dev musl-tools \
-  ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+  ; sudo apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 RUN set -eux \
   ; sccache_ver=$(curl --retry 3 -sSL https://api.github.com/repos/mozilla/sccache/releases/latest | jq -r '.tag_name') \
   ; curl -sSL "https://github.com/mozilla/sccache/releases/download/${sccache_ver}/sccache-dist-${sccache_ver}-x86_64-unknown-linux-musl.tar.gz" \
-  | tar zxf - --strip-components=1 -C /usr/local/bin --wildcards '*/sccache-dist' \
+  | sudo tar zxf - --strip-components=1 -C /usr/local/bin --wildcards '*/sccache-dist' \
   ; curl -sSL "https://github.com/mozilla/sccache/releases/download/${sccache_ver}/sccache-${sccache_ver}-x86_64-unknown-linux-musl.tar.gz" \
-  | tar zxf - --strip-components=1 -C /usr/local/bin --wildcards '*/sccache'
+  | sudo tar zxf - --strip-components=1 -C /usr/local/bin --wildcards '*/sccache'
 
 ENV RUSTC_WRAPPER=/usr/local/bin/sccache
 
 RUN set -eux \
   ; curl --retry 3 -sSL https://sh.rustup.rs \
-    | sh -s -- --default-toolchain ${RUST_CHANNEL} -y --no-modify-path \
-  ; rustup show active-toolchain || rustup toolchain install \
-  ; rustup component add rust-src clippy rustfmt \
-  ; rustup component add rust-analyzer \
-  ; rustup target add x86_64-unknown-linux-musl \
-  ; rustup target add wasm32-wasip1 wasm32-wasip2 wasm32-unknown-unknown \
-  ; cargo install \
+    | sudo sh -s -- --default-toolchain ${RUST_CHANNEL} -y --no-modify-path \
+  ; sudo rustup show active-toolchain || rustup toolchain install \
+  ; sudo rustup component add rust-src clippy rustfmt \
+  ; sudo rustup component add rust-analyzer \
+  ; sudo rustup target add x86_64-unknown-linux-musl \
+  ; sudo rustup target add wasm32-wasip1 wasm32-wasip2 wasm32-unknown-unknown \
+  ; sudo cargo install \
       cargo-pgo cargo-profiler \
       cargo-expand cargo-eval cargo-tree \
       cargo-feature cargo-prefetch \
       cargo-wasi rust-script trunk \
       dioxus-cli \
       #cargo-leptos \
-  ; cargo prefetch \
+  ; sudo cargo prefetch \
       clap figment tempdir \
       notify listenfd libc \
       url reqwest scraper minijinja markdown \
@@ -61,7 +61,7 @@ RUN set -eux \
       time lru-cache itertools \
       bitflags num fnv \
       ndarray polars rayon dfdx linfa \
-  ; rm -rf ${CARGO_HOME}/registry/src/*
+  ; sudo rm -rf ${CARGO_HOME}/registry/src/*
   #; find ${CARGO_HOME}/bin -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s
 
   #; mkdir -p ${LS_ROOT}/rust/bin \
@@ -74,8 +74,8 @@ RUN set -eux \
   ; { \
       echo '[build]' ;\
       echo 'target-dir = "/tmp/cargo/target"' ;\
-    } > ${CARGO_HOME}/config.toml \
-  ; opwd=$PWD; cd /world \
+    } | sudo tee ${CARGO_HOME}/config.toml \
+  ; opwd=$PWD; cd ~/world \
   ; PROJ=hello-rust \
   ; cargo new $PROJ \
   ; cd $PROJ \

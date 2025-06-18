@@ -4,10 +4,8 @@ FROM ghcr.io/fj0r/io:__dropbear__ as dropbear
 FROM ${BASEIMAGE}
 
 EXPOSE 22
-VOLUME /world
 
-ENV XDG_CONFIG_HOME=/etc \
-    LANG=C.UTF-8 \
+ENV LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
     TIMEZONE=Asia/Shanghai
 
@@ -66,7 +64,6 @@ RUN set -eux \
   \
   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /world
 
 ENV DEBUGE=
 ENV PREBOOT=

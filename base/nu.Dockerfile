@@ -25,9 +25,12 @@ RUN set -eux \
   ; do strip -s /usr/local/bin/$x; done \
   \
   ; echo '/usr/local/bin/nu' >> /etc/shells \
+  ; MASTER=master \
+  ; useradd -mU -G sudo,root -s /usr/local/bin/nu $MASTER \
+  ; XDG_CONFIG_HOME=/home/${MASTER}/.config \
+  \
   ; git clone --depth=3 https://github.com/fj0r/nushell.git $XDG_CONFIG_HOME/nushell \
   ; opwd=$PWD; cd $XDG_CONFIG_HOME/nushell; git log -1 --date=iso; cd $opwd \
-  ; useradd -mU -G sudo,root -s /usr/local/bin/nu admin \
   \
   ; nvim_ver=$(curl --retry 3 -sSL https://api.github.com/repos/neovim/neovim/releases/latest | jq -r '.tag_name') \
   ; nvim_url="https://github.com/neovim/neovim/releases/download/${nvim_ver}/nvim-linux-x86_64.tar.gz" \
@@ -39,8 +42,13 @@ RUN set -eux \
   #; nvim --headless "+Lazy! build telescope-fzf-native.nvim" +qa \
   \
   ; rm -rf $XDG_CONFIG_HOME/nvim/lazy/packages/*/.git \
+  ; chown -R $MASTER:$MASTER $XDG_CONFIG_HOME \
   \
   ; apt-get purge -y --auto-remove ${BUILD_DEPS:-} \
   ; apt-get clean -y \
   ; rm -rf /var/lib/apt/lists/* \
   ;
+
+USER master
+VOLUME /home/master/world
+WORKDIR /home/master/world
