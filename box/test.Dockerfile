@@ -46,17 +46,18 @@ ENV BUILD_DEPS="\
     cmake \
     "
 RUN set -eux \
-  ; sudo apt update \
-  ; sudo apt-get install -y --no-install-recommends gnupg2 build-essential ${BUILD_DEPS:-} \
-  ; sudo mkdir -p ${NODE_ROOT} \
+  ; sudo su \
+  ; apt update \
+  ; apt-get install -y --no-install-recommends gnupg2 build-essential ${BUILD_DEPS:-} \
+  ; mkdir -p ${NODE_ROOT} \
   ; node_version=$(curl --retry 3 -sSL https://nodejs.org/dist/index.json | jq -r '[.[]|select(.lts != false)][0].version') \
   ; curl --retry 3 -sSL https://nodejs.org/dist/${node_version}/node-${node_version}-linux-x64.tar.xz \
-    | sudo tar Jxf - --strip-components=1 -C ${NODE_ROOT} \
+    | tar Jxf - --strip-components=1 -C ${NODE_ROOT} \
   \
-  ; sudo env "PATH=$PATH" npm install --location=global \
+  ; npm install --location=global \
         @typespec/compiler @typespec/json-schema \
         pyright \
         vscode-langservers-extracted \
         yaml-language-server \
-  ; sudo chown -R root:root ${NODE_ROOT}/lib \
-  ; sudo env "PATH=$PATH" npm cache clean -f \
+  ; chown -R root:root ${NODE_ROOT}/lib \
+  ; npm cache clean -f \
