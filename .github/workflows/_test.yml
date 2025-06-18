@@ -7,9 +7,9 @@ on:
     tags: [ 'v*.*.*' ]
 
 env:
-  REGISTRY: docker.io
+  REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
-  IMAGE_NAME: fj0rd/io
+  IMAGE_NAME: fj0r/io
 
 
 jobs:
@@ -33,7 +33,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: fj0rd
-          password: ${{ secrets.DOCKER }}
+          password: ${{ secrets.GHCR_TOKEN }}
 
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
@@ -45,12 +45,12 @@ jobs:
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
-      - name: Build js
+      - name: Build test
         uses: docker/build-push-action@v3
         with:
-          context: js
-          file: js/Dockerfile
+          context: box
+          file: box/test.Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:jstest
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:test
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: BASE_IMAGE=fj0rd/io:test
+          build-args: BASE_IMAGE=fj0r/io:test

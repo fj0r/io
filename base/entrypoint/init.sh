@@ -30,7 +30,7 @@ trap stop SIGINT SIGTERM
 
 BASEDIR=$(dirname "$0")
 
-touch /var/run/services
+sudo touch /var/run/services
 for x in $(find $BASEDIR -name '*.sh' -not -path '*/init.sh'); do
     echo "[$(date -Is)] source $x"
     source $x

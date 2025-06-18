@@ -15,7 +15,10 @@ RUN set -eux \
   ; apt-get install -y --no-install-recommends \
         libicu-dev libffi-dev libgmp-dev zlib1g-dev \
         libncurses-dev libtinfo-dev libblas-dev liblapack-dev \
-  ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+  ; apt-get autoremove -y \
+  ; apt-get clean -y \
+  ; rm -rf /var/lib/apt/lists/* \
+  ;
 
 RUN set -eux \
   ; mkdir -p ${GHCUP_ROOT}/bin \
@@ -68,7 +71,8 @@ RUN set -eux \
             cp -r \$x \$tg \
         } \
     }" \
-  ; cd .. && rm -rf tmp \
+  ; cd .. \
+  ; rm -rf tmp \
   ; find ${LS_ROOT}/haskell -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s \
   ;
 
@@ -107,8 +111,14 @@ RUN set -eux \
       # katip monad-logger \
   ; rm -rf ${STACK_ROOT}/pantry/hackage/* \
   ; opwd=$PWD \
-  ; cd /world && stack new ${STACK_FLAGS} hello-rio rio && cd hello-rio && gen-hie > hie.yaml \
-  ; cd /world && stack new ${STACK_FLAGS} hello-haskell && cd hello-haskell && gen-hie > hie.yaml \
+  ; cd /home/master/world \
+  ; stack new ${STACK_FLAGS} hello-rio rio \
+  ; cd hello-rio \
+  ; gen-hie > hie.yaml \
+  ; cd /home/master/world \
+  ; stack new ${STACK_FLAGS} hello-haskell \
+  ; cd hello-haskell \
+  ; gen-hie > hie.yaml \
   ; cd $opwd \
   ; for x in config.yaml \
              templates \

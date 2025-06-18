@@ -56,6 +56,16 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:go
           labels: ${{ steps.meta.outputs.labels }}
 
+      - name: Wrap go
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: user.Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:go
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: BASEIMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:go
+
       - name: Build moon
         uses: docker/build-push-action@v4
         with:
@@ -64,13 +74,15 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:moon
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Build rs
+      - name: Wrap moon
         uses: docker/build-push-action@v4
         with:
-          context: rs
+          context: .
+          file: user.Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:rs
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:moon
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: BASEIMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:moon
 
       - name: Build js
         uses: docker/build-push-action@v4
@@ -80,7 +92,25 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:js
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: BASEIMAGE=ghcr.io/fj0r/io:latest
+          build-args: BASEIMAGE=ghcr.io/fj0r/io:root
+
+      - name: Wrap js
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: user.Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:js
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: BASEIMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:js
+
+      - name: Build rs
+        uses: docker/build-push-action@v4
+        with:
+          context: rs
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:rs
+          labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build hs
         uses: docker/build-push-action@v4
@@ -101,6 +131,27 @@ jobs:
           #  STACK_RESOLVER=--resolver nightly
           #  STACK_INFO_URL=https://www.stackage.org/nightly
           #  GHC_OS=deb11
+
+      - name: Wrap haskell
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: user.Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hs
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: BASEIMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hs
+
+      - name: Wrap rust
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: user.Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:rs
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: BASEIMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:rs
+
 
       - name: Delete untagged ghcr
         uses: Chizkiyahu/delete-untagged-ghcr-action@v3

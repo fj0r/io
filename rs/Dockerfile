@@ -1,4 +1,4 @@
-ARG BASEIMAGE=ghcr.io/fj0r/io:latest
+ARG BASEIMAGE=ghcr.io/fj0r/io:root
 FROM ${BASEIMAGE}
 
 ARG RUST_CHANNEL=stable
@@ -13,7 +13,10 @@ RUN set -eux \
     valgrind \
     pkg-config libssl-dev lldb libxml2 \
     musl musl-dev musl-tools \
-  ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+  ; apt-get autoremove -y \
+  ; apt-get clean -y \
+  ; rm -rf /var/lib/apt/lists/* \
+  ;
 
 RUN set -eux \
   ; sccache_ver=$(curl --retry 3 -sSL https://api.github.com/repos/mozilla/sccache/releases/latest | jq -r '.tag_name') \
@@ -74,8 +77,8 @@ RUN set -eux \
   ; { \
       echo '[build]' ;\
       echo 'target-dir = "/tmp/cargo/target"' ;\
-    } > ${CARGO_HOME}/config.toml \
-  ; opwd=$PWD; cd /world \
+    } | tee ${CARGO_HOME}/config.toml \
+  ; opwd=$PWD; cd /home/master/world \
   ; PROJ=hello-rust \
   ; cargo new $PROJ \
   ; cd $PROJ \

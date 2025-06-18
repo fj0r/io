@@ -36,7 +36,9 @@ RUN set -eux \
         boltons decorator \
         #pyiceberg[s3fs,pyarrow,pandas] \
   \
-  ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
+  ; apt-get autoremove -y \
+  ; apt-get clean -y \
+  ; rm -rf /var/lib/apt/lists/* \
   ;
 
 #######################

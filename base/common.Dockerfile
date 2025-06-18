@@ -5,7 +5,8 @@ RUN set -eux \
   ; apt-get update \
   ; DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends binutils \
-  ; mkdir -p /tmp/assets && cd /tmp/assets \
+  ; mkdir -p /tmp/assets \
+  ; cd /tmp/assets \
   \
   ; btm_url="https://github.com/ClementTsang/bottom/releases/latest/download/bottom_x86_64-unknown-linux-musl.tar.gz" \
   ; curl --retry 3 -sSL ${btm_url} | tar zxf - -C /usr/local/bin btm \
@@ -15,4 +16,7 @@ RUN set -eux \
   ; curl --retry 3 -sSL ${bdwh_url} | tar zxf - -C /usr/local/bin \
   \
   ; find /usr/local/bin -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s \
-  ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+  ; apt-get autoremove -y \
+  ; apt-get clean -y \
+  ; rm -rf /var/lib/apt/lists/* \
+  ;

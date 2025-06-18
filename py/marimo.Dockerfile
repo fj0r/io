@@ -1,4 +1,4 @@
-FROM ghcr.io/fj0r/io
+FROM ghcr.io/fj0r/io:root
 ARG PIP_FLAGS="--break-system-packages"
 ARG PIP_INDEX_PYTORCH="--index-url https://download.pytorch.org/whl/cpu"
 
@@ -27,7 +27,9 @@ RUN set -ex \
       fontconfig fonts-noto-cjk fonts-noto-cjk-extra \
       fonts-arphic-ukai fonts-arphic-uming \
   ; fc-cache -fv \
-  ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
+  ; apt-get autoremove -y \
+  ; apt-get clean -y \
+  ; rm -rf /var/lib/apt/lists/* \
   ;
 
 # RUN set -ex \
@@ -35,8 +37,8 @@ RUN set -ex \
 #   ; bash ./miniconda.sh -b -p ${CONDA_HOME} \
 #   ; rm ./miniconda.sh \
 #   #; conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/ \
-#   #  && conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/ \
-#   #  && conda config --set show_channel_urls yes \
+#   #; conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/ \
+#   #; conda config --set show_channel_urls yes \
 #   ; conda clean --all -f -y \
 #   ; ln -s ${CONDA_HOME}/etc/profile.d/conda.sh /etc/profile.d/conda.sh \
 #   ; echo ". ${CONDA_HOME}/etc/profile.d/conda.sh" >> ~/.bashrc \

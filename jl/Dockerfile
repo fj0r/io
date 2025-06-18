@@ -1,4 +1,4 @@
-FROM ghcr.io/fj0r/io
+FROM ghcr.io/fj0r/io:root
 
 ENV JULIA_HOME=/opt/julia
 ENV PATH=${JULIA_HOME}/bin:$PATH

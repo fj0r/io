@@ -1,5 +1,5 @@
 export def 'build code-server' [] {
-    let base = 'localhost/io:latest'
+    let base = 'localhost/io:root'
     let target = 'http://file.s/code-server.tar.zst'
     let proxy = 'http://172.178.1.111:7890'
     let proxy = $"\nENV http_proxy=($proxy)\nENV https_proxy=($proxy)"

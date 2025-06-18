@@ -1,4 +1,4 @@
-FROM io:latest
+FROM io:root
 
 RUN set -eux \
   ; cd \

@@ -4,10 +4,8 @@ FROM ghcr.io/fj0r/io:__dropbear__ as dropbear
 FROM ${BASEIMAGE}
 
 EXPOSE 22
-VOLUME /world
 
-ENV XDG_CONFIG_HOME=/etc \
-    LANG=C.UTF-8 \
+ENV LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
     TIMEZONE=Asia/Shanghai
 
@@ -63,10 +61,13 @@ RUN set -eux \
   #      -e 's/# \(zh_CN.UTF-8 UTF-8\)/\1/' \
   #; locale-gen \
   ; sed -i 's/^.*\(%sudo.*\)ALL$/\1NOPASSWD:ALL/g' /etc/sudoers \
+  #; echo "Defaults env_keep += \"PATH\"" >> /etc/sudoers \
   \
-  ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+  ; apt-get autoremove -y \
+  ; apt-get clean -y \
+  ; rm -rf /var/lib/apt/lists/* \
+  ;
 
-WORKDIR /world
 
 ENV DEBUGE=
 ENV PREBOOT=

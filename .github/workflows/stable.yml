@@ -71,7 +71,7 @@ jobs:
             PIP_FLAGS=
 
 
-      - name: trigger io:latest
+      - name: trigger io:root
         run: |
           for a in php7 java11; do
             curl -L -X POST https://api.github.com/repos/fj0r/0x/actions/workflows/${a}.yml/dispatches \

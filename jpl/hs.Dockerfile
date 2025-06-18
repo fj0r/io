@@ -10,13 +10,15 @@ ARG github_api=https://api.github.com/repos
 ARG stack_repo=commercialhaskell/stack
 
 RUN set -eux \
-  ; mkdir -p ${STACK_ROOT}/global-project && mkdir -p ${HOME}/.cabal \
+  ; mkdir -p ${STACK_ROOT}/global-project \
+  ; mkdir -p ${HOME}/.cabal \
   ; curl --retry 3 -sSL https://get.haskellstack.org/ | sh \
   ; git clone --depth=1 https://github.com/gibiansky/IHaskell ${IHASKELL_DATA_DIR} \
   ; cd ${IHASKELL_DATA_DIR} \
   ; stack config set system-ghc --global false \
   ; stack config set install-ghc --global true \
-  ; stack update && stack setup \
+  ; stack update \
+  ; stack setup \
   # pip: 去掉版本号,使用已安装版本
   ; sed -i 's/==.*$//g' requirements.txt \
   ; pip install --no-cache-dir ${PIP_FLAGS} -r requirements.txt \
@@ -51,8 +53,14 @@ RUN set -eux \
   ; rm -rf ${STACK_ROOT}/pantry/hackage/* \
   ; rm -rf ${STACK_ROOT}/pantry/pantry.sqlite3* \
   ; opwd=$PWD \
-  ; cd /world && stack new ${STACK_FLAGS} hello-rio rio && cd hello-rio && gen-hie > hie.yaml \
-  ; cd /world && stack new ${STACK_FLAGS} hello-haskell && cd hello-haskell && gen-hie > hie.yaml \
+  ; cd /world \
+  ; stack new ${STACK_FLAGS} hello-rio rio \
+  ; cd hello-rio \
+  ; gen-hie > hie.yaml \
+  ; cd /world \
+  ; stack new ${STACK_FLAGS} hello-haskell \
+  ; cd hello-haskell \
+  ; gen-hie > hie.yaml \
   ; cd $opwd \
   ; for x in config.yaml \
              templates \
@@ -68,7 +76,9 @@ RUN set -eux \
           | save -f ${STACK_ROOT}/global-project/stack.yaml" \
   ; cp ${IHASKELL_DATA_DIR}/stack.yaml.lock ${STACK_ROOT}/global-project \
   \
-  ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+  ; apt-get autoremove -y \
+  ; apt-get clean -y \
+  ; rm -rf /var/lib/apt/lists/*
 
 COPY _ghci ${HOME}/.ghci
 

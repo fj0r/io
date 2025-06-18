@@ -6,7 +6,8 @@ ENV LC_ALL=C.UTF-8
 ENV TIMEZONE=Asia/Shanghai
 
 RUN set -eux \
-  ; apk update && apk upgrade \
+  ; apk update \
+  ; apk upgrade \
   ; apk add --no-cache tzdata \
   ; ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime \
   ; echo "$TIMEZONE" > /etc/timezone \

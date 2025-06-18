@@ -1,4 +1,4 @@
-ARG BASEIMAGE=ghcr.io/fj0r/io:latest
+ARG BASEIMAGE=ghcr.io/fj0r/io:root
 FROM ${BASEIMAGE}
 
 #######################
