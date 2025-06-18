@@ -9,7 +9,7 @@ RUN set -eux \
   ; GO_VERSION=$(curl --retry 3 -sSL 'https://go.dev/VERSION?m=text' | head -n 1) \
   ; curl --retry 3 -sSL https://go.dev/dl/${GO_VERSION}.linux-amd64.tar.gz | sudo tar xzf - -C ${GOROOT} --strip-components=1 \
   #; go get -u -v \
-  ; sudo go mod download \
+  ; sudo env "PATH=$PATH" go mod download \
       github.com/duke-git/lancet/v2@latest \
       github.com/sirupsen/logrus@latest \
       github.com/spf13/viper@latest \
@@ -18,8 +18,8 @@ RUN set -eux \
       github.com/jinzhu/gorm@latest \
       github.com/jackc/pgx/v4@latest \
       2>&1 \
-  ; sudo go install golang.org/x/tools/gopls@latest \
-  ; sudo go install github.com/go-delve/delve/cmd/dlv@latest \
+  ; sudo env "PATH=$PATH" go install golang.org/x/tools/gopls@latest \
+  ; sudo env "PATH=$PATH" go install github.com/go-delve/delve/cmd/dlv@latest \
   ; sudo rm -rf $(go env GOCACHE)/* \
   ; find ${GOPATH}/bin -type f -exec grep -IL . "{}" \; | xargs -L 1 sudo strip -s \
   ; opwd=$PWD; cd ~/world \

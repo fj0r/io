@@ -30,19 +30,19 @@ ENV RUSTC_WRAPPER=/usr/local/bin/sccache
 RUN set -eux \
   ; curl --retry 3 -sSL https://sh.rustup.rs \
     | sudo sh -s -- --default-toolchain ${RUST_CHANNEL} -y --no-modify-path \
-  ; sudo rustup show active-toolchain || rustup toolchain install \
-  ; sudo rustup component add rust-src clippy rustfmt \
-  ; sudo rustup component add rust-analyzer \
-  ; sudo rustup target add x86_64-unknown-linux-musl \
-  ; sudo rustup target add wasm32-wasip1 wasm32-wasip2 wasm32-unknown-unknown \
-  ; sudo cargo install \
+  ; sudo env "PATH=$PATH" rustup show active-toolchain || rustup toolchain install \
+  ; sudo env "PATH=$PATH" rustup component add rust-src clippy rustfmt \
+  ; sudo env "PATH=$PATH" rustup component add rust-analyzer \
+  ; sudo env "PATH=$PATH" rustup target add x86_64-unknown-linux-musl \
+  ; sudo env "PATH=$PATH" rustup target add wasm32-wasip1 wasm32-wasip2 wasm32-unknown-unknown \
+  ; sudo env "PATH=$PATH" cargo install \
       cargo-pgo cargo-profiler \
       cargo-expand cargo-eval cargo-tree \
       cargo-feature cargo-prefetch \
       cargo-wasi rust-script trunk \
       dioxus-cli \
       #cargo-leptos \
-  ; sudo cargo prefetch \
+  ; sudo env "PATH=$PATH" cargo prefetch \
       clap figment tempdir \
       notify listenfd libc \
       url reqwest scraper minijinja markdown \

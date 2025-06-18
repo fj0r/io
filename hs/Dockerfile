@@ -25,13 +25,13 @@ RUN set -eux \
   ; sudo mkdir -p ${STACK_ROOT} \
   ; curl --retry 3 -sSLo ${GHCUP_ROOT}/bin/ghcup https://downloads.haskell.org/~ghcup/x86_64-linux-ghcup \
   ; sudo chmod +x ${GHCUP_ROOT}/bin/ghcup \
-  ; sudo ghcup install stack \
-  ; sudo ghcup install cabal \
-  ; sudo stack config set system-ghc --global true \
-  ; sudo stack config set install-ghc --global false \
+  ; sudo env "PATH=$PATH" ghcup install stack \
+  ; sudo env "PATH=$PATH" ghcup install cabal \
+  ; sudo env "PATH=$PATH" stack config set system-ghc --global true \
+  ; sudo env "PATH=$PATH" stack config set install-ghc --global false \
   \
   ; ghc_ver=$(curl -sSL ${STACK_INFO_URL} | rg '<h1>LTS Haskell.+\(.*?([0-9\.]+)\)' -or '$1') \
-  ; sudo ghcup -s '["GHCupURL", "StackSetupURL"]' install ghc $ghc_ver \
+  ; sudo env "PATH=$PATH" ghcup -s '["GHCupURL", "StackSetupURL"]' install ghc $ghc_ver \
   \
   ; for i in \
       tmp cache trash logs \
@@ -57,7 +57,7 @@ RUN set -eux \
 RUN set -eux \
   ; sudo mkdir -p ${LS_ROOT}/haskell/tmp \
   ; hls_version=$(curl --retry 3 -sSL https://api.github.com/repos/haskell/haskell-language-server/releases/latest | jq -r '.tag_name') \
-  ; ghc_version=$(sudo stack ghc -- --numeric-version) \
+  ; ghc_version=$(sudo env "PATH=$PATH" stack ghc -- --numeric-version) \
   ; curl --retry 3 -sSL https://downloads.haskell.org/~hls/haskell-language-server-${hls_version}/haskell-language-server-${hls_version}-x86_64-linux-unknown.tar.xz \
   | sudo tar Jxvf - -C ${LS_ROOT}/haskell/tmp --strip-components=1 \
   ; cd ${LS_ROOT}/haskell/tmp \
@@ -77,7 +77,7 @@ RUN set -eux \
   ;
 
 RUN set -eux \
-  ; sudo stack install ${STACK_FLAGS} \
+  ; sudo env "PATH=$PATH" stack install ${STACK_FLAGS} \
       ghcid implicit-hie haskell-dap ghci-dap haskell-debug-adapter \
       deepseq call-stack primitive ghc-prim \
       template-haskell aeson yaml  \
