@@ -10,7 +10,10 @@ RUN set -eux \
   ; sudo chown -R root:root ${NODE_ROOT}/lib \
   ; sudo npm cache clean -f \
   #; npx degit solidjs/templates/ts my-solid-project --yes \
-  ; sudo apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+  ; sudo apt-get autoremove -y \
+  ; sudo apt-get clean -y \
+  ; sudo rm -rf /var/lib/apt/lists/* \
+  ;
 
 RUN set -eux \
   ; sudo git clone --depth=1 https://github.com/microsoft/vscode-node-debug2.git ${LS_ROOT}/vscode-node-debug2 \

@@ -14,18 +14,25 @@ RUN set -eux \
   ; apt-get install -y --no-install-recommends \
         libicu-dev libffi-dev libgmp-dev zlib1g-dev \
         libncurses-dev libtinfo-dev libblas-dev liblapack-dev \
-  ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+  ; apt-get autoremove -y \
+  ; apt-get clean -y \
+  ; rm -rf /var/lib/apt/lists/*
 
 RUN set -eux \
   ; mkdir -p ${GHC_ROOT} \
   ; ghc_ver=$(curl --retry 3 -sSL ${STACK_INFO_URL} -H 'Accept: application/json' | jq -r '.snapshot.ghc') \
   ; ghc_url="https://downloads.haskell.org/~ghc/${ghc_ver}/ghc-${ghc_ver}-x86_64-${GHC_OS}-linux.tar.xz" \
-  ; mkdir ghc_install && curl --retry 3 -sSL ${ghc_url} \
+  ; mkdir ghc_install \
+  ; curl --retry 3 -sSL ${ghc_url} \
   | tar Jxf - -C ghc_install --strip-components=1 \
-  ; cd ghc_install && ./configure --prefix=${GHC_ROOT} && make install \
-  ; cd .. && rm -rf ghc_install \
+  ; cd ghc_install \
+  ; ./configure --prefix=${GHC_ROOT} \
+  ; make install \
+  ; cd .. \
+  ; rm -rf ghc_install \
   \
-  ; mkdir -p ${STACK_ROOT} && mkdir -p ${HOME}/.cabal \
+  ; mkdir -p ${STACK_ROOT} \
+  ; mkdir -p ${HOME}/.cabal \
   ; curl --retry 3 -sSL https://get.haskellstack.org/ | sh \
   #; stack update \
   ; stack config set system-ghc --global true \
@@ -59,8 +66,14 @@ RUN set -eux \
       hmatrix linear statistics ad integration \
   ; rm -rf ${STACK_ROOT}/pantry/hackage/* \
   ; opwd=$PWD \
-  ; cd /world && stack new ${STACK_FLAGS} ${STACK_RESOLVER} hello-rio rio && cd hello-rio && gen-hie > hie.yaml \
-  ; cd /world && stack new ${STACK_FLAGS} ${STACK_RESOLVER} hello-haskell && cd hello-haskell && gen-hie > hie.yaml \
+  ; cd /world \
+  ; stack new ${STACK_FLAGS} ${STACK_RESOLVER} hello-rio rio \
+  ; cd hello-rio \
+  ; gen-hie > hie.yaml \
+  ; cd /world \
+  ; stack new ${STACK_FLAGS} ${STACK_RESOLVER} hello-haskell \
+  ; cd hello-haskell \
+  ; gen-hie > hie.yaml \
   ; cd $opwd \
   ; for x in config.yaml \
              templates \
@@ -83,7 +96,8 @@ RUN set -eux \
   ; if [ -e "bin/haskell-language-server-${ghc_version}" ]; then cp bin/haskell-language-server-${ghc_version} ${LS_ROOT}/haskell/bin ; fi \
   ; if [ -e "bin/haskell-language-server-wrapper" ]; then cp bin/haskell-language-server-wrapper ${LS_ROOT}/haskell/bin ; fi \
   ; if [ -e "lib/${ghc_version}" ]; then cp -r lib/${ghc_version} ${LS_ROOT}/haskell/lib ; fi \
-  ; cd $opwd && rm -rf /tmp/hls \
+  ; cd $opwd \
+  ; rm -rf /tmp/hls \
   ; find ${LS_ROOT}/haskell -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s \
   ;
 

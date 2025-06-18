@@ -17,7 +17,9 @@ RUN set -ex \
       libcairo2-dev libpango1.0-dev libmagic-dev \
       # stack
       libicu-dev libffi-dev libgmp-dev zlib1g-dev \
-  ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+  ; apt-get autoremove -y \
+  ; apt-get clean -y \
+  ; rm -rf /var/lib/apt/lists/*
 
 
 ### Racket
@@ -62,7 +64,8 @@ RUN set -eux \
 #ENV OPAMROOT=/opt/opam OPAMROOTISOK=1 OPAMVERSION=2.0.4
 #ENV PATH=${OPAMROOT}/default/bin:$PATH
 #RUN set -ex \
-#  ; apt-get install -y --no-install-recommends m4 bubblewrap libcairo2-dev && apt-get clean \
+#  ; apt-get install -y --no-install-recommends m4 bubblewrap libcairo2-dev \
+#  ; apt-get clean \
 #  ; curl --retry 3 -sSLo /usr/local/bin/opam https://github.com/ocaml/opam/releases/download/${OPAMVERSION}/opam-${OPAMVERSION}-x86_64-linux \
 #  ; chmod +x /usr/local/bin/opam \
 #  #; sudo sysctl kernel.unprivileged_userns_clone=1 \
@@ -85,7 +88,8 @@ RUN set -eux \
 #  ; apt-get clean \
 #  ; curl --retry 3 -sSL https://downloads.lightbend.com/scala/$SCALA_VERSION/scala-$SCALA_VERSION.tgz \
 #  | tar xzf - -C ${SCALA_HOME} --strip-components=1  \
-#  ; curl --retry 3 -sSLo coursier https://git.io/coursier-cli && chmod +x coursier \
+#  ; curl --retry 3 -sSLo coursier https://git.io/coursier-cli \
+#  ; chmod +x coursier \
 #  ; ./coursier bootstrap \
 #      -r jitpack \
 #      -i user -I user:sh.almond:scala-kernel-api_$SCALA_VERSION:$ALMOND_VERSION \
@@ -110,8 +114,11 @@ RUN set -eux \
 #   ; apt-get update \
 #   ; apt-get install -y --no-install-recommends \
 #       lua5.3 luarocks lua-dkjson \
-#   ; apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
-#   ; cd /usr/bin && ln -fsr lua5.3 lua \
+#   ; apt-get autoremove -y \
+#   ; apt-get clean -y \
+#   ; rm -rf /var/lib/apt/lists/* \
+#   ; cd /usr/bin \
+#   ; ln -fsr lua5.3 lua \
 #   ; cd ${HOME} \
 #   ; git clone --depth=1 https://github.com/guysv/ilua.git --recurse-submodules \
 #   ; cd ilua \

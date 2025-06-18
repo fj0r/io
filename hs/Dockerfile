@@ -15,11 +15,14 @@ RUN set -eux \
   ; sudo apt-get install -y --no-install-recommends \
         libicu-dev libffi-dev libgmp-dev zlib1g-dev \
         libncurses-dev libtinfo-dev libblas-dev liblapack-dev \
-  ; sudo apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+  ; sudo apt-get autoremove -y \
+  ; sudo apt-get clean -y \
+  ; sudo rm -rf /var/lib/apt/lists/* \
+  ;
 
 RUN set -eux \
   ; sudo mkdir -p ${GHCUP_ROOT}/bin \
-  ;  sudomkdir -p ${STACK_ROOT} \
+  ; sudo mkdir -p ${STACK_ROOT} \
   ; curl --retry 3 -sSLo ${GHCUP_ROOT}/bin/ghcup https://downloads.haskell.org/~ghcup/x86_64-linux-ghcup \
   ; sudo chmod +x ${GHCUP_ROOT}/bin/ghcup \
   ; sudo ghcup install stack \
@@ -52,7 +55,7 @@ RUN set -eux \
   ;
 
 RUN set -eux \
-   sudo; mkdir -p ${LS_ROOT}/haskell/tmp \
+  ; sudo mkdir -p ${LS_ROOT}/haskell/tmp \
   ; hls_version=$(curl --retry 3 -sSL https://api.github.com/repos/haskell/haskell-language-server/releases/latest | jq -r '.tag_name') \
   ; ghc_version=$(sudo stack ghc -- --numeric-version) \
   ; curl --retry 3 -sSL https://downloads.haskell.org/~hls/haskell-language-server-${hls_version}/haskell-language-server-${hls_version}-x86_64-linux-unknown.tar.xz \
@@ -68,7 +71,8 @@ RUN set -eux \
             cp -r \$x \$tg \
         } \
     }" \
-  ; cd .. && sudo rm -rf tmp \
+  ; cd .. \
+  ; sudo rm -rf tmp \
   ; find ${LS_ROOT}/haskell -type f -exec grep -IL . "{}" \; | xargs -L 1 sudo strip -s \
   ;
 
@@ -107,8 +111,14 @@ RUN set -eux \
       # katip monad-logger \
   ; sudo rm -rf ${STACK_ROOT}/pantry/hackage/* \
   ; opwd=$PWD \
-  ; cd ~/world && stack new ${STACK_FLAGS} hello-rio rio && cd hello-rio && gen-hie > hie.yaml \
-  ; cd ~/world && stack new ${STACK_FLAGS} hello-haskell && cd hello-haskell && gen-hie > hie.yaml \
+  ; cd ~/world \
+  ; stack new ${STACK_FLAGS} hello-rio rio \
+  ; cd hello-rio \
+  ; gen-hie > hie.yaml \
+  ; cd ~/world \
+  ; stack new ${STACK_FLAGS} hello-haskell \
+  ; cd hello-haskell \
+  ; gen-hie > hie.yaml \
   ; cd $opwd \
   ; for x in config.yaml \
              templates \

@@ -13,7 +13,10 @@ RUN set -eux \
     valgrind \
     pkg-config libssl-dev lldb libxml2 \
     musl musl-dev musl-tools \
-  ; sudo apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+  ; sudo apt-get autoremove -y \
+  ; sudo apt-get clean -y \
+  ; sudo rm -rf /var/lib/apt/lists/* \
+  ;
 
 RUN set -eux \
   ; sccache_ver=$(curl --retry 3 -sSL https://api.github.com/repos/mozilla/sccache/releases/latest | jq -r '.tag_name') \
