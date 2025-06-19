@@ -116,9 +116,12 @@ RUN set -eux \
   ; cd hello-rio \
   ; gen-hie > hie.yaml \
   ; cd /home/master/world \
+  ; chown master:master -R hello-rio \
   ; stack new ${STACK_FLAGS} hello-haskell \
   ; cd hello-haskell \
   ; gen-hie > hie.yaml \
+  ; cd /home/master/world \
+  ; chown master:master -R hello-haskell \
   ; cd $opwd \
   ; for x in config.yaml \
              templates \

@@ -88,8 +88,18 @@ jobs:
         with:
           context: box
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:root
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             PIP_FLAGS=--break-system-packages
 
+      - name: Wrap
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: user.Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            BASEIMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:root

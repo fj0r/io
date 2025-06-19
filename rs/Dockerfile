@@ -73,11 +73,10 @@ RUN set -eux \
   #; chmod +x ${LS_ROOT}/rust/bin/rust-analyzer \
   #; strip -s ${LS_ROOT}/rust/bin/rust-analyzer \
 RUN set -eux \
-  #; export USER=root \
-  ; { \
-      echo '[build]' ;\
-      echo 'target-dir = "/tmp/cargo/target"' ;\
-    } | tee ${CARGO_HOME}/config.toml \
+  #; { \
+  #    echo '[build]' ;\
+  #    echo 'target-dir = "/tmp/cargo/target"' ;\
+  #  } | tee ${CARGO_HOME}/config.toml \
   ; opwd=$PWD; cd /home/master/world \
   ; PROJ=hello-rust \
   ; cargo new $PROJ \
@@ -85,4 +84,7 @@ RUN set -eux \
   #; cargo wasi build --release \
   ; cargo build --target=wasm32-wasip1 --release \
   ; rm -rf target \
-  ; cd $opwd
+  ; cd .. \
+  ; chown master:master -R $PROJ \
+  ; cd $opwd \
+  ;

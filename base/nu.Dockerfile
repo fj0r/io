@@ -27,6 +27,8 @@ RUN set -eux \
   ; echo '/usr/local/bin/nu' >> /etc/shells \
   ; MASTER=master \
   ; useradd -mU -G sudo,root -s /usr/local/bin/nu $MASTER \
+  ; mkdir -p /home/$MASTER/world \
+  ; chown -R $MASTER:$MASTER /home/$MASTER/world \
   ; XDG_CONFIG_HOME=/home/${MASTER}/.config \
   \
   ; git clone --depth=3 https://github.com/fj0r/nushell.git $XDG_CONFIG_HOME/nushell \

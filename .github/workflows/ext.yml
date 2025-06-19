@@ -109,8 +109,18 @@ jobs:
         with:
           context: rs
           push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:rust
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Wrap rust
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: user.Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:rs
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: BASEIMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:rust
 
       - name: Build hs
         uses: docker/build-push-action@v4
@@ -122,7 +132,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             MESSAGE=${{ github.event.head_commit.message }}
-            BASEIMAGE=ghcr.io/fj0r/io:rs
+            BASEIMAGE=ghcr.io/fj0r/io:rust
             STACK_INFO_URL=https://www.stackage.org/lts
             STACK_RESOLVER=
             GHC_OS=deb11
@@ -141,16 +151,6 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hs
           labels: ${{ steps.meta.outputs.labels }}
           build-args: BASEIMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hs
-
-      - name: Wrap rust
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: user.Dockerfile
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:rs
-          labels: ${{ steps.meta.outputs.labels }}
-          build-args: BASEIMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:rs
 
 
       - name: Delete untagged ghcr
