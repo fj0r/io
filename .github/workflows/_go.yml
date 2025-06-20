@@ -6,23 +6,23 @@ name: go
 # documentation.
 
 on:
-  workflow_run:
-    workflows: [ base ]
-    branches: [ master ]
-    types:
-      - completed
+  push:
+    branches: [ go ]
+    # Publish semver tags as releases.
+    tags: [ 'v*.*.*' ]
+  workflow_dispatch:
 
 env:
-  REGISTRY: docker.io
+  REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
-  IMAGE_NAME: fj0rd/io
+  IMAGE_NAME: fj0r/io
 
 
 jobs:
   build:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     runs-on: ubuntu-latest
+    if: ${{ !endsWith(github.event.head_commit.message, '~') }}
     permissions:
       contents: read
       packages: write
@@ -39,7 +39,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: fj0rd
-          password: ${{ secrets.DOCKER }}
+          password: ${{ secrets.GHCR_TOKEN }}
 
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
@@ -50,10 +50,19 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Build go
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: go
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:go
           labels: ${{ steps.meta.outputs.labels }}
 
+      - name: Wrap go
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: user.Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:go
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: BASEIMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:go
