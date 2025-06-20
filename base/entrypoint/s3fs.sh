@@ -1,5 +1,5 @@
 # s3fs if s3_id=mount,user,endpoint,region,bucket,accesskey,secretkey,opts...
-# opts: nonempty,a=1,b=2
+# opts: nonempty,use_path_request_style,a=1,b=2
 
 run_s3 () {
     IFS=',' read -ra ARR <<< "$2"
@@ -22,12 +22,7 @@ run_s3 () {
     done
 
     local name=${_mount////_}
-    local logfile
-    if [[ -n "$stdlog" ]]; then
-        logfile=/dev/stdout
-    else
-        logfile=/var/log/s3fs_${name}
-    fi
+    local logfile=/var/log/s3fs_${name}
 
     if [[ ! -d /.s3fs-passwd ]]; then
         sudo mkdir /.s3fs-passwd
@@ -35,7 +30,7 @@ run_s3 () {
     _authfile=/.s3fs-passwd/$name
     echo authfile $_authfile
 
-    echo "${_accesskey}:${_secretkey}" | sudo tee $_authfile
+    echo "${_accesskey}:${_secretkey}" | sudo tee $_authfile > /dev/null
     sudo chmod go-rwx $_authfile
     sudo chown $_user $_authfile
     sudo mkdir -p $_mount
@@ -48,7 +43,7 @@ run_s3 () {
     fi
     cmd="sudo -u $_user s3fs -f $_opt -o bucket=$_bucket -o passwd_file=$_authfile -o url=$_endpoint $_region $_mount"
     echo $cmd
-    eval $cmd 2>&1 | sudo tee -a $logfile > /dev/null  &
+    eval $cmd 2>&1 | sudo tee -a $logfile &
     echo -n "$! " | sudo tee -a /var/run/services > /dev/null
 }
 
