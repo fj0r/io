@@ -22,6 +22,7 @@ RUN set -eux \
   ; go install github.com/go-delve/delve/cmd/dlv@latest \
   ; rm -rf $(go env GOCACHE)/* \
   ; find ${GOPATH}/bin -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s \
+  ; chown master:master -R $GOPATH \
   ; opwd=$PWD; cd /home/master/world \
   ; PROJ=hello-go \
   ; mkdir $PROJ \
@@ -29,6 +30,8 @@ RUN set -eux \
   ; go mod init $PROJ \
   ; printf "package main\n\nimport \"fmt\"\n\nimport \"rsc.io/quote\"\n\nfunc main() {\n    fmt.Println(quote.Go())\n}\n" > hello.go \
   ; go mod tidy \
+  ; cd .. \
+  ; chown master:master -R $PROJ \
   #; go run . \
   ; cd $opwd \
   ; go env -w GOPROXY=https://goproxy.cn,direct

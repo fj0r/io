@@ -80,7 +80,7 @@ RUN set -eux \
              stack.sqlite3.pantry-write-lock \
              pantry/pantry.sqlite3.pantry-write-lock \
   ; do chmod 777 ${STACK_ROOT}/$x; done \
-  ; chmod -R 777 ${STACK_ROOT}/global-project
+  ; chmod 777 -R ${STACK_ROOT}/global-project
 
 COPY _ghci /root/.ghci
 

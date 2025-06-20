@@ -1,4 +1,4 @@
-ARG BASEIMAGE=ghcr.io/fj0r/io:rs
+ARG BASEIMAGE=ghcr.io/fj0r/io:rust
 FROM ${BASEIMAGE}
 
 ARG STACK_FLAGS="--local-bin-path=/usr/local/bin --no-interleaved-output"
@@ -128,6 +128,6 @@ RUN set -eux \
              stack.sqlite3.pantry-write-lock \
              pantry/pantry.sqlite3.pantry-write-lock \
   ; do chmod 777 ${STACK_ROOT}/$x; done \
-  ; chmod -R 777 ${STACK_ROOT}/global-project
+  ; chmod 777 -R ${STACK_ROOT}/global-project
 
 COPY _ghci /root/.ghci

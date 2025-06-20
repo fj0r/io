@@ -57,5 +57,5 @@ RUN set -eux \
         pyright \
         vscode-langservers-extracted \
         yaml-language-server \
-  ; chown -R root:root ${NODE_ROOT}/lib \
+  ; chown root:root -R ${NODE_ROOT}/lib \
   ; npm cache clean -f \

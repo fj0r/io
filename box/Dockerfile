@@ -69,7 +69,7 @@ RUN set -eux \
         pyright \
         vscode-langservers-extracted \
         yaml-language-server \
-  ; chown -R root:root ${NODE_ROOT}/lib \
+  ; chown root:root -R ${NODE_ROOT}/lib \
   ; npm cache clean -f \
   \
   ; lslua_ver=$(curl --retry 3 -sSL https://api.github.com/repos/LuaLS/lua-language-server/releases/latest | jq -r '.tag_name') \

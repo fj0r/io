@@ -7,7 +7,7 @@ RUN set -eux \
   ; npm install --location=global \
         typescript typescript-language-server vite \
         solid-js solid-start vite-plugin-solid \
-  ; chown -R root:root ${NODE_ROOT}/lib \
+  ; chown root:root -R ${NODE_ROOT}/lib \
   ; npm cache clean -f \
   #; npx degit solidjs/templates/ts my-solid-project --yes \
   ; apt-get autoremove -y \
@@ -20,6 +20,6 @@ RUN set -eux \
   ; cd ${LS_ROOT}/vscode-node-debug2 \
   ; npm install \
   ; NODE_OPTIONS=--no-experimental-fetch npm run build \
-  ; chown -R root:root ${LS_ROOT}/vscode-node-debug2 \
+  ; chown root:root -R ${LS_ROOT}/vscode-node-debug2 \
   ; npm cache clean -f
 

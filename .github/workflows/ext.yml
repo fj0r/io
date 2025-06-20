@@ -92,7 +92,6 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:js
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: BASEIMAGE=ghcr.io/fj0r/io:root
 
       - name: Wrap js
         uses: docker/build-push-action@v4

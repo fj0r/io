@@ -68,7 +68,7 @@ RUN set -eux \
              pantry/pantry.sqlite3.pantry-write-lock \
              snapshots/x86_64-linux-tinfo6 \
   ; do chmod 777 ${STACK_ROOT}/$x; done \
-  ; chmod -R 777 ${STACK_ROOT}/global-project \
+  ; chmod 777 -R ${STACK_ROOT}/global-project \
   \
   ; echo "packages: []" > ${STACK_ROOT}/global-project/stack.yaml \
   ; nu -c "open ${STACK_ROOT}/global-project/stack.yaml \

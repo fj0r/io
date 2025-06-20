@@ -28,12 +28,12 @@ RUN set -eux \
   ; MASTER=master \
   ; useradd -mU -G sudo,root -s /usr/local/bin/nu $MASTER \
   ; mkdir -p /home/$MASTER/world \
-  ; chown -R $MASTER:$MASTER /home/$MASTER/world \
+  ; chown $MASTER:$MASTER -R /home/$MASTER/world \
   ; XDG_CONFIG_HOME=/home/${MASTER}/.config \
   \
   ; git clone --depth=3 https://github.com/fj0r/nushell.git $XDG_CONFIG_HOME/nushell \
   ; opwd=$PWD; cd $XDG_CONFIG_HOME/nushell; git log -1 --date=iso; cd $opwd \
-  ; chown -R $MASTER:$MASTER $XDG_CONFIG_HOME/nushell \
+  ; chown $MASTER:$MASTER -R $XDG_CONFIG_HOME/nushell \
   ; echo '$env.NU_POWER_CONFIG.theme.color.normal = "xterm_olive"' >> /home/${MASTER}/.nu \
   \
   ; nvim_ver=$(curl --retry 3 -sSL https://api.github.com/repos/neovim/neovim/releases/latest | jq -r '.tag_name') \
@@ -42,7 +42,7 @@ RUN set -eux \
   ; strip -s /usr/local/bin/nvim \
   ; git clone --depth=3 https://github.com/fj0r/nvim-lua.git $XDG_CONFIG_HOME/nvim \
   ; opwd=$PWD; cd $XDG_CONFIG_HOME/nvim; git log -1 --date=iso; cd $opwd \
-  ; chown -R $MASTER:$MASTER $XDG_CONFIG_HOME/nvim \
+  ; chown $MASTER:$MASTER -R $XDG_CONFIG_HOME/nvim \
   ; sudo -u $MASTER nvim --headless "+Lazy! sync" +qa \
   ; rm -rf $XDG_CONFIG_HOME/nvim/lazy/packages/*/.git \
   \
