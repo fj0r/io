@@ -30,7 +30,7 @@ run_s3 () {
     fi
 
     if [[ ! -d /.s3fs-passwd ]]; then
-        mkdir /.s3fs-passwd
+        sudo mkdir /.s3fs-passwd
     fi
     _authfile=/.s3fs-passwd/$name
     echo authfile $_authfile
@@ -48,8 +48,8 @@ run_s3 () {
     fi
     cmd="sudo -u $_user s3fs -f $_opt -o bucket=$_bucket -o passwd_file=$_authfile -o url=$_endpoint $_region $_mount"
     echo $cmd
-    eval $cmd &> $logfile  &
-    echo -n "$! " | sudo tee -a /var/run/services
+    eval $cmd 2>&1 | sudo tee -a $logfile > /dev/null  &
+    echo -n "$! " | sudo tee -a /var/run/services > /dev/null
 }
 
 __s3=$(for i in "${!s3_@}"; do echo $i; done)
