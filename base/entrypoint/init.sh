@@ -21,7 +21,7 @@ stop() {
     # Wait for exit
     wait ${pid}
     # All done.
-    echo -n '' > /var/run/services
+    echo -n '' | sudo tee /var/run/services > /dev/null
     echo "Done."
 }
 
@@ -52,7 +52,7 @@ if [[ -z $1 ]]; then
 elif [[ $1 == "srv" ]]; then
     echo "[$(date -Is)] enter srv mode"
     sleep infinity &
-    echo -n "$! " >> /var/run/services
+    echo -n "$! " | sudo tee -a /var/run/services > /dev/null
     wait -n $(cat /var/run/services) && exit $?
 else
     echo "[$(date -Is)] enter batch mode"

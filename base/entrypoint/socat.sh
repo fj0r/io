@@ -8,7 +8,7 @@ run_socat () {
 
     cmd="socat $1-listen:$2,reuseaddr,fork $1:$3"
     eval "$cmd &> $logfile &"
-    echo -n "$! " >> /var/run/services
+    echo -n "$! " | sudo tee -a /var/run/services
     echo "$1:$2--> $3"
 }
 

@@ -35,11 +35,11 @@ run_s3 () {
     _authfile=/.s3fs-passwd/$name
     echo authfile $_authfile
 
-    echo "${_accesskey}:${_secretkey}" > $_authfile
-    chmod go-rwx $_authfile
-    chown $_user $_authfile
-    mkdir -p $_mount
-    chown $_user $_mount
+    echo "${_accesskey}:${_secretkey}" | sudo tee $_authfile
+    sudo chmod go-rwx $_authfile
+    sudo chown $_user $_authfile
+    sudo mkdir -p $_mount
+    sudo chown $_user $_mount
 
     if [[ -n "${_region}" ]]; then
         _region="-o endpoint=$_region"
@@ -49,7 +49,7 @@ run_s3 () {
     cmd="sudo -u $_user s3fs -f $_opt -o bucket=$_bucket -o passwd_file=$_authfile -o url=$_endpoint $_region $_mount"
     echo $cmd
     eval $cmd &> $logfile  &
-    echo -n "$! " >> /var/run/services
+    echo -n "$! " | sudo tee -a /var/run/services
 }
 
 __s3=$(for i in "${!s3_@}"; do echo $i; done)
