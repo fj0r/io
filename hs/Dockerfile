@@ -130,4 +130,4 @@ RUN set -eux \
   ; do chmod 777 ${STACK_ROOT}/$x; done \
   ; chmod 777 -R ${STACK_ROOT}/global-project
 
-COPY _ghci /root/.ghci
+COPY _ghci /home/master/.ghci

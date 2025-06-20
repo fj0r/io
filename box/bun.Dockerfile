@@ -51,7 +51,7 @@ ENV BUILD_DEPS="\
     cmake \
     "
 
-COPY bunfig.toml /root/.bunfig.toml
+COPY bunfig.toml /home/master/.bunfig.toml
 
 RUN set -eux \
   ; apt update \
@@ -69,16 +69,18 @@ RUN set -eux \
   ; rm -rf /tmp/bun \
   \
   ; mkdir -p ${LS_ROOT} \
-  ; bun install --config=/root/.bunfig.toml --global --no-cache \
+  ; bun install --config=/home/master/.bunfig.toml --global --no-cache \
         @typespec/compiler @typespec/json-schema \
         pyright \
         vscode-langservers-extracted \
         yaml-language-server \
+  ; chown master:master -R /opt/bun \
   \
   ; lslua_ver=$(curl --retry 3 -sSL https://api.github.com/repos/LuaLS/lua-language-server/releases/latest | jq -r '.tag_name') \
   ; lslua_url="https://github.com/LuaLS/lua-language-server/releases/latest/download/lua-language-server-${lslua_ver}-linux-x64.tar.gz" \
   ; mkdir -p ${LS_ROOT}/lua \
   ; curl --retry 3 -sSL ${lslua_url} | tar zxf - -C ${LS_ROOT}/lua \
+  ; chown master:master -R ${LS_ROOT}/lua \
   \
   ; apt-get purge -y --auto-remove ${BUILD_DEPS:-} \
   ; apt-get clean -y \

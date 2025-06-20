@@ -76,6 +76,7 @@ RUN set -eux \
   ; lslua_url="https://github.com/LuaLS/lua-language-server/releases/latest/download/lua-language-server-${lslua_ver}-linux-x64.tar.gz" \
   ; mkdir -p ${LS_ROOT}/lua \
   ; curl --retry 3 -sSL ${lslua_url} | tar zxf - -C ${LS_ROOT}/lua \
+  ; chown master:master -R ${LS_ROOT}/lua \
   \
   ; apt-get purge -y --auto-remove ${BUILD_DEPS:-} \
   ; apt-get clean -y \
