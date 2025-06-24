@@ -58,12 +58,12 @@ RUN set -eux \
       wasm-bindgen wasm-bindgen-futures wasm-logger \
       dioxus dioxus-web \
       sycamore gloo-net \
-      serde serde_derive serde_json serde_json_path \
-      serde_cbor schemars \
+      serde serde_derive serde_with serde_json_path \
+      serde_json serde_cbor schemars \
       tracing tracing-subscriber tracing-serde \
-      time lru-cache itertools \
+      chrono lru-cache itertools \
       bitflags num fnv \
-      ndarray polars rayon dfdx linfa \
+      ndarray polars rayon linfa burn \
   ; rm -rf ${CARGO_HOME}/registry/src/*
   #; find ${CARGO_HOME}/bin -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s
 
