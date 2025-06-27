@@ -27,8 +27,8 @@ RUN set -eux \
   ; echo '/usr/local/bin/nu' >> /etc/shells \
   ; MASTER=master \
   ; useradd -mU -G sudo,root -s /usr/local/bin/nu $MASTER \
-  ; mkdir -p /home/$MASTER/world \
-  ; chown $MASTER:$MASTER -R /home/$MASTER/world \
+  ; mkdir -p /world \
+  ; chown $MASTER:$MASTER -R /world \
   ; XDG_CONFIG_HOME=/home/${MASTER}/.config \
   \
   ; git clone --depth=3 https://github.com/fj0r/nushell.git $XDG_CONFIG_HOME/nushell \
@@ -51,5 +51,5 @@ RUN set -eux \
   ; rm -rf /var/lib/apt/lists/* \
   ;
 
-VOLUME /home/master/world
-WORKDIR /home/master/world
+VOLUME /world
+WORKDIR /world

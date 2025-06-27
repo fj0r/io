@@ -22,7 +22,7 @@ RUN set -eux \
   ; go install github.com/go-delve/delve/cmd/dlv@latest \
   ; rm -rf $(go env GOCACHE)/* \
   ; find ${GOPATH}/bin -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s \
-  ; opwd=$PWD; cd /home/master/world \
+  ; opwd=$PWD; cd /world \
   ; PROJ=hello-go \
   ; mkdir $PROJ \
   ; cd $PROJ \
