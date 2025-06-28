@@ -30,11 +30,14 @@ RUN set -eux \
   ; mkdir -p /world \
   ; chown $MASTER:$MASTER -R /world \
   ; XDG_CONFIG_HOME=/home/${MASTER}/.config \
+  ; mkdir -p $XDG_CONFIG_HOME \
+  ; chown $MASTER:$MASTER -R $XDG_CONFIG_HOME \
   \
   ; git clone --depth=3 https://github.com/fj0r/nushell.git $XDG_CONFIG_HOME/nushell \
   ; opwd=$PWD; cd $XDG_CONFIG_HOME/nushell; git log -1 --date=iso; cd $opwd \
   ; chown $MASTER:$MASTER -R $XDG_CONFIG_HOME/nushell \
   ; echo '$env.NU_POWER_CONFIG.theme.color.normal = "xterm_olive"' >> /home/${MASTER}/.nu \
+  ; chown $MASTER:$MASTER /home/${MASTER}/.nu \
   \
   ; nvim_ver=$(curl --retry 3 -sSL https://api.github.com/repos/neovim/neovim/releases/latest | jq -r '.tag_name') \
   ; nvim_url="https://github.com/neovim/neovim/releases/download/${nvim_ver}/nvim-linux-x86_64.tar.gz" \
