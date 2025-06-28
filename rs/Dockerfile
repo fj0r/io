@@ -62,6 +62,7 @@ RUN set -eux \
       serde_json serde_cbor schemars \
       tracing tracing-subscriber tracing-serde \
       chrono lru-cache itertools \
+      jemallocator mimalloc \
       bitflags num fnv \
       ndarray polars rayon linfa burn \
   ; rm -rf ${CARGO_HOME}/registry/src/*
