@@ -2,9 +2,9 @@ FROM ghcr.io/fj0r/io:root
 ARG PIP_FLAGS="--break-system-packages"
 ARG PIP_INDEX_PYTORCH="--index-url https://download.pytorch.org/whl/cpu"
 
-ENV LANG=zh_CN.UTF-8
-ENV HOME=/root
+ENV HOME=/home/master
 ENV PATH=${HOME}/.local/bin:$PATH
+ENV LANG=zh_CN.UTF-8
 
 WORKDIR ${HOME}
 
@@ -72,3 +72,4 @@ RUN set -ex \
 
 COPY entrypoint/marimo.sh /entrypoint/
 CMD ["srv"]
+USER master
