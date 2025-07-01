@@ -44,14 +44,14 @@ RUN set -eux \
       #cargo-leptos \
   ; cargo prefetch \
       clap figment tempdir \
-      notify listenfd libc \
-      url reqwest scraper minijinja markdown \
-      anyhow thiserror snafu \
+      snafu anyhow thiserror \
       proc-macro2 syn quote macro_rules_attribute \
+      notify listenfd libc mimalloc \
+      url reqwest scraper minijinja markdown \
       nom linkme regex refined_type \
       crossbeam wasmtime crb \
       tokio tokio-tungstenite smol async-compat \
-      async-fs async-graphql \
+      async-fs async-graphql sqlx \
       # warp async-graphql-warp \
       axum async-graphql-axum \
       # wasm-pack wee_alloc leptos \
@@ -61,8 +61,7 @@ RUN set -eux \
       serde serde_derive serde_with serde_json_path \
       serde_json serde_cbor schemars \
       tracing tracing-subscriber tracing-serde \
-      chrono lru-cache itertools \
-      jemallocator mimalloc \
+      chrono lru-cache itertools normpath \
       bitflags num fnv \
       ndarray polars rayon linfa burn \
   ; rm -rf ${CARGO_HOME}/registry/src/*
