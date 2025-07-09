@@ -69,12 +69,13 @@ RUN set -eux \
   ; rm -rf /tmp/bun \
   \
   ; mkdir -p ${LS_ROOT} \
-  ; bun install --config=/home/master/.bunfig.toml --global --no-cache \
+  ; chown master:master -R ${BUN_ROOT} \
+  ; sudo -u master ${BUN_ROOT}/bin/bun \
+    install --config=/home/master/.bunfig.toml --global --no-cache \
         @typespec/compiler @typespec/json-schema \
         pyright \
         vscode-langservers-extracted \
         yaml-language-server \
-  ; chown master:master -R /opt/bun \
   \
   ; lslua_ver=$(curl --retry 3 -sSL https://api.github.com/repos/LuaLS/lua-language-server/releases/latest | jq -r '.tag_name') \
   ; lslua_url="https://github.com/LuaLS/lua-language-server/releases/latest/download/lua-language-server-${lslua_ver}-linux-x64.tar.gz" \
