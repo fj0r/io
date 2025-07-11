@@ -61,8 +61,8 @@ RUN set -eux \
       serde serde_derive serde_with serde_json_path \
       serde_json serde_cbor schemars \
       tracing tracing-subscriber tracing-serde \
-      chrono lru-cache itertools normpath \
-      bitflags num fnv \
+      chrono lru-cache itertools \
+      dashmap bitflags num \
       ndarray polars rayon linfa burn \
   ; rm -rf ${CARGO_HOME}/registry/src/*
   #; find ${CARGO_HOME}/bin -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s
