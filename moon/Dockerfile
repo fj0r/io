@@ -1,8 +1,9 @@
 ARG BASEIMAGE=ghcr.io/fj0r/io:root
 FROM ${BASEIMAGE}
 
+ENV PATH=/home/master/.moon/bin:$PATH
+
 RUN set -eux \
-  ; curl -sSL https://cli.moonbitlang.com/binaries/latest/moonbit-linux-x86_64.tar.gz \
-    | tar zxvf - --strip-components=1 -C /usr/local \
-  ; chmod +x /usr/local/bin/moon* \
+  ; curl -fsSL https://cli.moonbitlang.com/install/unix.sh \
+    | sudo -u master bash \
   ;
