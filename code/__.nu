@@ -6,7 +6,7 @@ export def 'build code-server' [] {
     mut args = []
     $args ++= ["--build-arg" $"BASEIMAGE=($base)"]
     let $dockerfile = open -r Dockerfile
-    | str replace -mr '^(FROM \$\{BASEIMAGE\})$' $"$1 as build($proxy)"
+    | str replace -mr '^(FROM \$\{BASEIMAGE\})$' $"$1 AS build($proxy)"
     $"_: |-
 
     FROM ${BASEIMAGE}

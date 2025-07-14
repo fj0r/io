@@ -64,8 +64,10 @@ RUN set -eux \
       chrono lru-cache itertools \
       dashmap bitflags num \
       ndarray polars rayon linfa burn \
-  ; rm -rf ${CARGO_HOME}/registry/src/*
+  ; rm -rf ${CARGO_HOME}/registry/src/* \
+  ; chown master:master -R ${CARGO_HOME} \
   #; find ${CARGO_HOME}/bin -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s
+  ;
 
   #; mkdir -p ${LS_ROOT}/rust/bin \
   #; ra_url="https://github.com/rust-lang/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-unknown-linux-gnu.gz" \

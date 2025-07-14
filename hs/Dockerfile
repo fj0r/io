@@ -78,7 +78,8 @@ RUN set -eux \
 
 RUN set -eux \
   ; stack install ${STACK_FLAGS} \
-      ghcid implicit-hie haskell-dap ghci-dap haskell-debug-adapter \
+      ghcid implicit-hie haskell-dap \
+      # ghci-dap haskell-debug-adapter \
       deepseq call-stack primitive ghc-prim \
       template-haskell aeson yaml  \
       classy-prelude base binary bytestring text \
@@ -86,14 +87,15 @@ RUN set -eux \
       time directory filepath \
       shelly process unix \
       req websockets network servant wai warp network-uri \
-      lens recursion-schemes free extensible-effects extensible-exceptions \
+      # extensible-effects extensible-exceptions
+      lens recursion-schemes free \
       megaparsec Earley \
       singletons \
       monad-par parallel async stm \
       regex-base regex-posix regex-compat \
       pipes conduit machines \
       QuickCheck falsify hspec \
-      hmatrix linear \
+      # hmatrix linear \
       # statistics ad integration
       # parsers dimensional
       # scotty
@@ -110,6 +112,7 @@ RUN set -eux \
       # mwc-random MonadRandom random \
       # katip monad-logger \
   ; rm -rf ${STACK_ROOT}/pantry/hackage/* \
+  ; chown master:master -R ${STACK_ROOT} \
   ; opwd=$PWD \
   ; cd /world \
   ; stack new ${STACK_FLAGS} hello-rio rio \
@@ -128,6 +131,7 @@ RUN set -eux \
              stack.sqlite3.pantry-write-lock \
              pantry/pantry.sqlite3.pantry-write-lock \
   ; do chmod 777 ${STACK_ROOT}/$x; done \
-  ; chmod 777 -R ${STACK_ROOT}/global-project
+  ; chmod 777 -R ${STACK_ROOT}/global-project \
+  ;
 
 COPY _ghci /home/master/.ghci

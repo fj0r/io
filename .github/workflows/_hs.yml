@@ -46,24 +46,6 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      #- name: Build hs
-      #  uses: docker/build-push-action@v4
-      #  with:
-      #    context: hs
-      #    file: hs/up.Dockerfile
-      #    push: ${{ github.event_name != 'pull_request' }}
-      #    tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:ghcup
-      #    labels: ${{ steps.meta.outputs.labels }}
-
-      #- name: Build x
-      #  uses: docker/build-push-action@v4
-      #  with:
-      #    context: js
-      #    file: js/Dockerfile
-      #    push: ${{ github.event_name != 'pull_request' }}
-      #    tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:xup
-      #    labels: ${{ steps.meta.outputs.labels }}
-      #    build-args: BASE_IMAGE=fj0rd/io:ghcup
 
       - name: Build hs
         uses: docker/build-push-action@v4
@@ -74,8 +56,58 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hs
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            BASE_IMAGE=ghcr.io/fj0r/io:x
+            MESSAGE=${{ github.event.head_commit.message }}
+            BASEIMAGE=ghcr.io/fj0r/io:rust
             STACK_INFO_URL=https://www.stackage.org/lts
             STACK_RESOLVER=
             GHC_OS=deb11
-            MESSAGE=${{ github.event.head_commit.message }}
+          #  GHC_OS=ubuntu20.04
+          #build-args: |
+          #  STACK_RESOLVER=--resolver nightly
+          #  STACK_INFO_URL=https://www.stackage.org/nightly
+          #  GHC_OS=deb11
+
+      - name: Wrap haskell
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: user.Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hs
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: BASEIMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:hs
+
+      - name: Delete untagged ghcr
+        uses: Chizkiyahu/delete-untagged-ghcr-action@v3
+        with:
+          # Personal access token (PAT) used to fetch the repository. The PAT is configured
+          # with the local git config, which enables your scripts to run authenticated git
+          # commands. The post-job step removes the PAT.
+          # needs delete:packages permissions
+          # required: true
+          # [Learn more about creating and using encrypted secrets](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets)
+          token: ${{ secrets.GHCR_TOKEN }}
+          # Repository name or  name with owner
+          # Delete only from repository name
+          # Default: ${{ github.repository }}
+          repository: ${{ github.repository }}
+          # 'The repository owner name'
+          # Default: ${{ github.repository_owner }}
+          repository_owner: ${{ github.repository_owner }}
+          # 'The package names'
+          # Delete only from comma separated package names
+          # required: false
+          package_name: ''
+          # Delete only package versions without tag
+          # required: false
+          # Default: true
+          # choices: true, false
+          untagged_only: true
+          # Except untagged multiplatform packages from deletion
+          # only for untagged_only=true
+          # needs docker installed
+          except_untagged_multiplatform: false
+          # the owner type
+          # required: true
+          # choices: org, user
+          owner_type: user
