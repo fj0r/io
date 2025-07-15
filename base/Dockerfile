@@ -25,7 +25,7 @@ RUN set -eux \
   ; rg_url="https://github.com/BurntSushi/ripgrep/releases/latest/download/ripgrep-${rg_ver}-x86_64-unknown-linux-musl.tar.gz" \
   ; curl --retry 3 -sSL ${rg_url} | tar zxf - -C /usr/local/bin --strip-components=1 --wildcards '*/rg' \
   \
-  ; qjs_ver=$(curl -sSL https://bellard.org/quickjs/ | rg 'href="quickjs-([0-9\-]+).tar.xz"' -or '$1') \
+  ; qjs_ver=$(curl --retry 3 -sSL https://bellard.org/quickjs/ | rg 'href="quickjs-([0-9\-]+).tar.xz"' -or '$1') \
   ; qjs_url="https://bellard.org/quickjs/binary_releases/quickjs-linux-x86_64-${qjs_ver}.zip" \
   ; mkdir out \
   ; cd out \

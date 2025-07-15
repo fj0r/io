@@ -30,7 +30,7 @@ RUN set -eux \
   ; stack config set system-ghc --global true \
   ; stack config set install-ghc --global false \
   \
-  ; ghc_ver=$(curl -sSL ${STACK_INFO_URL} | rg '<h1>LTS Haskell.+\(.*?([0-9\.]+)\)' -or '$1') \
+  ; ghc_ver=$(curl --retry 3 -sSL ${STACK_INFO_URL} | rg '<h1>LTS Haskell.+\(.*?([0-9\.]+)\)' -or '$1') \
   ; ghcup -s '["GHCupURL", "StackSetupURL"]' install ghc $ghc_ver \
   \
   ; for i in \
