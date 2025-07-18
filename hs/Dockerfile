@@ -23,14 +23,14 @@ RUN set -eux \
 RUN set -eux \
   ; mkdir -p ${GHCUP_ROOT}/bin \
   ; mkdir -p ${STACK_ROOT} \
-  ; curl --retry 3 -sSLo ${GHCUP_ROOT}/bin/ghcup https://downloads.haskell.org/~ghcup/x86_64-linux-ghcup \
+  ; curl --retry 3 -fsSLo ${GHCUP_ROOT}/bin/ghcup https://downloads.haskell.org/~ghcup/x86_64-linux-ghcup \
   ; chmod +x ${GHCUP_ROOT}/bin/ghcup \
   ; ghcup install stack \
   ; ghcup install cabal \
   ; stack config set system-ghc --global true \
   ; stack config set install-ghc --global false \
   \
-  ; ghc_ver=$(curl --retry 3 -sSL ${STACK_INFO_URL} | rg '<h1>LTS Haskell.+\(.*?([0-9\.]+)\)' -or '$1') \
+  ; ghc_ver=$(curl --retry 3 -fsSL ${STACK_INFO_URL} | rg '<h1>LTS Haskell.+\(.*?([0-9\.]+)\)' -or '$1') \
   ; ghcup -s '["GHCupURL", "StackSetupURL"]' install ghc $ghc_ver \
   \
   ; for i in \
@@ -56,9 +56,9 @@ RUN set -eux \
 
 RUN set -eux \
   ; mkdir -p ${LS_ROOT}/haskell/tmp \
-  ; hls_version=$(curl --retry 3 -sSL https://api.github.com/repos/haskell/haskell-language-server/releases/latest | jq -r '.tag_name') \
+  ; hls_version=$(curl --retry 3 -fsSL https://api.github.com/repos/haskell/haskell-language-server/releases/latest | jq -r '.tag_name') \
   ; ghc_version=$(stack ghc -- --numeric-version) \
-  ; curl --retry 3 -sSL https://downloads.haskell.org/~hls/haskell-language-server-${hls_version}/haskell-language-server-${hls_version}-x86_64-linux-unknown.tar.xz \
+  ; curl --retry 3 -fsSL https://downloads.haskell.org/~hls/haskell-language-server-${hls_version}/haskell-language-server-${hls_version}-x86_64-linux-unknown.tar.xz \
   | tar Jxvf - -C ${LS_ROOT}/haskell/tmp --strip-components=1 \
   ; cd ${LS_ROOT}/haskell/tmp \
   ; files="bin/haskell-language-server-${ghc_version} \

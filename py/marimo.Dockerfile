@@ -32,7 +32,7 @@ RUN set -ex \
   ;
 
 # RUN set -ex \
-#   ; curl --retry 3 -sSLo miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
+#   ; curl --retry 3 -fsSLo miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
 #   ; bash ./miniconda.sh -b -p ${CONDA_HOME} \
 #   ; rm ./miniconda.sh \
 #   #; conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/ \

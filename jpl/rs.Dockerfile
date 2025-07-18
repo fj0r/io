@@ -6,7 +6,7 @@ ENV PATH=${CARGO_HOME}/bin:$PATH
 
 RUN set -eux \
   # /opt/cargo/registry/index/github.com-*/.cargo-index-lock
-  ; curl --retry 3 -sSL https://sh.rustup.rs \
+  ; curl --retry 3 -fsSL https://sh.rustup.rs \
     | sh -s -- --default-toolchain stable -y --no-modify-path \
   ; rustup component add rust-src clippy rustfmt \
   ; rustup target add x86_64-unknown-linux-musl \

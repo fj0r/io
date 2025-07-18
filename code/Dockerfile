@@ -7,9 +7,9 @@ FROM ${BASEIMAGE}
 RUN set -eux \
   ; mkdir -p /opt/code-server/extensions \
   ; mkdir -p /opt/code-server/user-data \
-  ; code_ver=$(curl --retry 3 -sSL https://api.github.com/repos/coder/code-server/releases/latest | jq -r '.tag_name' | cut -c 2-) \
+  ; code_ver=$(curl --retry 3 -fsSL https://api.github.com/repos/coder/code-server/releases/latest | jq -r '.tag_name' | cut -c 2-) \
   ; code_url="https://github.com/coder/code-server/releases/download/v${code_ver}/code-server-${code_ver}-linux-amd64.tar.gz" \
-  ; curl --retry 3 -sSL ${code_url} \
+  ; curl --retry 3 -fsSL ${code_url} \
   | tar zxf - --strip-components=1 -C /opt/code-server \
   \
   ; for i in \

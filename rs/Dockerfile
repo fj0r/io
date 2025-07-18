@@ -19,16 +19,16 @@ RUN set -eux \
   ;
 
 RUN set -eux \
-  ; sccache_ver=$(curl --retry 3 -sSL https://api.github.com/repos/mozilla/sccache/releases/latest | jq -r '.tag_name') \
-  ; curl --retry 3 -sSL "https://github.com/mozilla/sccache/releases/download/${sccache_ver}/sccache-dist-${sccache_ver}-x86_64-unknown-linux-musl.tar.gz" \
+  ; sccache_ver=$(curl --retry 3 -fsSL https://api.github.com/repos/mozilla/sccache/releases/latest | jq -r '.tag_name') \
+  ; curl --retry 3 -fsSL "https://github.com/mozilla/sccache/releases/download/${sccache_ver}/sccache-dist-${sccache_ver}-x86_64-unknown-linux-musl.tar.gz" \
   | tar zxf - --strip-components=1 -C /usr/local/bin --wildcards '*/sccache-dist' \
-  ; curl --retry 3 -sSL "https://github.com/mozilla/sccache/releases/download/${sccache_ver}/sccache-${sccache_ver}-x86_64-unknown-linux-musl.tar.gz" \
+  ; curl --retry 3 -fsSL "https://github.com/mozilla/sccache/releases/download/${sccache_ver}/sccache-${sccache_ver}-x86_64-unknown-linux-musl.tar.gz" \
   | tar zxf - --strip-components=1 -C /usr/local/bin --wildcards '*/sccache'
 
 ENV RUSTC_WRAPPER=/usr/local/bin/sccache
 
 RUN set -eux \
-  ; curl --retry 3 -sSL https://sh.rustup.rs \
+  ; curl --retry 3 -fsSL https://sh.rustup.rs \
     | sh -s -- --default-toolchain ${RUST_CHANNEL} -y --no-modify-path \
   ; rustup show active-toolchain || rustup toolchain install \
   ; rustup component add rust-src clippy rustfmt \
@@ -71,7 +71,7 @@ RUN set -eux \
 
   #; mkdir -p ${LS_ROOT}/rust/bin \
   #; ra_url="https://github.com/rust-lang/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-unknown-linux-gnu.gz" \
-  #; curl --retry 3 -sSL ${ra_url} | gzip -d > ${LS_ROOT}/rust/bin/rust-analyzer \
+  #; curl --retry 3 -fsSL ${ra_url} | gzip -d > ${LS_ROOT}/rust/bin/rust-analyzer \
   #; chmod +x ${LS_ROOT}/rust/bin/rust-analyzer \
   #; strip -s ${LS_ROOT}/rust/bin/rust-analyzer \
 RUN set -eux \

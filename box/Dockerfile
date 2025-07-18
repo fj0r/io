@@ -17,13 +17,13 @@ RUN set -eux \
       # python3-dev python3-setuptools \
   \
   ; ln -sf /usr/bin/python3 /usr/bin/python \
-  ; wasmtime_ver=$(curl --retry 3 -sSL https://api.github.com/repos/bytecodealliance/wasmtime/releases/latest | jq -r '.tag_name') \
+  ; wasmtime_ver=$(curl --retry 3 -fsSL https://api.github.com/repos/bytecodealliance/wasmtime/releases/latest | jq -r '.tag_name') \
   ; wasmtime_url="https://github.com/bytecodealliance/wasmtime/releases/latest/download/wasmtime-${wasmtime_ver}-x86_64-linux.tar.xz" \
-  ; curl --retry 3 -sSL ${wasmtime_url} | tar Jxf - --strip-components=1 -C /usr/local/bin --wildcards '*/wasmtime' \
+  ; curl --retry 3 -fsSL ${wasmtime_url} | tar Jxf - --strip-components=1 -C /usr/local/bin --wildcards '*/wasmtime' \
   \
-  #; spin_ver=$(curl --retry 3 -sSL https://api.github.com/repos/fermyon/spin/releases/latest | jq -r '.tag_name') \
+  #; spin_ver=$(curl --retry 3 -fsSL https://api.github.com/repos/fermyon/spin/releases/latest | jq -r '.tag_name') \
   #; spin_url="https://github.com/fermyon/spin/releases/download/${spin_ver}/spin-${spin_ver}-linux-amd64.tar.gz" \
-  #; curl --retry 3 -sSL ${spin_url} | tar zxf - -C /usr/local/bin spin \
+  #; curl --retry 3 -fsSL ${spin_url} | tar zxf - -C /usr/local/bin spin \
   \
   #; pydeb="" \
   #; for pkg in \
@@ -59,8 +59,8 @@ RUN set -eux \
   ; apt update \
   ; apt-get install -y --no-install-recommends gnupg2 build-essential ${BUILD_DEPS:-} \
   ; mkdir -p ${NODE_ROOT} \
-  ; node_version=$(curl --retry 3 -sSL https://nodejs.org/dist/index.json | jq -r '[.[]|select(.lts != false)][0].version') \
-  ; curl --retry 3 -sSL https://nodejs.org/dist/${node_version}/node-${node_version}-linux-x64.tar.xz \
+  ; node_version=$(curl --retry 3 -fsSL https://nodejs.org/dist/index.json | jq -r '[.[]|select(.lts != false)][0].version') \
+  ; curl --retry 3 -fsSL https://nodejs.org/dist/${node_version}/node-${node_version}-linux-x64.tar.xz \
     | tar Jxf - --strip-components=1 -C ${NODE_ROOT} \
   \
   ; mkdir -p ${LS_ROOT} \
@@ -72,10 +72,10 @@ RUN set -eux \
   ; chown root:root -R ${NODE_ROOT}/lib \
   ; npm cache clean -f \
   \
-  ; lslua_ver=$(curl --retry 3 -sSL https://api.github.com/repos/LuaLS/lua-language-server/releases/latest | jq -r '.tag_name') \
+  ; lslua_ver=$(curl --retry 3 -fsSL https://api.github.com/repos/LuaLS/lua-language-server/releases/latest | jq -r '.tag_name') \
   ; lslua_url="https://github.com/LuaLS/lua-language-server/releases/latest/download/lua-language-server-${lslua_ver}-linux-x64.tar.gz" \
   ; mkdir -p ${LS_ROOT}/lua \
-  ; curl --retry 3 -sSL ${lslua_url} | tar zxf - -C ${LS_ROOT}/lua \
+  ; curl --retry 3 -fsSL ${lslua_url} | tar zxf - -C ${LS_ROOT}/lua \
   ; chown master:master -R ${LS_ROOT}/lua \
   \
   ; apt-get purge -y --auto-remove ${BUILD_DEPS:-} \

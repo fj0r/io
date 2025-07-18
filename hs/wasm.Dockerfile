@@ -16,10 +16,10 @@ RUN set -eux \
 
 RUN set -eux \
   ; mkdir -p ${GHC_ROOT} \
-  ; ghc_ver=$(curl --retry 3 -sSL https://www.stackage.org/lts -H 'Accept: application/json' | jq -r '.snapshot.ghc') \
+  ; ghc_ver=$(curl --retry 3 -fsSL https://www.stackage.org/lts -H 'Accept: application/json' | jq -r '.snapshot.ghc') \
   ; ghc_url="https://downloads.haskell.org/~ghc/${ghc_ver}/ghc-${ghc_ver}-x86_64-${GHC_OS}-linux.tar.xz" \
   ; mkdir ghc_install \
-  ; curl --retry 3 -sSL ${ghc_url} \
+  ; curl --retry 3 -fsSL ${ghc_url} \
   | tar Jxf - -C ghc_install --strip-components=1 \
   ; cd ghc_install \
   ; ./configure --prefix=${GHC_ROOT} \
@@ -29,7 +29,7 @@ RUN set -eux \
   \
   ; mkdir -p ${STACK_ROOT} \
   ; mkdir -p ${HOME}/.cabal \
-  ; curl --retry 3 -sSL https://get.haskellstack.org/ | sh \
+  ; curl --retry 3 -fsSL https://get.haskellstack.org/ | sh \
   ; stack update \
   ; stack config set system-ghc --global true \
   ; stack config set install-ghc --global false \
