@@ -59,10 +59,10 @@ RUN set -eux \
       dioxus dioxus-web \
       sycamore gloo-net \
       serde serde_derive serde_with serde_json_path \
-      serde_json serde_cbor schemars \
+      serde_json serde_cbor schemars toml \
       tracing tracing-subscriber tracing-serde \
       chrono lru-cache itertools \
-      dashmap bitflags num \
+      dashmap indexmap bitflags num \
       ndarray polars rayon linfa burn \
   ; rm -rf ${CARGO_HOME}/registry/src/* \
   ; chown master:master -R ${CARGO_HOME} \
