@@ -66,24 +66,6 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           build-args: BASEIMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:go
 
-      - name: Build moon
-        uses: docker/build-push-action@v4
-        with:
-          context: moon
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:moon
-          labels: ${{ steps.meta.outputs.labels }}
-
-      - name: Wrap moon
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: user.Dockerfile
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:moon
-          labels: ${{ steps.meta.outputs.labels }}
-          build-args: BASEIMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:moon
-
       - name: Build js
         uses: docker/build-push-action@v4
         with:
@@ -120,6 +102,24 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:rs
           labels: ${{ steps.meta.outputs.labels }}
           build-args: BASEIMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:rust
+
+      - name: Build moon
+        uses: docker/build-push-action@v4
+        with:
+          context: moon
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:moon
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Wrap moon
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: user.Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:moon
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: BASEIMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:moon
 
       - name: Build hs
         uses: docker/build-push-action@v4
