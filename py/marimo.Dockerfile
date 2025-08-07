@@ -53,7 +53,7 @@ RUN set -ex \
 
 RUN set -ex \
   ; pip install --no-cache-dir ${PIP_FLAGS} \
-      psycopg[binary] lancedb duckdb \
+      psycopg[binary] lancedb \
       polars[all] numpy scikit-learn \
       httpx aiofile aiostream fastapi uvicorn \
       debugpy pytest pydantic pydantic-graph PyParsing \

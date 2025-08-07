@@ -40,6 +40,13 @@ RUN set -eux \
         boltons decorator \
         #pyiceberg[s3fs,pyarrow,pandas] \
   \
+  ; duck_ver=$(curl --retry 3 -fsSL https://api.github.com/repos/duckdb/duckdb/releases/latest | jq -r '.tag_name') \
+  ; duck_url="https://github.com/duckdb/duckdb/releases/download/${duck_ver}/duckdb_cli-linux-amd64.gz" \
+  ; curl --retry 3 -fsSL ${duck_url} | zcat > /usr/local/bin/duckdb \
+  ; chmod +x /usr/local/bin/duckdb \
+  ; for x in https delta postgres sqlite fts excel \
+  ; do sudo -u master duckdb -c "install ${x};"; done \
+  \
   ; apt-get autoremove -y \
   ; apt-get clean -y \
   ; rm -rf /var/lib/apt/lists/* \
