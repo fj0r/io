@@ -49,7 +49,7 @@ RUN set -eux \
       notify listenfd libc mimalloc \
       url reqwest scraper minijinja markdown \
       nom linkme regex refined_type \
-      crossbeam wasmtime rune crb \
+      crossbeam wasmtime crb \
       tokio tokio-tungstenite smol async-compat \
       async-fs async-graphql sqlx \
       # warp async-graphql-warp \
