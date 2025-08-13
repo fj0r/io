@@ -65,7 +65,7 @@ RUN set -ex \
 
 RUN set -ex \
   ; pip install --no-cache-dir ${PIP_FLAGS} ${PIP_INDEX_PYTORCH} \
-      torch torchtext torchvision torchaudio \
+      torch torchvision torchaudio \
   ;
 
 
