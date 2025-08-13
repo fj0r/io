@@ -44,7 +44,7 @@ RUN set -eux \
   ; duck_url="https://github.com/duckdb/duckdb/releases/download/${duck_ver}/duckdb_cli-linux-amd64.gz" \
   ; curl --retry 3 -fsSL ${duck_url} | zcat > /usr/local/bin/duckdb \
   ; chmod +x /usr/local/bin/duckdb \
-  ; for x in https delta postgres sqlite fts excel \
+  ; for x in https delta postgres sqlite fts \
   ; do sudo -u master duckdb -c "install ${x};"; done \
   \
   ; apt-get autoremove -y \
