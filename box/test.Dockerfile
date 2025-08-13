@@ -1,4 +1,4 @@
-ARG BASEIMAGE=debian:bookworm-slim
+ARG BASEIMAGE=debian:sid-slim
 FROM ${BASEIMAGE}
 
 ENV LANG=C.UTF-8 \

@@ -1,4 +1,4 @@
-FROM debian:bookworm-slim AS build
+FROM debian:sid-slim AS build
 
 RUN set -eux \
   ; apt-get update \

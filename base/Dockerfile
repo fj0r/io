@@ -1,4 +1,4 @@
-ARG BASEIMAGE=debian:bookworm-slim
+ARG BASEIMAGE=debian:sid-slim
 FROM ghcr.io/fj0r/io:__dropbear__ AS dropbear
 
 FROM ${BASEIMAGE}

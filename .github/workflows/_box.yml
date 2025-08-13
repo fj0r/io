@@ -54,7 +54,7 @@ jobs:
       #    tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:base
       #    labels: ${{ steps.meta.outputs.labels }}
       #    build-args: |
-      #      BASEIMAGE=debian:bookworm-slim
+      #      BASEIMAGE=debian:sid-slim
 
       #- name: Build s3
       #  uses: docker/build-push-action@v4

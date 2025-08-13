@@ -62,7 +62,7 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:base
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            BASEIMAGE=debian:bookworm-slim
+            BASEIMAGE=debian:sid-slim
 
       - name: trigger io:base
         run: |
