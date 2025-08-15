@@ -46,9 +46,15 @@ RUN set -eux \
       clap figment tempdir \
       snafu anyhow thiserror \
       proc-macro2 syn quote macro_rules_attribute \
-      notify listenfd libc mimalloc \
+      nom linkme regex chrono lru-cache \
+      bon indoc refined_type itertools \
+      dashmap indexmap bitflags num \
       url reqwest scraper minijinja markdown \
-      nom linkme regex indoc refined_type \
+      serde serde_derive serde_with serde_json_path \
+      serde_json serde_cbor schemars toml serde_yaml \
+      tracing tracing-subscriber tracing-serde \
+      ndarray polars rayon linfa burn \
+      notify listenfd libc mimalloc \
       crossbeam wasmtime crb \
       tokio tokio-tungstenite smol async-compat \
       async-fs async-graphql sqlx \
@@ -58,12 +64,6 @@ RUN set -eux \
       wasm-bindgen wasm-bindgen-futures wasm-logger \
       dioxus dioxus-web \
       sycamore gloo-net \
-      serde serde_derive serde_with serde_json_path \
-      serde_json serde_cbor schemars toml \
-      tracing tracing-subscriber tracing-serde \
-      chrono lru-cache itertools \
-      dashmap indexmap bitflags num \
-      ndarray polars rayon linfa burn \
   ; rm -rf ${CARGO_HOME}/registry/src/* \
   ; chown master:master -R ${CARGO_HOME} \
   #; find ${CARGO_HOME}/bin -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s
