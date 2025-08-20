@@ -50,9 +50,9 @@ RUN set -eux \
   ; curl --retry 3 -fsSLo /usr/local/bin/websocat ${websocat_url} \
   ; chmod +x /usr/local/bin/websocat \
   \
-  ; dust_ver=$(curl --retry 3 -fsSL https://api.github.com/repos/bootandy/dust/releases/latest | jq -r '.tag_name') \
-  ; dust_url="https://github.com/bootandy/dust/releases/latest/download/dust-${dust_ver}-x86_64-unknown-linux-musl.tar.gz" \
-  ; curl --retry 3 -fsSL ${dust_url} | tar zxf - -C /usr/local/bin --strip-components=1 --wildcards '*/dust' \
+  ; dua_ver=$(curl --retry 3 -fsSL https://api.github.com/repos/Byron/dua-cli/releases/latest | jq -r '.tag_name') \
+  ; dua_url="https://github.com/Byron/dua-cli/releases/download/${dua_ver}/dua-${dua_ver}-x86_64-unknown-linux-musl.tar.gz" \
+  ; curl --retry 3 -fsSL ${dua_url} | tar zxf - -C /usr/local/bin --strip-components=1 --wildcards '*/dua' \
   \
   ; ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime \
   ; echo "$TIMEZONE" > /etc/timezone \
