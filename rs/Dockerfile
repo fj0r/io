@@ -46,14 +46,14 @@ RUN set -eux \
       clap figment tempdir \
       snafu anyhow thiserror \
       proc-macro2 syn quote macro_rules_attribute \
-      nom linkme regex chrono lru-cache \
+      nom linkme regex chrono moka \
       bon indoc refined_type itertools \
       dashmap indexmap bitflags num \
       url reqwest scraper minijinja markdown \
       serde serde_derive serde_with serde_json_path \
       serde_json serde_cbor schemars toml serde_yaml \
       tracing tracing-subscriber tracing-serde \
-      ndarray polars rayon linfa burn \
+      rayon polars nalgebra linfa burn \
       notify listenfd libc mimalloc \
       crossbeam wasmtime crb \
       tokio tokio-tungstenite smol async-compat \
