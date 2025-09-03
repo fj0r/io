@@ -33,6 +33,7 @@ RUN set -eux \
   ; echo '/usr/local/bin/nu' >> /etc/shells \
   ; MASTER=master \
   ; useradd -mU -G sudo,root -s /usr/local/bin/nu $MASTER \
+  ; sudo -u $MASTER nu -c "plugin add /usr/local/bin/nu_plugin_query" \
   \
   ; apt-get autoremove -y \
   ; apt-get clean -y \

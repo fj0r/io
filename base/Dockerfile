@@ -25,17 +25,6 @@ RUN set -eux \
   ; rg_url="https://github.com/BurntSushi/ripgrep/releases/latest/download/ripgrep-${rg_ver}-x86_64-unknown-linux-musl.tar.gz" \
   ; curl --retry 3 -fsSL ${rg_url} | tar zxf - -C /usr/local/bin --strip-components=1 --wildcards '*/rg' \
   \
-  ; qjs_ver=$(curl --retry 3 -fsSL https://bellard.org/quickjs/ | rg 'href="quickjs-([0-9\-]+).tar.xz"' -or '$1') \
-  ; qjs_url="https://bellard.org/quickjs/binary_releases/quickjs-linux-x86_64-${qjs_ver}.zip" \
-  ; mkdir out \
-  ; cd out \
-  ; curl --retry 3 -fsSL ${qjs_url} -o a.zip \
-  ; unzip a.zip \
-  ; ./qjs -e 'print(Date())' \
-  ; mv qjs /usr/local/bin/ \
-  ; cd .. \
-  ; rm -rf out \
-  \
   ; fd_ver=$(curl --retry 3 -fsSL https://api.github.com/repos/sharkdp/fd/releases/latest | jq -r '.tag_name') \
   ; fd_url="https://github.com/sharkdp/fd/releases/latest/download/fd-${fd_ver}-x86_64-unknown-linux-musl.tar.gz" \
   ; curl --retry 3 -fsSL ${fd_url} | tar zxf - -C /usr/local/bin --strip-components=1 --wildcards '*/fd' \

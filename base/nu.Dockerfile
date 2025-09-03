@@ -36,6 +36,7 @@ RUN set -eux \
   ; git clone --depth=3 https://github.com/fj0r/nushell.git $XDG_CONFIG_HOME/nushell \
   ; opwd=$PWD; cd $XDG_CONFIG_HOME/nushell; git log -1 --date=iso; cd $opwd \
   ; chown $MASTER:$MASTER -R $XDG_CONFIG_HOME/nushell \
+  ; sudo -u $MASTER nu -c "plugin add /usr/local/bin/nu_plugin_query" \
   ; echo '$env.NU_POWER_CONFIG.theme.color.normal = "xterm_olive"' >> /home/${MASTER}/.nu \
   ; chown $MASTER:$MASTER /home/${MASTER}/.nu \
   \
