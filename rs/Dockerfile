@@ -36,11 +36,11 @@ RUN set -eux \
   ; rustup target add x86_64-unknown-linux-musl \
   ; rustup target add wasm32-wasip1 wasm32-wasip2 wasm32-unknown-unknown \
   ; cargo install \
-      cargo-pgo cargo-profiler \
+      cargo-pgo cargo-profiler cargo-bloat \
       cargo-expand cargo-eval cargo-tree \
       cargo-feature cargo-prefetch \
       cargo-wasi rust-script trunk \
-      dioxus-cli \
+      #dioxus-cli \
       #cargo-leptos \
   ; cargo prefetch \
       clap figment tempdir \
@@ -48,7 +48,7 @@ RUN set -eux \
       proc-macro2 syn quote macro_rules_attribute \
       nom linkme regex chrono moka \
       bon indoc refined_type itertools \
-      dashmap indexmap bitflags num \
+      dashmap indexmap arc-swap bitflags num \
       url reqwest scraper minijinja markdown \
       serde serde_derive serde_with serde_json_path \
       serde_json serde_cbor schemars toml serde_yaml \
