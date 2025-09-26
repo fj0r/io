@@ -48,7 +48,7 @@ RUN set -eux \
       proc-macro2 syn quote macro_rules_attribute \
       nom linkme regex chrono moka \
       bon indoc refined_type itertools \
-      dashmap indexmap arc-swap bitflags num \
+      dashmap indexmap maplit arc-swap bitflags num \
       url reqwest scraper minijinja markdown \
       serde serde_derive serde_with serde_json_path \
       serde_json serde_cbor schemars toml serde_yaml \
