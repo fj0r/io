@@ -3,7 +3,7 @@ name: bun
 on:
   workflow_run:
     workflows: [ base ]
-    branches: [ main ]
+    branches: [ bun ]
     types:
       - completed
 

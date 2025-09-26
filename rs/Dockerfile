@@ -23,7 +23,8 @@ RUN set -eux \
   ; curl --retry 3 -fsSL "https://github.com/mozilla/sccache/releases/download/${sccache_ver}/sccache-dist-${sccache_ver}-x86_64-unknown-linux-musl.tar.gz" \
   | tar zxf - --strip-components=1 -C /usr/local/bin --wildcards '*/sccache-dist' \
   ; curl --retry 3 -fsSL "https://github.com/mozilla/sccache/releases/download/${sccache_ver}/sccache-${sccache_ver}-x86_64-unknown-linux-musl.tar.gz" \
-  | tar zxf - --strip-components=1 -C /usr/local/bin --wildcards '*/sccache'
+  | tar zxf - --strip-components=1 -C /usr/local/bin --wildcards '*/sccache' \
+  ;
 
 ENV RUSTC_WRAPPER=/usr/local/bin/sccache
 
@@ -48,7 +49,7 @@ RUN set -eux \
       proc-macro2 syn quote macro_rules_attribute \
       nom linkme regex chrono moka \
       bon indoc refined_type itertools \
-      dashmap indexmap arc-swap bitflags num \
+      dashmap indexmap maplit arc-swap bitflags num \
       url reqwest scraper minijinja markdown \
       serde serde_derive serde_with serde_json_path \
       serde_json serde_cbor schemars toml serde_yaml \
