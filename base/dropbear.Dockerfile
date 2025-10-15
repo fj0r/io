@@ -7,7 +7,7 @@ RUN set -eux \
         git gnupg build-essential curl jq ca-certificates \
         automake autoconf \
         # libz libcrypto
-        libssl-dev zlib1g-dev \
+        linux-libc-dev libssl-dev zlib1g-dev \
   ; mkdir /build /target
 
 WORKDIR /build
