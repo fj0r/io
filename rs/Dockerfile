@@ -39,7 +39,7 @@ RUN set -eux \
   ; cargo install \
       cargo-pgo cargo-profiler cargo-bloat \
       cargo-expand cargo-eval cargo-tree \
-      cargo-feature cargo-prefetch \
+      cargo-feature cargo-prefetch cargo-edit \
       cargo-wasi rust-script trunk \
       #dioxus-cli \
       #cargo-leptos \
