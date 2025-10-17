@@ -55,7 +55,6 @@ RUN set -eux \
   \
   ; npm install --location=global \
         @typespec/compiler @typespec/json-schema \
-        pyright \
         vscode-langservers-extracted \
         yaml-language-server \
   ; chown root:root -R ${NODE_ROOT}/lib \

@@ -36,7 +36,7 @@ RUN set -eux \
   ; pip3 install --no-cache-dir ${PIP_FLAGS} \
         httpx aiofile aiostream fastapi uvicorn \
         debugpy pytest pydantic pydantic-graph PyParsing \
-        ipython typer pydantic-settings pyyaml \
+        typer pydantic-settings pyyaml \
         boltons decorator \
         #pyiceberg[s3fs,pyarrow,pandas] \
   \
@@ -71,9 +71,9 @@ RUN set -eux \
     | tar Jxf - --strip-components=1 -C ${NODE_ROOT} \
   \
   ; mkdir -p ${LS_ROOT} \
+  ; pip3 install --no-cache-dir ${PIP_FLAGS} pyrefly ruff \
   ; npm install --location=global \
         @typespec/compiler @typespec/json-schema \
-        pyright \
         vscode-langservers-extracted \
         yaml-language-server \
   ; chown root:root -R ${NODE_ROOT}/lib \

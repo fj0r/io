@@ -57,7 +57,7 @@ RUN set -ex \
       polars[all] numpy scikit-learn \
       httpx aiofile aiostream fastapi uvicorn \
       debugpy pytest pydantic pydantic-graph PyParsing \
-      ipython typer pydantic-settings pyyaml \
+      typer pydantic-settings pyyaml \
       boltons decorator \
       pydantic-ai deltalake \
       marimo[recommended,lsp,sql] altair \
