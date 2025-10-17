@@ -32,7 +32,7 @@ RUN set -eux \
   ; pip3 install --no-cache-dir ${PIP_FLAGS} \
         httpx aiofile aiostream fastapi uvicorn \
         debugpy pytest pydantic pydantic-graph PyParsing \
-        ipython typer pydantic-settings pyyaml \
+        typer pydantic-settings pyyaml \
         boltons decorator \
         #pyiceberg[s3fs,pyarrow,pandas] \
   \
@@ -73,10 +73,10 @@ RUN set -eux \
   ; sudo -u master ${BUN_ROOT}/bin/bun \
     install --config=/home/master/.bunfig.toml --global --no-cache \
         @typespec/compiler @typespec/json-schema \
-        pyright \
         vscode-langservers-extracted \
         yaml-language-server \
   \
+  ; pip3 install --no-cache-dir ${PIP_FLAGS} pyrefly ruff \
   ; lslua_ver=$(curl --retry 3 -fsSL https://api.github.com/repos/LuaLS/lua-language-server/releases/latest | jq -r '.tag_name') \
   ; lslua_url="https://github.com/LuaLS/lua-language-server/releases/download/${lslua_ver}/lua-language-server-${lslua_ver}-linux-x64.tar.gz" \
   ; mkdir -p ${LS_ROOT}/lua \
