@@ -43,38 +43,38 @@ RUN set -eux \
   ; rm -rf ${GHCUP_ROOT}/ghc/${ghc_ver}/share \
   ; nu -c "open ${STACK_ROOT}/config.yaml | merge {allow-different-user: true, allow-newer: true, recommend-stack-upgrade: false} | collect { \$in | save -f ${STACK_ROOT}/config.yaml }" \
   \
-  ; ghcup install hls latest \
-  ; hls_ver=$(haskell-language-server-wrapper --numeric-version) \
-  ; for i in \
-    $(ls ${GHCUP_ROOT}/hls/${hls_ver}/lib/haskell-language-server-${hls_ver}/lib/) \
-  ; do \
-      if [ "$i" != "$ghc_ver" ]; then \
-        rm -rf ${GHCUP_ROOT}/hls/${hls_ver}/lib/haskell-language-server-${hls_ver}/lib/$i; \
-      fi ;\
-    done \
+  #; ghcup install hls latest \
+  #; hls_ver=$(haskell-language-server-wrapper --numeric-version) \
+  #; for i in \
+  #  $(ls ${GHCUP_ROOT}/hls/${hls_ver}/lib/haskell-language-server-${hls_ver}/lib/) \
+  #; do \
+  #    if [ "$i" != "$ghc_ver" ]; then \
+  #      rm -rf ${GHCUP_ROOT}/hls/${hls_ver}/lib/haskell-language-server-${hls_ver}/lib/$i; \
+  #    fi ;\
+  #  done \
   ;
 
-# RUN set -eux \
-#   ; mkdir -p ${LS_ROOT}/haskell/tmp \
-#   ; hls_version=$(curl --retry 3 -fsSL https://api.github.com/repos/haskell/haskell-language-server/releases/latest | jq -r '.tag_name') \
-#   ; ghc_version=$(stack ghc -- --numeric-version) \
-#   ; curl --retry 3 -fsSL https://downloads.haskell.org/~hls/haskell-language-server-${hls_version}/haskell-language-server-${hls_version}-x86_64-linux-unknown.tar.xz \
-#   | tar Jxvf - -C ${LS_ROOT}/haskell/tmp --strip-components=1 \
-#   ; cd ${LS_ROOT}/haskell/tmp \
-#   ; files="bin/haskell-language-server-${ghc_version} \
-#            bin/haskell-language-server-wrapper \
-#            lib/${ghc_version}" \
-#   ; nu -c "'$files' | split row -r '\\s+' \
-#     | each {|x| if (\$x | path exists) { \
-#             let tg = ([.., (\$x | path dirname)] | path join); \
-#             mkdir \$tg; \
-#             cp -r \$x \$tg \
-#         } \
-#     }" \
-#   ; cd .. \
-#   ; rm -rf tmp \
-#   ; find ${LS_ROOT}/haskell -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s \
-#   ;
+RUN set -eux \
+  ; mkdir -p ${LS_ROOT}/haskell/tmp \
+  ; hls_version=$(curl --retry 3 -fsSL https://api.github.com/repos/haskell/haskell-language-server/releases/latest | jq -r '.tag_name') \
+  ; ghc_version=$(stack ghc -- --numeric-version) \
+  ; curl --retry 3 -fsSL https://downloads.haskell.org/~hls/haskell-language-server-${hls_version}/haskell-language-server-${hls_version}-x86_64-linux-unknown.tar.xz \
+  | tar Jxvf - -C ${LS_ROOT}/haskell/tmp --strip-components=1 \
+  ; cd ${LS_ROOT}/haskell/tmp \
+  ; files="bin/haskell-language-server-${ghc_version} \
+           bin/haskell-language-server-wrapper \
+           lib/${ghc_version}" \
+  ; nu -c "'$files' | split row -r '\\s+' \
+    | each {|x| if (\$x | path exists) { \
+            let tg = ([.., (\$x | path dirname)] | path join); \
+            mkdir \$tg; \
+            cp -r \$x \$tg \
+        } \
+    }" \
+  ; cd .. \
+  ; rm -rf tmp \
+  ; find ${LS_ROOT}/haskell -type f -exec grep -IL . "{}" \; | xargs -L 1 strip -s \
+  ;
 
 RUN set -eux \
   ; stack install ${STACK_FLAGS} \
