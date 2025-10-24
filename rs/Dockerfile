@@ -16,6 +16,8 @@ RUN set -eux \
   ; apt-get autoremove -y \
   ; apt-get clean -y \
   ; rm -rf /var/lib/apt/lists/* \
+  ; lldb_ver=$(lldb -v 2>/dev/null | rg 'lldb version ([0-9]+)\..*' -or '$1') \
+  ; ln -sf /usr/bin/lldb-dap-${lldb_ver} /usr/bin/lldb-dap \
   ;
 
 RUN set -eux \
