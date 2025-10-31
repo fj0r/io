@@ -43,7 +43,7 @@ RUN set -eux \
       cargo-expand cargo-eval cargo-tree \
       cargo-feature cargo-prefetch cargo-edit \
       cargo-wasi rust-script trunk \
-      #dioxus-cli \
+      dioxus-cli \
       #cargo-leptos \
   ; cargo prefetch \
       clap figment tempdir \
