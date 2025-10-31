@@ -59,7 +59,8 @@ RUN set -eux \
       rayon polars nalgebra linfa burn \
       notify listenfd libc mimalloc \
       crossbeam wasmtime crb \
-      tokio tokio-tungstenite smol async-compat \
+      tokio tokio-util tokio-tungstenite smol async-compat \
+      futures futures-util async-stream async-trait \
       async-fs async-graphql sqlx \
       # warp async-graphql-warp \
       axum async-graphql-axum \
