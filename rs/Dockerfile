@@ -43,7 +43,7 @@ RUN set -eux \
       cargo-expand cargo-eval cargo-tree \
       cargo-feature cargo-prefetch cargo-edit \
       cargo-wasi rust-script trunk \
-      dioxus-cli \
+      #dioxus-cli \
       #cargo-leptos \
   ; cargo prefetch \
       clap figment tempdir \
@@ -66,7 +66,7 @@ RUN set -eux \
       axum async-graphql-axum \
       # wasm-pack wee_alloc leptos \
       wasm-bindgen wasm-bindgen-futures wasm-logger \
-      dioxus dioxus-web \
+      #dioxus dioxus-web \
       sycamore gloo-net \
   ; rm -rf ${CARGO_HOME}/registry/src/* \
   ; chown master:master -R ${CARGO_HOME} \
