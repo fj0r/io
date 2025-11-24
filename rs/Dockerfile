@@ -50,8 +50,8 @@ RUN set -eux \
       snafu anyhow thiserror \
       proc-macro2 syn quote macro_rules_attribute \
       nom linkme regex chrono moka \
-      bon indoc refined_type itertools parking_lot \
-      dashmap indexmap maplit arc-swap bitflags num \
+      bon indoc itertools derive_more parking_lot \
+      refined_type dashmap indexmap maplit arc-swap bitflags num \
       url reqwest scraper minijinja markdown \
       serde serde_derive serde_with serde_json_path \
       serde_json serde_cbor schemars toml serde_yaml \
