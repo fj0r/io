@@ -49,16 +49,17 @@ RUN set -eux \
       clap figment tempdir \
       snafu anyhow thiserror \
       proc-macro2 syn quote macro_rules_attribute \
-      nom linkme regex chrono moka \
-      bon indoc itertools derive_more parking_lot \
+      linkme regex chrono moka \
+      bon indoc itertools derive_more \
       refined_type dashmap indexmap maplit arc-swap bitflags num \
-      url reqwest scraper minijinja markdown \
+      url reqwest scraper markdown \
       serde serde_derive serde_with serde_json_path \
       serde_json serde_cbor schemars toml serde_yaml \
       tracing tracing-subscriber tracing-serde \
       rayon polars nalgebra linfa burn \
+      crossbeam parking_lot specs \
+      nom minijinja wasmtime rune \
       notify listenfd libc mimalloc \
-      crossbeam wasmtime crb \
       tokio tokio-util tokio-tungstenite smol async-compat \
       futures futures-util async-stream async-trait \
       async-fs async-graphql sqlx \
