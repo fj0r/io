@@ -38,7 +38,10 @@ RUN set -eux \
   ; rustup component add rust-analyzer \
   ; rustup target add x86_64-unknown-linux-musl \
   ; rustup target add wasm32-wasip1 wasm32-wasip2 wasm32-unknown-unknown \
-  ; cargo install \
+  ; curl -fsSL https://github.com/cargo-bins/cargo-binstall/releases/latest/download/cargo-binstall-x86_64-unknown-linux-musl.tgz \
+    | tar zxf - -C /usr/local/bin/ \
+    ; chmod +x /usr/local/bin/cargo-binstall \
+  ; cargo binstall -y \
       cargo-pgo cargo-profiler cargo-bloat \
       cargo-expand cargo-eval cargo-tree \
       cargo-feature cargo-prefetch cargo-edit \
