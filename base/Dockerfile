@@ -15,7 +15,7 @@ RUN set -eux \
   ; apt-get upgrade -y \
   ; DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends \
-      sudo procps htop cron tzdata openssl \
+      sudo attr procps htop cron tzdata openssl \
       curl ca-certificates rsync tcpdump socat \
       sqlite3 jq patch tree logrotate \
       xz-utils zstd zip unzip \
