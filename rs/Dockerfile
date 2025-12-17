@@ -44,8 +44,8 @@ RUN set -eux \
   ; cargo binstall -y \
       cargo-pgo cargo-profiler cargo-bloat \
       cargo-expand cargo-eval cargo-tree \
-      cargo-feature cargo-prefetch cargo-edit \
-      cargo-wasi rust-script trunk \
+      cargo-feature cargo-edit cargo-rail \
+      cargo-prefetch cargo-wasi rust-script trunk \
       #dioxus-cli \
       #cargo-leptos \
   ; cargo prefetch \
