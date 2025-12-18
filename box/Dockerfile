@@ -79,11 +79,11 @@ RUN set -eux \
   ; chown root:root -R ${NODE_ROOT}/lib \
   ; npm cache clean -f \
   \
-  ; lslua_ver=$(curl --retry 3 -fsSL https://api.github.com/repos/LuaLS/lua-language-server/releases/latest | jq -r '.tag_name') \
-  ; lslua_url="https://github.com/LuaLS/lua-language-server/releases/download/${lslua_ver}/lua-language-server-${lslua_ver}-linux-x64.tar.gz" \
-  ; mkdir -p ${LS_ROOT}/lua \
-  ; curl --retry 3 -fsSL ${lslua_url} | tar zxf - -C ${LS_ROOT}/lua \
-  ; chown master:master -R ${LS_ROOT}/lua \
+  # ; lslua_ver=$(curl --retry 3 -fsSL https://api.github.com/repos/LuaLS/lua-language-server/releases/latest | jq -r '.tag_name') \
+  # ; lslua_url="https://github.com/LuaLS/lua-language-server/releases/download/${lslua_ver}/lua-language-server-${lslua_ver}-linux-x64.tar.gz" \
+  # ; mkdir -p ${LS_ROOT}/lua \
+  # ; curl --retry 3 -fsSL ${lslua_url} | tar zxf - -C ${LS_ROOT}/lua \
+  # ; chown master:master -R ${LS_ROOT}/lua \
   \
   ; apt-get purge -y --auto-remove ${BUILD_DEPS:-} \
   ; apt-get clean -y \

@@ -40,15 +40,15 @@ RUN set -eux \
   ; echo '$env.NU_POWER_CONFIG.theme.color.normal = "xterm_olive"' >> /home/${MASTER}/.nu \
   ; chown $MASTER:$MASTER /home/${MASTER}/.nu \
   \
-  ; nvim_ver=$(curl --retry 3 -fsSL https://api.github.com/repos/neovim/neovim/releases/latest | jq -r '.tag_name') \
-  ; nvim_url="https://github.com/neovim/neovim/releases/download/${nvim_ver}/nvim-linux-x86_64.tar.gz" \
-  ; curl --retry 3 -fsSL ${nvim_url} | tar zxf - -C /usr/local --strip-components=1 \
-  ; strip -s /usr/local/bin/nvim \
-  ; git clone --depth=3 https://github.com/fj0r/nvim-lua.git $XDG_CONFIG_HOME/nvim \
-  ; opwd=$PWD; cd $XDG_CONFIG_HOME/nvim; git log -1 --date=iso; cd $opwd \
-  ; chown $MASTER:$MASTER -R $XDG_CONFIG_HOME/nvim \
-  ; sudo -u $MASTER nvim --headless "+Lazy! sync" +qa \
-  ; rm -rf $XDG_CONFIG_HOME/nvim/lazy/packages/*/.git \
+  # ; nvim_ver=$(curl --retry 3 -fsSL https://api.github.com/repos/neovim/neovim/releases/latest | jq -r '.tag_name') \
+  # ; nvim_url="https://github.com/neovim/neovim/releases/download/${nvim_ver}/nvim-linux-x86_64.tar.gz" \
+  # ; curl --retry 3 -fsSL ${nvim_url} | tar zxf - -C /usr/local --strip-components=1 \
+  # ; strip -s /usr/local/bin/nvim \
+  # ; git clone --depth=3 https://github.com/fj0r/nvim-lua.git $XDG_CONFIG_HOME/nvim \
+  # ; opwd=$PWD; cd $XDG_CONFIG_HOME/nvim; git log -1 --date=iso; cd $opwd \
+  # ; chown $MASTER:$MASTER -R $XDG_CONFIG_HOME/nvim \
+  # ; sudo -u $MASTER nvim --headless "+Lazy! sync" +qa \
+  # ; rm -rf $XDG_CONFIG_HOME/nvim/lazy/packages/*/.git \
   \
   ; apt-get purge -y --auto-remove ${BUILD_DEPS:-} \
   ; apt-get clean -y \
