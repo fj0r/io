@@ -71,7 +71,7 @@ RUN set -eux \
     | tar Jxf - --strip-components=1 -C ${NODE_ROOT} \
   \
   ; mkdir -p ${LS_ROOT} \
-  ; pip3 install --no-cache-dir ${PIP_FLAGS} pyrefly ruff \
+  ; pip3 install --no-cache-dir ${PIP_FLAGS} ty \
   ; npm install --location=global \
         @typespec/compiler @typespec/json-schema \
         vscode-langservers-extracted \
