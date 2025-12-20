@@ -42,10 +42,11 @@ RUN set -eux \
     | tar zxf - -C /usr/local/bin/ \
     ; chmod +x /usr/local/bin/cargo-binstall \
   ; cargo binstall -y \
+      cargo-prefetch bacon \
       cargo-pgo cargo-profiler cargo-bloat \
       cargo-expand cargo-eval cargo-tree \
       cargo-feature cargo-edit cargo-rail \
-      cargo-prefetch cargo-wasi rust-script trunk \
+      cargo-wasi rust-script trunk \
       #dioxus-cli \
       #cargo-leptos \
   ; cargo prefetch \
