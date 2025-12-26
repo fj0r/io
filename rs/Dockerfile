@@ -53,7 +53,7 @@ RUN set -eux \
       clap figment tempdir \
       snafu anyhow thiserror \
       proc-macro2 syn quote macro_rules_attribute \
-      linkme regex chrono moka \
+      linkme regex chrono moka bumpalo \
       bon indoc itertools derive_more \
       refined_type dashmap indexmap maplit arc-swap bitflags num \
       url reqwest scraper markdown \
