@@ -58,7 +58,7 @@ RUN set -eux \
       refined_type dashmap indexmap maplit arc-swap bitflags num \
       url reqwest scraper markdown \
       serde serde_derive serde_with serde_json_path \
-      serde_json serde_cbor schemars toml serde_yaml \
+      serde_json postcard serde_cbor schemars toml serde_yaml \
       tracing tracing-subscriber tracing-serde \
       rayon polars nalgebra linfa burn \
       crossbeam parking_lot specs \
