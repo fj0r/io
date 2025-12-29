@@ -78,8 +78,8 @@ RUN set -eux \
 
 RUN set -eux \
   ; stack install ${STACK_FLAGS} \
-      ghcid implicit-hie haskell-dap \
-      # ghci-dap haskell-debug-adapter \
+      ghcid implicit-hie \
+      # haskell-dap ghci-dap haskell-debug-adapter \
       deepseq call-stack primitive ghc-prim \
       template-haskell aeson yaml  \
       classy-prelude base binary bytestring text \
