@@ -29,10 +29,10 @@ RUN set -eux \
   ; fd_url="https://github.com/sharkdp/fd/releases/latest/download/fd-${fd_ver}-x86_64-unknown-linux-musl.tar.gz" \
   ; curl --retry 3 -fsSL ${fd_url} | tar zxf - -C /usr/local/bin --strip-components=1 --wildcards '*/fd' \
   \
-  ; wstun_ver=$(curl --retry 3 -fsSL https://api.github.com/repos/erebe/wstunnel/releases/latest | jq -r '.tag_name' | cut -c 2-) \
-  ; wstun_url="https://github.com/erebe/wstunnel/releases/download/v${wstun_ver}/wstunnel_${wstun_ver}_linux_amd64.tar.gz" \
-  ; curl --retry 3 -fsSL ${wstun_url} | tar zxf - -C /usr/local/bin wstunnel \
-  ; chmod +x /usr/local/bin/wstunnel \
+  # ; wstun_ver=$(curl --retry 3 -fsSL https://api.github.com/repos/erebe/wstunnel/releases/latest | jq -r '.tag_name' | cut -c 2-) \
+  # ; wstun_url="https://github.com/erebe/wstunnel/releases/download/v${wstun_ver}/wstunnel_${wstun_ver}_linux_amd64.tar.gz" \
+  # ; curl --retry 3 -fsSL ${wstun_url} | tar zxf - -C /usr/local/bin wstunnel \
+  # ; chmod +x /usr/local/bin/wstunnel \
   \
   ; websocat_ver=$(curl --retry 3 -fsSL https://api.github.com/repos/vi/websocat/releases/latest | jq -r '.tag_name') \
   ; websocat_url="https://github.com/vi/websocat/releases/download/${websocat_ver}/websocat.x86_64-unknown-linux-musl" \
