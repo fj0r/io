@@ -45,6 +45,7 @@ jobs:
 
       - name: Build dropbear
         uses: docker/build-push-action@v3
+        if: ${{ contains(github.event.head_commit.message, '+dropbear') }}
         with:
           context: base
           file: base/dropbear.Dockerfile
