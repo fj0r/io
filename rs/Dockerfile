@@ -46,7 +46,8 @@ RUN set -eux \
       cargo-pgo cargo-profiler cargo-bloat \
       cargo-expand cargo-eval cargo-tree \
       cargo-feature cargo-edit cargo-rail \
-      cargo-wasi rust-script trunk \
+      rust-script trunk cargo-wasi \
+      wasm-tools wit-deps-cli wit-bindgen-cli \
       #dioxus-cli \
       #cargo-leptos \
   ; cargo prefetch \
