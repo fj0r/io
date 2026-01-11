@@ -124,7 +124,7 @@ jobs:
 
       - name: trigger io:root
         run: |
-          for a in java surreal typst llm; do
+          for a in java php surreal typst llm; do
             curl -L -X POST https://api.github.com/repos/fj0r/0x/actions/workflows/${a}.yml/dispatches \
               -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" \
               -H "Authorization: Bearer ${{ secrets.ACTIONS_KEY }}" \
